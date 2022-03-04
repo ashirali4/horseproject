@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:horseproject/src/utlis/constants.dart';
 
+import '../../widgets/background_widget.dart';
 import '../../widgets/button_round.dart';
+import '../../widgets/or_login_with.dart';
 class IntroMobileApp extends StatefulWidget {
   const IntroMobileApp({Key? key}) : super(key: key);
 
@@ -11,27 +14,44 @@ class IntroMobileApp extends StatefulWidget {
 class _IntroMobileAppState extends State<IntroMobileApp> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.only(left: 35,right: 35,),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Image.asset('assets/introLogo.png'),
-          SizedBox(height: 50,),
-          IntroButtons(),
-        ],
-      ),
+    return BackgroundImageWidget(
+      elements: Elements(),
     );
   }
-
 
   Widget IntroButtons(){
     return Row(
       children: [
         Expanded(child:  ButtonRound(buttonText: 'Sign In',),),
         SizedBox(width: 15,),
-        Expanded(child:  ButtonRound(buttonText: 'Register',),)
+        Expanded(child:  ButtonRound(buttonText: 'Register',buttonColor: INTROBUTTONCOLOR,textColor: LIGHT_BUTTON_COLOR,),)
       ],
     );
   }
+
+
+  Widget Elements(){
+    return Container(
+      color: Colors.white,
+      child: Container(
+        margin: EdgeInsets.only(left: 35,right: 35,),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Image.asset('assets/introLogo.png'),
+            SizedBox(height: 80,),
+            IntroButtons(),
+            SizedBox(height: 40,),
+            OrLoginWith(),
+            SizedBox(height: 130,),
+            Container(
+                width: 280,
+                height: 50,
+                child: ButtonRoundGoogle(buttonText: 'Continue with Google',buttonColor: Colors.white,textColor: LIGHT_BUTTON_COLOR,)),
+          ],
+        ),
+      ),
+    );
+  }
+
 }

@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:horseproject/src/utlis/constants.dart';
 class ButtonRound extends StatelessWidget {
   final String buttonText;
   final double radius;
   final double height;
-  const ButtonRound({Key? key,required this.buttonText,this.radius=8,this.height=45}) : super(key: key);
+  final Color buttonColor;
+  final Color textColor;
+  const ButtonRound({Key? key,required this.buttonText,this.radius=8,this.height=45,this.buttonColor=BUTTON_PRIMARY,this.textColor=Colors.white}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -11,8 +14,8 @@ class ButtonRound extends StatelessWidget {
       height: this.height,
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
-          primary: Colors.red, // background
-          onPrimary: Colors.white, //
+          primary: buttonColor, // background
+          onPrimary: textColor, //
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(this.radius),
           ),// foreground
@@ -23,3 +26,44 @@ class ButtonRound extends StatelessWidget {
     );
   }
 }
+
+
+class ButtonRoundGoogle extends StatelessWidget {
+  final String buttonText;
+  final double radius;
+  final double height;
+  final Color buttonColor;
+  final Color textColor;
+  const ButtonRoundGoogle({Key? key,required this.buttonText,this.radius=8,this.height=45,this.buttonColor=BUTTON_PRIMARY,this.textColor=Colors.white}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: this.height,
+      child: ElevatedButton(
+        style: ElevatedButton.styleFrom(
+          primary: buttonColor, // background
+          onPrimary: textColor, //
+          elevation: 0,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(this.radius),
+            side: BorderSide(
+              color: LIGHT_BUTTON_COLOR.withOpacity(.2),
+              width: 1,
+            ),
+          ),// foreground
+        ),
+        onPressed: () { },
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Image.asset('assets/googlelogo.png',height: 30,),
+            SizedBox(width: 10,),
+            Text(this.buttonText)
+          ],
+        ),
+      ),
+    );
+  }
+}
+
