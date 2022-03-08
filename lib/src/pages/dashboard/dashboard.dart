@@ -26,7 +26,7 @@ class _DashboardState extends State<Dashboard> {
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Container(
-        padding: EdgeInsets.only(left: 25, right: 25,top: 80),
+        padding: EdgeInsets.only(left: 25, right: 25,top: 50),
         decoration: BoxDecoration(
           gradient: LinearGradient(
               colors: [
@@ -41,7 +41,6 @@ class _DashboardState extends State<Dashboard> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SizedBox(height: 10,),
             TopBar(),
             SizedBox(height: 30,),
             SimpleTextField(hintText: 'Email', hintTitle: 'Search'),
