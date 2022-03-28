@@ -4,7 +4,9 @@ import '../utlis/constants.dart';
 class TextFieldApp extends StatefulWidget {
   final String hintText;
   final String hintTitle;
-  const TextFieldApp({Key? key,required this.hintText,required this.hintTitle}) : super(key: key);
+  final bool obsecure;
+  TextEditingController? controller=TextEditingController(text: '');
+  TextFieldApp({Key? key,required this.hintText,required this.hintTitle,this.controller,this.obsecure=false}) : super(key: key);
 
   @override
   _TextFieldAppState createState() => _TextFieldAppState();
@@ -19,7 +21,7 @@ class _TextFieldAppState extends State<TextFieldApp> {
         children: [
           Text(' '+widget.hintText,style: TextStyle(fontWeight: FontWeight.bold,color: LIGHT_BUTTON_COLOR),),
           SizedBox(height: 10,),
-          SimpleTextField(hintText: widget.hintText,hintTitle: widget.hintTitle),
+          SimpleTextField(hintText: widget.hintText,hintTitle: widget.hintTitle,controller: widget.controller!,isObsecure: widget.obsecure,),
         ],
       ),
     );
@@ -29,7 +31,9 @@ class _TextFieldAppState extends State<TextFieldApp> {
 class SimpleTextField extends StatefulWidget {
   final String hintText;
   final String hintTitle;
-  const SimpleTextField({Key? key,required this.hintText,required this.hintTitle}) : super(key: key);
+  final TextEditingController controller;
+  final bool isObsecure;
+  const SimpleTextField({Key? key,required this.hintText,required this.hintTitle,required this.controller,this.isObsecure=false}) : super(key: key);
 
   @override
   _SimpleTextFieldState createState() => _SimpleTextFieldState();
@@ -41,6 +45,8 @@ class _SimpleTextFieldState extends State<SimpleTextField> {
     return Container(
       height: 50,
       child: TextField(
+        obscureText: widget.isObsecure,
+        controller: widget.controller,
         decoration: InputDecoration(
           contentPadding: EdgeInsets.only(left: 20,right: 20,top: 10),
             border: OutlineInputBorder(

@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:horseproject/src/net/firebase_operations.dart';
 
 import '../../../utlis/constants.dart';
 import '../../../widgets/button_round.dart';
@@ -11,6 +14,37 @@ class EditProfile extends StatefulWidget {
 }
 
 class _EditProfileState extends State<EditProfile> {
+
+  var data;
+  String fname='';
+  String lname='';
+  TextEditingController country=TextEditingController();
+  TextEditingController phone=TextEditingController();
+  TextEditingController email=TextEditingController();
+  TextEditingController zip=TextEditingController();
+  TextEditingController address=TextEditingController();
+
+  @override
+  void initState() {
+    getUsersData();
+    // TODO: implement initState
+    super.initState();
+  }
+
+  getUsersData() async {
+    data=await FirebaseDB.getUsersInfo();
+    var mydata=jsonDecode(data);
+    setState(() {
+      fname= mydata['firstName'] ?? '';
+      lname= mydata['lastName'] ?? '';
+      email.text = mydata['email'] ?? '';
+      phone.text = mydata['phone'] ?? '';
+      country.text = mydata['country'] ?? '';
+      address.text = mydata['address'] ?? '';
+      zip.text = mydata['zip'] ?? '';
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -19,7 +53,8 @@ class _EditProfileState extends State<EditProfile> {
         shape: ContinuousRectangleBorder(
             borderRadius: BorderRadius.only(
                 bottomLeft: Radius.circular(40), bottomRight: Radius.circular(40))),
-        title: Center(child: Text('Owner')),
+        title:Text('Owner'),
+        centerTitle: true,
       ),
       body: Container(
         margin: EdgeInsets.only(left: 20,right: 20),
@@ -31,7 +66,7 @@ class _EditProfileState extends State<EditProfile> {
               SizedBox(height: 30,),
               Container(
                   width: MediaQuery.of(context).size.width,
-                  child: ButtonRound(buttonText: 'Save Profile',)),
+                  child: ButtonRound(buttonText: 'Save Profile', function:  (){},)),
             ],
           ),
         ),
@@ -44,17 +79,17 @@ class _EditProfileState extends State<EditProfile> {
     return Container(
       child: Column(
         children: [
-          Text('Maria Hogain',style: TextStyle(fontWeight: FontWeight.bold,fontSize: 22),),
+          Text(fname+' '+lname,style: TextStyle(fontWeight: FontWeight.bold,fontSize: 22),),
           SizedBox(height: 20,),
-          TextFieldApp(hintText: 'Street',hintTitle: '25 H1 Johar Town'),
+          TextFieldApp(hintText: 'Street',hintTitle: '25 H1 Johar Town',controller: address,),
           SizedBox(height: 10,),
-          TextFieldApp(hintText: 'Zip',hintTitle: '54000'),
+          TextFieldApp(hintText: 'Zip',hintTitle: '54000',controller: zip,),
           SizedBox(height: 10,),
-          TextFieldApp(hintText: 'Country',hintTitle: 'Russia'),
+          TextFieldApp(hintText: 'Country',hintTitle: 'Russia',controller: country,),
           SizedBox(height: 10,),
-          TextFieldApp(hintText: 'Phone',hintTitle: '0900786001'),
+          TextFieldApp(hintText: 'Phone',hintTitle: '0900786001',controller: phone,),
           SizedBox(height: 10,),
-          TextFieldApp(hintText: 'Email',hintTitle: 'johndoe@mail.com'),
+          TextFieldApp(hintText: 'Email',hintTitle: 'johndoe@mail.com',controller: email,),
 
         ],
       ),
@@ -83,7 +118,7 @@ class _EditProfileState extends State<EditProfile> {
             ),
             radius: 50.0,
             backgroundImage: NetworkImage(
-                'http://writestylesonline.com/wp-content/uploads/2016/08/Follow-These-Steps-for-a-Flawless-Professional-Profile-Picture-1024x1024.jpg'),
+                'https://images.vexels.com/media/users/3/129733/isolated/preview/a558682b158debb6d6f49d07d854f99f-casual-male-avatar-silhouette.png'),
           ),
         ),),
     );

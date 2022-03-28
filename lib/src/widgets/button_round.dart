@@ -6,7 +6,8 @@ class ButtonRound extends StatelessWidget {
   final double height;
   final Color buttonColor;
   final Color textColor;
-  const ButtonRound({Key? key,required this.buttonText,this.radius=8,this.height=45,this.buttonColor=BUTTON_PRIMARY,this.textColor=Colors.white}) : super(key: key);
+  final Function function;
+  ButtonRound({Key? key,required this.buttonText,this.radius=8,this.height=45,this.buttonColor=BUTTON_PRIMARY,this.textColor=Colors.white,required this.function}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +21,9 @@ class ButtonRound extends StatelessWidget {
             borderRadius: BorderRadius.circular(this.radius),
           ),// foreground
         ),
-        onPressed: () { },
+        onPressed: () {
+          this.function();
+        },
         child: Text(this.buttonText),
       ),
     );

@@ -1,14 +1,20 @@
+import 'dart:convert';
 import 'dart:math';
 
 import 'package:circular_widgets/circular_widgets.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
+import 'package:horseproject/src/pages/auth/into.dart';
 import 'package:horseproject/src/utlis/constants.dart';
 
 import '../../models/dashboard_icons.dart';
+import '../../net/firebase_operations.dart';
 import '../../widgets/button_round.dart';
 import '../../widgets/single_circle_dashboard.dart';
 import '../../widgets/textfield.dart';
+import '../others/qr_page.dart';
 
 class Dashboard extends StatefulWidget {
   const Dashboard({Key? key}) : super(key: key);
@@ -22,6 +28,13 @@ class _DashboardState extends State<Dashboard> {
   double innerSpacingDivider = 10;
   double radiusOfItemDivider = 5;
   double centerWidgetRadiusDivider = 3;
+  String firstname='';
+  String lastname= '';
+  String country= '';
+  String phone= '';
+  String email = '';
+  var userdata;
+  TextEditingController controller = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -43,7 +56,7 @@ class _DashboardState extends State<Dashboard> {
           children: [
             TopBar(),
             SizedBox(height: 30,),
-            SimpleTextField(hintText: 'Email', hintTitle: 'Search'),
+            SimpleTextField(hintText: 'Email', hintTitle: 'Search',controller: controller,),
             SizedBox(height: 20,),
             Text(' Categories',style: TextStyle(color: Colors.white,fontSize: 18,fontWeight: FontWeight.w700),),
             SizedBox(height: 05,),
@@ -75,6 +88,7 @@ class _DashboardState extends State<Dashboard> {
                       txt: Dashboard_Icons_List[index].iconname,
                       color: Colors.white,
                       txt2: Dashboard_Icons_List[index].name,
+                      function: Dashboard_Icons_List[index].onPress,
                     );
                   },
                   innerSpacing: smallestBoundary / 12,
@@ -96,50 +110,95 @@ class _DashboardState extends State<Dashboard> {
   }
 
   Widget TopBar(){
-    return Row(
-      children: [
-         Expanded(child:  Container(
-           child: Row(
-             children: [
-               Container(
-                 height:50,
-                 width: 50,
-                 decoration: BoxDecoration(
-                     image: DecorationImage(
-                         image: NetworkImage('https://media.istockphoto.com/photos/the-owner-and-his-white-horse-are-preparing-to-ridestock-photo-picture-id1184153859?k=20&m=1184153859&s=612x612&w=0&h=NuURZXkBuCPhdj5SxKkmTG0MgOe18Pgv9I4Z-y9LzIc='),
-                         fit: BoxFit.cover
-                     ),
-                     borderRadius: BorderRadius.all(Radius.circular(8)),
-                     border: Border.all(color: Colors.white,width: 2)
-                 ),
-               ),
-               SizedBox(width: 15,),
-               Container(
-                 height: 50,
-                 padding: EdgeInsets.only(top: 05,bottom: 05),
-                 child: Column(
-                   crossAxisAlignment: CrossAxisAlignment.start,
-                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                   children: [
-                     Text('Subhan Khwaja',style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 20),),
-                     Text('Horse Owner',style: TextStyle(color: Colors.white),)
-                   ],
-                 ),
-               )
-             ],
-           ),
-         )),
-         Container(
-           height: 50,
-           width: 50,
-           decoration: BoxDecoration(
-             color: Colors.white,
-             borderRadius: BorderRadius.all(Radius.circular(100))
-           ),
-           child: Icon(Icons.qr_code_outlined,color: Colors.red,),
-         )
-      ],
+    return FutureBuilder(
+      future: FirebaseDB.getUsersInfo(),
+      builder: (BuildContext context, snapshot) {
+        if(snapshot.hasData){
+          if(snapshot.connectionState == ConnectionState.waiting){
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          }else{
+            userdata=  jsonDecode(snapshot.data.toString());
+            firstname = userdata['firstName'] ?? '';
+            lastname = userdata['lastName'] ?? '';
+
+            return Row(
+              children: [
+                Expanded(child:  Container(
+                  child: Row(
+                    children: [
+                      InkWell(
+                        onTap: () async {
+                          await FirebaseAuth.instance.signOut();
+                          Navigator.pushAndRemoveUntil(
+                              context,
+                              MaterialPageRoute(builder: (BuildContext context) => IntroMobileApp()),
+                              ModalRoute.withName('/')
+                          );
+                        },
+                        child: Container(
+                          height:50,
+                          width: 50,
+                          decoration: BoxDecoration(
+                              image: DecorationImage(
+                                  image: NetworkImage('https://media.istockphoto.com/photos/the-owner-and-his-white-horse-are-preparing-to-ridestock-photo-picture-id1184153859?k=20&m=1184153859&s=612x612&w=0&h=NuURZXkBuCPhdj5SxKkmTG0MgOe18Pgv9I4Z-y9LzIc='),
+                                  fit: BoxFit.cover
+                              ),
+                              borderRadius: BorderRadius.all(Radius.circular(8)),
+                              border: Border.all(color: Colors.white,width: 2)
+                          ),
+                        ),
+                      ),
+                      SizedBox(width: 15,),
+                      Container(
+                        height: 50,
+                        padding: EdgeInsets.only(top: 05,bottom: 05),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(firstname+' '+lastname,style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 20),),
+                            Text('Horse Owner',style: TextStyle(color: Colors.white),)
+                          ],
+                        ),
+                      )
+                    ],
+                  ),
+                )),
+                InkWell(
+                  onTap: (){
+                    Get.to(QRScan());
+                  },
+                  child: Container(
+                    height: 50,
+                    width: 50,
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.all(Radius.circular(100))
+                    ),
+                    child: Icon(Icons.qr_code_outlined,color: Colors.red,),
+                  ),
+                )
+              ],
+            );
+          }
+        }else if (snapshot.hasError){
+          return InkWell(
+              onTap: () async {
+                await FirebaseAuth.instance.signOut();
+                Navigator.pushAndRemoveUntil(
+                    context,
+                    MaterialPageRoute(builder: (BuildContext context) => IntroMobileApp()),
+                    ModalRoute.withName('/')
+                );
+              },
+              child: Text('Refresh to Fetch'));
+        }
+        return Container();
+      },
     );
+
   }
 
   Widget FooterBox(){
@@ -169,7 +228,7 @@ class _DashboardState extends State<Dashboard> {
           Container(
               width: 120,
               height: 30,
-              child: ButtonRound(buttonText: 'Visit Shop',radius: 50,)),
+              child: ButtonRound(buttonText: 'Visit Shop',radius: 50, function:  (){},)),
 
         ],
       ),

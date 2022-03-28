@@ -1,4 +1,8 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:horseproject/src/net/firebase_operations.dart';
+import 'package:toggle_switch/toggle_switch.dart';
 
 import '../../../utlis/constants.dart';
 import '../../../widgets/button_round.dart';
@@ -11,6 +15,43 @@ class AddHorse extends StatefulWidget {
 }
 
 class _AddHorseState extends State<AddHorse> {
+
+  TextEditingController name=TextEditingController();
+  TextEditingController race=TextEditingController();
+  TextEditingController dob=TextEditingController();
+  TextEditingController coatcolor=TextEditingController();
+  TextEditingController specialmark=TextEditingController();
+  TextEditingController pdate=TextEditingController();
+  TextEditingController pnumber=TextEditingController();
+  TextEditingController mnumber=TextEditingController();
+  TextEditingController lifenumber=TextEditingController();
+  String gender='Mare';
+  var data;
+  @override
+  void initState() {
+    getHorsedast();
+    // TODO: implement initState
+    super.initState();
+  }
+
+  getHorsedast() async {
+    data=await FirebaseDB.gethorseData();
+    var mydata=jsonDecode(data);
+    setState(() {
+       name.text=mydata['name']??'';
+       race.text=mydata['race']??'';
+       dob.text=mydata['dob']??'';
+       coatcolor.text=mydata['ccolor']??'';
+       specialmark.text=mydata['smark']??'';
+       pdate.text=mydata['pdate']??'';
+       pnumber.text=mydata['pnumber']??'';
+       mnumber.text=mydata['mnumber']??'';
+       lifenumber.text=mydata['lnumber']??'';
+
+    });
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -19,7 +60,8 @@ class _AddHorseState extends State<AddHorse> {
         shape: ContinuousRectangleBorder(
             borderRadius: BorderRadius.only(
                 bottomLeft: Radius.circular(40), bottomRight: Radius.circular(40))),
-        title: Center(child: Text('Horse')),
+        title: Text('Horse'),
+        centerTitle: true,
       ),
       body: Container(
         margin: EdgeInsets.only(left: 20,right: 20),
@@ -33,7 +75,14 @@ class _AddHorseState extends State<AddHorse> {
               SizedBox(height: 10,),
               Container(
                   width: MediaQuery.of(context).size.width,
-                  child: ButtonRound(buttonText: 'Add Horse',)),
+                  child: ButtonRound(buttonText: 'Save Horse', function:  (){
+
+                    FirebaseDB.saveHorse(name: name.text, gender: gender,
+                        race: race.text, dob: dob.text, ccolor: coatcolor.text,
+                        smark: specialmark.text, pdate: pdate.text, pnumber:
+                        pnumber.text, mnumber: mnumber.text, lnumber: lifenumber.text);
+                  },)),
+              SizedBox(height:30,),
 
             ],
           ),
@@ -47,25 +96,46 @@ class _AddHorseState extends State<AddHorse> {
   Widget OtherBody(){
     return Container(
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SizedBox(height: 10,),
-          TextFieldApp(hintText: 'Name of Horse',hintTitle: 'Black Horse'),
+          TextFieldApp(hintText: 'Name of Horse',hintTitle: 'Black Horse',controller: name,),
           SizedBox(height: 10,),
-          TextFieldApp(hintText: 'Race',hintTitle: '54000'),
+          Text(' Gender',style: TextStyle(fontWeight: FontWeight.bold,color: LIGHT_BUTTON_COLOR),),
           SizedBox(height: 10,),
-          TextFieldApp(hintText: 'Date of Birth',hintTitle: 'dd/mm/yyyy'),
+          ToggleSwitch(
+            initialLabelIndex: 0,
+            totalSwitches:3,
+            minWidth: 120,
+            activeBgColor: [Colors.red],
+            labels: ['Mare', 'Gelding', 'Stallion'],
+            onToggle: (index) {
+              if(index==0){
+                gender='Mare';
+              }else if(index==1){
+                gender='Gelding';
+              }else if(index==2){
+                gender='Stallion';
+              }
+              print('switched to: $index');
+            },
+          ),
           SizedBox(height: 10,),
-          TextFieldApp(hintText: 'Coat Color',hintTitle: 'Red Color'),
+          TextFieldApp(hintText: 'Race',hintTitle: 'Select Race',controller: race,),
           SizedBox(height: 10,),
-          TextFieldApp(hintText: 'Special Mark',hintTitle: 'Mark'),
+          TextFieldApp(hintText: 'Date of Birth',hintTitle: 'dd/mm/yyyy',controller: dob,),
           SizedBox(height: 10,),
-          TextFieldApp(hintText: 'Pruchasing Date',hintTitle: 'dd/mm/yyyy'),
+          TextFieldApp(hintText: 'Coat Color',hintTitle: 'Red Color',controller: coatcolor,),
           SizedBox(height: 10,),
-          TextFieldApp(hintText: 'Passport Number',hintTitle: '123*****'),
+          TextFieldApp(hintText: 'Special Mark',hintTitle: 'Mark',controller: specialmark,),
           SizedBox(height: 10,),
-          TextFieldApp(hintText: 'Microchip Number',hintTitle: '123*****'),
+          TextFieldApp(hintText: 'Pruchasing Date',hintTitle: 'dd/mm/yyyy',controller: pdate,),
           SizedBox(height: 10,),
-          TextFieldApp(hintText: 'Life Number',hintTitle: '123*****'),
+          TextFieldApp(hintText: 'Passport Number',hintTitle: '123*****',controller: pnumber,),
+          SizedBox(height: 10,),
+          TextFieldApp(hintText: 'Microchip Number',hintTitle: '123*****',controller: mnumber,),
+          SizedBox(height: 10,),
+          TextFieldApp(hintText: 'Life Number',hintTitle: '123*****',controller: lifenumber,),
 
         ],
       ),

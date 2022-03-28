@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "507124294651",
+    "project_id": "horse-riding-ba003",
+    "storage_bucket": "horse-riding-ba003.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:507124294651:android:9ef1425b1b321b4e53615e",
+        "android_client_info": {
+          "package_name": "com.horseridingproject.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "507124294651-k8avgo22816rfgqt5voh4ktbi7nqbahc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDIO17uvElmsy-GCf3ojBhX4H2Q03UUMbY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "507124294651-k8avgo22816rfgqt5voh4ktbi7nqbahc.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
