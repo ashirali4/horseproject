@@ -56,7 +56,7 @@ class _DashboardState extends State<Dashboard> {
           children: [
             TopBar(),
             SizedBox(height: 30,),
-            SimpleTextField(hintText: 'Email', hintTitle: 'Search',controller: controller,),
+            SimpleTextField(hintText: 'Email', hintTitle: 'Search',controller: controller,endingWidget: SizedBox.shrink(),),
             SizedBox(height: 20,),
             Text(' Categories',style: TextStyle(color: Colors.white,fontSize: 18,fontWeight: FontWeight.w700),),
             SizedBox(height: 05,),

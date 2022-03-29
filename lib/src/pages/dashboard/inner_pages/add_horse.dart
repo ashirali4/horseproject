@@ -5,6 +5,7 @@ import 'package:horseproject/src/net/firebase_operations.dart';
 import 'package:toggle_switch/toggle_switch.dart';
 
 import '../../../utlis/constants.dart';
+import '../../../utlis/races.dart';
 import '../../../widgets/button_round.dart';
 import '../../../widgets/textfield.dart';
 class AddHorse extends StatefulWidget {
@@ -15,6 +16,36 @@ class AddHorse extends StatefulWidget {
 }
 
 class _AddHorseState extends State<AddHorse> {
+
+  DateTime selectedDate = DateTime.now();
+
+  Future<void> _selectDate(TextEditingController text) async {
+    final DateTime? picked = await showDatePicker(
+
+        context: context,
+        builder: (context,child) {
+          return Theme(
+            data: ThemeData.light().copyWith(
+              primaryColor: Colors.red,
+              accentColor: Colors.red,
+              colorScheme: ColorScheme.light(primary: Colors.red),
+              buttonTheme: ButtonThemeData(
+                  textTheme: ButtonTextTheme.primary
+              ),
+            ),
+            child: child!,
+          );
+        },
+        initialDate: selectedDate,
+        firstDate: DateTime(2015, 8),
+        lastDate: DateTime(2101));
+    if (picked != null && picked != selectedDate) {
+      setState(() {
+        //selectedDate = picked;
+        text.text = picked.toString().substring(0,10);
+      });
+    }
+  }
 
   TextEditingController name=TextEditingController();
   TextEditingController race=TextEditingController();
@@ -121,15 +152,41 @@ class _AddHorseState extends State<AddHorse> {
             },
           ),
           SizedBox(height: 10,),
-          TextFieldApp(hintText: 'Race',hintTitle: 'Select Race',controller: race,),
+          TextFieldApp(hintText: 'Race',hintTitle: 'Select Race',controller: race,
+          endingWidget: DropdownButton<String>(
+            items: racesList.map((String value) {
+              return DropdownMenuItem<String>(
+                value: value,
+                child: Text(value),
+              );
+            }).toList(),
+            onChanged: (value) {
+              setState(() {
+                race.text=value!;
+              });
+            },
+          ),isEnabled: false,),
           SizedBox(height: 10,),
-          TextFieldApp(hintText: 'Date of Birth',hintTitle: 'dd/mm/yyyy',controller: dob,),
+          TextFieldApp(hintText: 'Date of Birth',hintTitle: 'dd/mm/yyyy',controller: dob,
+          endingWidget: IconButton(
+            icon: Icon(Icons.date_range),
+            onPressed: (){
+              _selectDate(dob);
+            }
+          ),
+          ),
           SizedBox(height: 10,),
           TextFieldApp(hintText: 'Coat Color',hintTitle: 'Red Color',controller: coatcolor,),
           SizedBox(height: 10,),
           TextFieldApp(hintText: 'Special Mark',hintTitle: 'Mark',controller: specialmark,),
           SizedBox(height: 10,),
-          TextFieldApp(hintText: 'Pruchasing Date',hintTitle: 'dd/mm/yyyy',controller: pdate,),
+          TextFieldApp(hintText: 'Pruchasing Date',hintTitle: 'dd/mm/yyyy',controller: pdate,
+            endingWidget: IconButton(
+                icon: Icon(Icons.date_range),
+                onPressed: (){
+                  _selectDate(pdate);
+                }
+            ),),
           SizedBox(height: 10,),
           TextFieldApp(hintText: 'Passport Number',hintTitle: '123*****',controller: pnumber,),
           SizedBox(height: 10,),
