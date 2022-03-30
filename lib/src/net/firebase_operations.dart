@@ -83,6 +83,24 @@ class FirebaseDB {
   }
 
 
+  static Future<String> saveContacts({
+    required var data
+  }) async {
+
+    String status='Failed to Save Horse';
+    DocumentReference documentReferencer =
+    horsescol.doc(FirebaseAuth.instance.currentUser!.uid);
+
+
+
+    await documentReferencer
+        .set(data)
+        .whenComplete(() => status='Save Horse Successfully')
+        .catchError((e) => status=e.toString());
+    return status;
+  }
+
+
   static Future<String> editQuestion({
     required String questionpart,
     required String questionheading,

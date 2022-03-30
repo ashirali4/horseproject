@@ -137,7 +137,7 @@ class _AddHorseState extends State<AddHorse> {
           ToggleSwitch(
             initialLabelIndex: 0,
             totalSwitches:3,
-            minWidth: 120,
+            minWidth: MediaQuery.of(context).size.width/3.4,
             activeBgColor: [Colors.red],
             labels: ['Mare', 'Gelding', 'Stallion'],
             onToggle: (index) {

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../net/firebase_operations.dart';
 import '../../../utlis/constants.dart';
 import '../../../widgets/button_round.dart';
 import '../../../widgets/textfield.dart';
@@ -16,6 +17,50 @@ class _ContactHorseState extends State<ContactHorse> {
   TextEditingController address=TextEditingController();
   TextEditingController phone=TextEditingController();
   TextEditingController email=TextEditingController();
+
+
+
+  TextEditingController name2=TextEditingController();
+  TextEditingController address2=TextEditingController();
+  TextEditingController phone2=TextEditingController();
+  TextEditingController email2=TextEditingController();
+
+
+
+  TextEditingController name3=TextEditingController();
+  TextEditingController address3=TextEditingController();
+  TextEditingController phone3=TextEditingController();
+  TextEditingController email3=TextEditingController();
+
+
+  TextEditingController name4=TextEditingController();
+  TextEditingController address4=TextEditingController();
+  TextEditingController phone4=TextEditingController();
+  TextEditingController email4=TextEditingController();
+  
+  
+  onSave(){
+    Map<String, dynamic> data = <String, dynamic>{
+      "n1": name,
+      "a1" : address,
+      "p1" : phone,
+      "e1" : email,
+      "n2": name2,
+      "a2" : address2,
+      "p2" : phone2,
+      "e2" : email2,
+      "n3": name3,
+      "a3" : address3,
+      "p3" : phone3,
+      "e3" : email3,
+      "n4": name4,
+      "a4" : address4,
+      "p4" : phone4,
+      "e4" : email4,
+    };
+    FirebaseDB.saveContacts(data: data);
+ 
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -35,15 +80,15 @@ class _ContactHorseState extends State<ContactHorse> {
             children: [
               OtherBody('Horse Stable',name,address,phone,email),
               SizedBox(height: 10,),
-              OtherBody('Veterinarian',name,address,phone,email),
+              OtherBody('Veterinarian',name2,address2,phone2,email2),
               SizedBox(height: 10,),
-              OtherBody('Horse Clinic',name,address,phone,email),
+              OtherBody('Horse Clinic',name3,address3,phone3,email3),
               SizedBox(height: 10,),
-              OtherBody('Therapist',name,address,phone,email),
+              OtherBody('Therapist',name4,address4,phone4,email4),
               SizedBox(height: 10,),
               Container(
                   width: MediaQuery.of(context).size.width,
-                  child: ButtonRound(buttonText: 'Add New Contact', function:  (){},)),
+                  child: ButtonRound(buttonText: 'Save Contacts', function:  (){},)),
               SizedBox(height: 30,),
 
 

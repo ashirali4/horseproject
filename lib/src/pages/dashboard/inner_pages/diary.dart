@@ -72,7 +72,7 @@ class _DiaryHorseState extends State<DiaryHorse> {
           ToggleSwitch(
             initialLabelIndex: 0,
             totalSwitches: 4,
-            minWidth: 90,
+            minWidth: MediaQuery.of(context).size.width/4.5,
             activeBgColor: [Colors.red],
             labels: ['Sun', 'Clouds', 'Rain','Rainbow'],
             onToggle: (index) {
