@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 
+import '../../../net/firebase_operations.dart';
 import '../../../utlis/constants.dart';
 import '../../../widgets/button_round.dart';
 import '../../../widgets/textfield.dart';
@@ -12,12 +14,85 @@ class Insurance extends StatefulWidget {
 
 class _InsuranceState extends State<Insurance> {
 
+  TextEditingController horse=TextEditingController();
+
 
   TextEditingController name=TextEditingController();
   TextEditingController address=TextEditingController();
   TextEditingController phone=TextEditingController();
   TextEditingController email=TextEditingController();
   TextEditingController vern=TextEditingController();
+
+  TextEditingController name2=TextEditingController();
+  TextEditingController address2=TextEditingController();
+  TextEditingController phone2=TextEditingController();
+  TextEditingController email2=TextEditingController();
+  TextEditingController vern2=TextEditingController();
+
+  TextEditingController name3=TextEditingController();
+  TextEditingController address3=TextEditingController();
+  TextEditingController phone3=TextEditingController();
+  TextEditingController email3=TextEditingController();
+  TextEditingController vern3=TextEditingController();
+
+  onSave() async {
+    Map<String, dynamic> data = <String, dynamic>{
+      "horse" : horse.text,
+      "n1" : name.text,
+      "a1" : address.text,
+      "p1" : phone.text,
+      "e1" : email.text,
+      "v1" : vern.text,
+      "n2" : name2.text,
+      "a2" : address2.text,
+      "p2" : phone2.text,
+      "e2" : email2.text,
+      "v2" : vern2.text,
+      "n3" : name3.text,
+      "a3" : address3.text,
+      "p3" : phone3.text,
+      "e3" : email3.text,
+      "v3" : vern3.text
+    };
+    await FirebaseDB.savedata(data: data,type: 'insurance');
+    EasyLoading.showToast('Insurance has been updated.',toastPosition: EasyLoadingToastPosition.bottom);
+  }
+
+
+  onGetData() async {
+    try{
+      var data= await FirebaseDB.getDataMap('insurance');
+      setState(() {
+        horse.text=data['horse'] ?? '';
+        name.text=data['n1'] ?? '';
+        address.text=data['a1'] ?? '';
+        phone.text=data['p1'] ?? '';
+        email.text=data['e1'] ?? '';
+        vern.text=data['v1'] ?? '';
+        name2.text=data['n2'] ?? '';
+        address2.text=data['a2'] ?? '';
+        phone2.text=data['p2'] ?? '';
+        email2.text=data['e2'] ?? '';
+        vern2.text=data['v2'] ?? '';
+        name3.text=data['n3'] ?? '';
+        address3.text=data['a3'] ?? '';
+        phone3.text=data['p3'] ?? '';
+        email3.text=data['e3'] ?? '';
+        vern3.text=data['v3'] ?? '';
+      });
+    }catch (e){
+      print("Erorr " + e.toString());
+    }
+
+  }
+
+
+  @override
+  void initState() {
+    onGetData();
+    // TODO: implement initState
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -37,18 +112,20 @@ class _InsuranceState extends State<Insurance> {
             children: [
               ImageWidget('Upload Photo/Video',Icons.camera_alt_outlined),
               SizedBox(height: 10,),
-              TextFieldApp(hintText: 'Name of Horse',hintTitle: 'Black Horse',controller: name,),
+              TextFieldApp(hintText: 'Name of Horse',hintTitle: 'Black Horse',controller: horse,),
               SizedBox(height: 10,),
               OtherBody('Liability',name,address,phone,email,vern),
               SizedBox(height: 10,),
-              OtherBody('Health Insurance',name,address,phone,email,vern),
+              OtherBody('Health Insurance',name2,address2,phone2,email2,vern2),
               SizedBox(height: 10,),
-              OtherBody('Surgical Insurance',name,address,phone,email,vern),
+              OtherBody('Surgical Insurance',name3,address3,phone3,email3,vern3),
               SizedBox(height: 10,),
 
               Container(
                   width: MediaQuery.of(context).size.width,
-                  child: ButtonRound(buttonText: 'Add New Insurance', function:  (){},)),
+                  child: ButtonRound(buttonText: 'Save', function:  (){
+                    onSave();
+                  },)),
               SizedBox(height: 30,),
 
 

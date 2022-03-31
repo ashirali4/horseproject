@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:horseproject/src/net/firebase_operations.dart';
 
 import '../../../utlis/constants.dart';
@@ -45,6 +46,21 @@ class _EditProfileState extends State<EditProfile> {
     });
   }
 
+
+  onSave() async {
+    Map<String, dynamic> data = <String, dynamic>{
+      "firstName": fname,
+      "lastName" : lname,
+      "country" : country.text,
+      "phone" : phone.text,
+      "email" : email.text,
+      "address" : address.text,
+      "zip" : zip.text,
+    };
+    await FirebaseDB.savedata(data: data,type: 'users');
+    EasyLoading.showToast('Profile has been updated.',toastPosition: EasyLoadingToastPosition.bottom);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -66,7 +82,9 @@ class _EditProfileState extends State<EditProfile> {
               SizedBox(height: 30,),
               Container(
                   width: MediaQuery.of(context).size.width,
-                  child: ButtonRound(buttonText: 'Save Profile', function:  (){},)),
+                  child: ButtonRound(buttonText: 'Save Profile', function:  (){
+                    onSave();
+                  },)),
             ],
           ),
         ),

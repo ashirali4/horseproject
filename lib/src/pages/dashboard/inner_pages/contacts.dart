@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 import '../../../net/firebase_operations.dart';
 import '../../../utlis/constants.dart';
@@ -39,27 +40,61 @@ class _ContactHorseState extends State<ContactHorse> {
   TextEditingController email4=TextEditingController();
   
   
-  onSave(){
+  onSave() async {
     Map<String, dynamic> data = <String, dynamic>{
-      "n1": name,
-      "a1" : address,
-      "p1" : phone,
-      "e1" : email,
-      "n2": name2,
-      "a2" : address2,
-      "p2" : phone2,
-      "e2" : email2,
-      "n3": name3,
-      "a3" : address3,
-      "p3" : phone3,
-      "e3" : email3,
-      "n4": name4,
-      "a4" : address4,
-      "p4" : phone4,
-      "e4" : email4,
+      "n1": name.text,
+      "a1" : address.text,
+      "p1" : phone.text,
+      "e1" : email.text,
+      "n2": name2.text,
+      "a2" : address2.text,
+      "p2" : phone2.text,
+      "e2" : email2.text,
+      "n3": name3.text,
+      "a3" : address3.text,
+      "p3" : phone3.text,
+      "e3" : email3.text,
+      "n4": name4.text,
+      "a4" : address4.text,
+      "p4" : phone4.text,
+      "e4" : email4.text,
     };
-    FirebaseDB.saveContacts(data: data);
- 
+    await FirebaseDB.savedata(data: data,type: 'contacts');
+    EasyLoading.showToast('Contacts has been updated.',toastPosition: EasyLoadingToastPosition.bottom);
+  }
+
+  onGetData() async {
+    try{
+      var data= await FirebaseDB.getDataMap('contacts');
+      setState(() {
+        name.text=data['n1'] ?? '';
+        address.text=data['a1'] ?? '';
+        phone.text=data['p1'] ?? '';
+        email.text=data['e1'] ?? '';
+        name2.text=data['n2'] ?? '';
+        address2.text=data['a2'] ?? '';
+        phone2.text=data['p2'] ?? '';
+        email2.text=data['e2'] ?? '';
+        name3.text=data['n3'] ?? '';
+        address3.text=data['a3'] ?? '';
+        phone3.text=data['p3'] ?? '';
+        email3.text=data['e3'] ?? '';
+        name4.text=data['n4'] ?? '';
+        address4.text=data['a4'] ?? '';
+        phone4.text=data['p4'] ?? '';
+        email4.text=data['e4'] ?? '';
+      });
+    } catch (e){
+      print("ERROR -- > "+ e.toString());
+    }
+  }
+
+
+  @override
+  void initState() {
+    onGetData();
+    // TODO: implement initState
+    super.initState();
   }
 
   @override
@@ -88,10 +123,10 @@ class _ContactHorseState extends State<ContactHorse> {
               SizedBox(height: 10,),
               Container(
                   width: MediaQuery.of(context).size.width,
-                  child: ButtonRound(buttonText: 'Save Contacts', function:  (){},)),
+                  child: ButtonRound(buttonText: 'Save Contacts', function:  (){
+                    onSave();
+                  },)),
               SizedBox(height: 30,),
-
-
             ],
           ),
         ),

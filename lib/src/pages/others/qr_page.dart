@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:toggle_switch/toggle_switch.dart';
 
 import '../../utlis/constants.dart';
@@ -12,6 +13,10 @@ class QRScan extends StatefulWidget {
 }
 
 class _QRScanState extends State<QRScan> {
+  final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
+  Barcode? result;
+  QRViewController? controller;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,11 +35,24 @@ class _QRScanState extends State<QRScan> {
           children: [
             Text('Place qr code inside the frame to scan please avoid shake to get result quickly',style: TextStyle(fontWeight: FontWeight.w500,color: LIGHT_BUTTON_COLOR),textAlign: TextAlign.center,),
             SizedBox(height: 20,),
-            Image.asset('assets/qrscan.png'),
+            Padding(
+              padding: const EdgeInsets.all(20),
+              child: Container(
+                height: 300,
+                child: QRView(
+                  key: qrKey,
+                  onQRViewCreated: _onQRViewCreated,
+                ),
+              ),
+            ),
+          //  Image.asset('assets/qrscan.png'),
             SizedBox(height: 40,),
+
             Container(
                 width: MediaQuery.of(context).size.width,
-                child: ButtonRound(buttonText: 'Scan QR Code', function: (){},)),
+                child: ButtonRound(buttonText: 'Scan QR Code', function: (){
+                  _onQRViewCreated(controller!);
+                },)),
 
           ],
         ),
@@ -42,5 +60,12 @@ class _QRScanState extends State<QRScan> {
     );
   }
 
-
+  void _onQRViewCreated(QRViewController controller) {
+    this.controller = controller;
+    controller.scannedDataStream.listen((scanData) {
+      setState(() {
+        result = scanData;
+      });
+    });
+  }
 }

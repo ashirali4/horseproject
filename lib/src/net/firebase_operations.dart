@@ -13,6 +13,7 @@ final CollectionReference _mainCollectionIns = _firestore.collection('ins');
 final CollectionReference _mainCollectionQuestions = _firestore.collection('requirements');
 final CollectionReference _mainusersCollection = _firestore.collection('users');
 final CollectionReference horsescol = _firestore.collection('horses');
+final CollectionReference horsecontacts = _firestore.collection('contacts');
 
 class FirebaseDB {
 
@@ -34,6 +35,8 @@ class FirebaseDB {
       "country" : country,
       "phone" : phone,
       "email" : email,
+      "address" : "",
+      "zip" : "",
     };
 
     await documentReferencer
@@ -83,20 +86,46 @@ class FirebaseDB {
   }
 
 
-  static Future<String> saveContacts({
-    required var data
+  static Future<String> savedata({
+    required var data,
+    required String type
   }) async {
 
     String status='Failed to Save Horse';
-    DocumentReference documentReferencer =
-    horsescol.doc(FirebaseAuth.instance.currentUser!.uid);
+    try{
+      DocumentReference documentReferencer =
+      _firestore.collection(type).doc(FirebaseAuth.instance.currentUser!.uid);
+
+      await documentReferencer
+          .set(data)
+          .whenComplete(() => status='Save Contacts Successfully')
+          .catchError((e) => status=e.toString());
+      print(status+"a asdfasd");
+    }catch(e){
+      print("Print - > "+status.toString());
+    }
+    return status;
+  }
 
 
+  static Future<String> savedatatousers({
+    required var data,
+    required String type
+  }) async {
 
-    await documentReferencer
-        .set(data)
-        .whenComplete(() => status='Save Horse Successfully')
-        .catchError((e) => status=e.toString());
+    String status='Failed to Save Horse';
+    try{
+      DocumentReference documentReferencer =
+      _firestore.collection('users').doc(FirebaseAuth.instance.currentUser!.uid).collection(type).doc();
+
+      await documentReferencer
+          .set(data)
+          .whenComplete(() => status='Save Contacts Successfully')
+          .catchError((e) => status=e.toString());
+      print(status+"a asdfasd");
+    }catch(e){
+      print("Print - > "+status.toString());
+    }
     return status;
   }
 
@@ -467,6 +496,8 @@ class FirebaseDB {
       'country' : a['country'] ?? '',
       'phone' : a['phone'] ?? '',
       'email' : a['email'] ?? '',
+      'address' : a['address'] ?? '',
+      'zip' : a['zip'] ?? '',
     };
     return jsonEncode(hasdoc);
   }
@@ -474,21 +505,32 @@ class FirebaseDB {
 
 
   static Future<dynamic> gethorseData() async {
-    var a = await FirebaseFirestore.instance
-        .collection("horses").doc(FirebaseAuth.instance.currentUser!.uid).get();
-    var hasdoc ={
-      'name' : a['name'] ?? '',
-      'gender' : a['gender'] ?? '',
-      'race' : a['race'] ?? '',
-      'ccolor' : a['ccolor'] ?? '',
-      'dob' : a['dob'] ?? '',
-      'smark' : a['smark'] ?? '',
-      'pdate' : a['pdate'] ?? '',
-      'pnumber' : a['pnumber'] ?? '',
-      'mnumber' : a['mnumber'] ?? '',
-      'lnumber' : a['lnumber'] ?? '',
-    };
+    var hasdoc;
+    try{
+      var a = await FirebaseFirestore.instance
+          .collection("horses").doc(FirebaseAuth.instance.currentUser!.uid).get();
+      hasdoc ={
+        'name' : a['name'] ?? '',
+        'gender' : a['gender'] ?? '',
+        'race' : a['race'] ?? '',
+        'ccolor' : a['ccolor'] ?? '',
+        'dob' : a['dob'] ?? '',
+        'smark' : a['smark'] ?? '',
+        'pdate' : a['pdate'] ?? '',
+        'pnumber' : a['pnumber'] ?? '',
+        'mnumber' : a['mnumber'] ?? '',
+        'lnumber' : a['lnumber'] ?? '',
+      };
+    }catch(e){
+      print("ERROR" +e.toString());
+    }
     return jsonEncode(hasdoc);
+  }
+
+  static Future<dynamic> getDataMap(String type) async {
+    var data= await FirebaseFirestore.instance
+        .collection(type).doc(FirebaseAuth.instance.currentUser!.uid).get();
+    return data;
   }
 
 

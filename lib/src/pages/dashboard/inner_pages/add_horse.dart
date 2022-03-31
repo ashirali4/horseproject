@@ -1,12 +1,14 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:horseproject/src/net/firebase_operations.dart';
 import 'package:toggle_switch/toggle_switch.dart';
 
 import '../../../utlis/constants.dart';
 import '../../../utlis/races.dart';
 import '../../../widgets/button_round.dart';
+import '../../../widgets/calendar_theme.dart';
 import '../../../widgets/textfield.dart';
 class AddHorse extends StatefulWidget {
   const AddHorse({Key? key}) : super(key: key);
@@ -24,17 +26,7 @@ class _AddHorseState extends State<AddHorse> {
 
         context: context,
         builder: (context,child) {
-          return Theme(
-            data: ThemeData.light().copyWith(
-              primaryColor: Colors.red,
-              accentColor: Colors.red,
-              colorScheme: ColorScheme.light(primary: Colors.red),
-              buttonTheme: ButtonThemeData(
-                  textTheme: ButtonTextTheme.primary
-              ),
-            ),
-            child: child!,
-          );
+          return CalendarTheme(child: child!,);
         },
         initialDate: selectedDate,
         firstDate: DateTime(2015, 8),
@@ -66,9 +58,10 @@ class _AddHorseState extends State<AddHorse> {
   }
 
   getHorsedast() async {
-    data=await FirebaseDB.gethorseData();
-    var mydata=jsonDecode(data);
-    setState(() {
+   try{
+     data=await FirebaseDB.gethorseData();
+     var mydata=jsonDecode(data);
+     setState(() {
        name.text=mydata['name']??'';
        race.text=mydata['race']??'';
        dob.text=mydata['dob']??'';
@@ -79,7 +72,10 @@ class _AddHorseState extends State<AddHorse> {
        mnumber.text=mydata['mnumber']??'';
        lifenumber.text=mydata['lnumber']??'';
 
-    });
+     });
+   } catch(e){
+     print("Erorr " + e.toString());
+   }
   }
 
 
@@ -106,12 +102,14 @@ class _AddHorseState extends State<AddHorse> {
               SizedBox(height: 10,),
               Container(
                   width: MediaQuery.of(context).size.width,
-                  child: ButtonRound(buttonText: 'Save Horse', function:  (){
+                  child: ButtonRound(buttonText: 'Save Horse', function:  () async {
 
-                    FirebaseDB.saveHorse(name: name.text, gender: gender,
+                    await FirebaseDB.saveHorse(name: name.text, gender: gender,
                         race: race.text, dob: dob.text, ccolor: coatcolor.text,
                         smark: specialmark.text, pdate: pdate.text, pnumber:
                         pnumber.text, mnumber: mnumber.text, lnumber: lifenumber.text);
+                    EasyLoading.showToast('Horse data has been updated.',toastPosition: EasyLoadingToastPosition.bottom);
+
                   },)),
               SizedBox(height:30,),
 
