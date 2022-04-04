@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../../utlis/constants.dart';
 import '../../../widgets/button_round.dart';
@@ -39,7 +40,9 @@ class _BodyValueState extends State<BodyValue> {
 
               Container(
                   width: MediaQuery.of(context).size.width,
-                  child: ButtonRound(buttonText: 'Book Appoinment', function:  (){},)),
+                  child: ButtonRound(buttonText: 'Book Appoinment', function:  () async{
+                    if (!await launch('https://termine.wirwiegendeinpferd.de/wp/')) throw 'Could not launch';
+                  },)),
               SizedBox(height: 20,),
               OtherColumn(),
 

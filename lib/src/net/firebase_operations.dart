@@ -12,7 +12,7 @@ final CollectionReference _mainCollectionIns = _firestore.collection('ins');
 
 final CollectionReference _mainCollectionQuestions = _firestore.collection('requirements');
 final CollectionReference _mainusersCollection = _firestore.collection('users');
-final CollectionReference horsescol = _firestore.collection('horses');
+final CollectionReference horsescol = _firestore.collection('users');
 final CollectionReference horsecontacts = _firestore.collection('contacts');
 
 class FirebaseDB {
@@ -63,7 +63,7 @@ class FirebaseDB {
 
     String status='Failed to Save Horse';
     DocumentReference documentReferencer =
-    horsescol.doc(FirebaseAuth.instance.currentUser!.uid);
+    horsescol.doc(FirebaseAuth.instance.currentUser!.uid).collection('horses').doc();
 
     Map<String, dynamic> data = <String, dynamic>{
       "name": name,
