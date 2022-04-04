@@ -1,0 +1,4 @@
+#Thu Mar 31 08:51:43 PDT 2022
+base.0=/Users/macbookpro/StudioProjects/horseproject/build/app/intermediates/dex/release/minifyReleaseWithR8/classes.dex
+renamed.0=classes.dex
+path.0=classes.dex

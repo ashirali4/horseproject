@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="default_web_client_id" translatable="false">507124294651-k8avgo22816rfgqt5voh4ktbi7nqbahc.apps.googleusercontent.com</string>
+    <string name="gcm_defaultSenderId" translatable="false">507124294651</string>
+    <string name="google_api_key" translatable="false">AIzaSyDIO17uvElmsy-GCf3ojBhX4H2Q03UUMbY</string>
+    <string name="google_app_id" translatable="false">1:507124294651:android:9ef1425b1b321b4e53615e</string>
+    <string name="google_crash_reporting_api_key" translatable="false">AIzaSyDIO17uvElmsy-GCf3ojBhX4H2Q03UUMbY</string>
+    <string name="google_storage_bucket" translatable="false">horse-riding-ba003.appspot.com</string>
+    <string name="project_id" translatable="false">horse-riding-ba003</string>
+</resources>

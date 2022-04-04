@@ -1,0 +1,68 @@
+{
+    "logs": [
+        {
+            "outputFile": "/Users/macbookpro/StudioProjects/horseproject/build/sign_in_with_apple/intermediates/incremental/mergeReleaseResources/merged.dir/values-en-rXC/values-en-rXC.xml",
+            "map": [
+                {
+                    "source": "/Users/macbookpro/.gradle/caches/transforms-2/files-2.1/14b93615368c2249f1830e26ca064ab5/core-1.6.0/res/values-en-rXC/values-en-rXC.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endColumns": "203",
+                        "endOffsets": "254"
+                    },
+                    "to": {
+                        "startLines": "6",
+                        "startColumns": "4",
+                        "startOffsets": "863",
+                        "endColumns": "203",
+                        "endOffsets": "1062"
+                    }
+                },
+                {
+                    "source": "/Users/macbookpro/.gradle/caches/transforms-2/files-2.1/195d721cf0c28f75574f42c4986fc2c2/browser-1.2.0/res/values-en-rXC/values-en-rXC.xml",
+                    "from": {
+                        "startLines": "2,3,4,5",
+                        "startColumns": "4,4,4,4",
+                        "startOffsets": "55,256,455,667",
+                        "endColumns": "200,198,211,195",
+                        "endOffsets": "251,450,662,858"
+                    }
+                }
+            ]
+        },
+        {
+            "outputFile": "/Users/macbookpro/StudioProjects/horseproject/build/sign_in_with_apple/intermediates/res/merged/release/values-en-rXC/values-en-rXC.xml",
+            "map": [
+                {
+                    "source": "/Users/macbookpro/.gradle/caches/transforms-2/files-2.1/14b93615368c2249f1830e26ca064ab5/core-1.6.0/res/values-en-rXC/values-en-rXC.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endColumns": "203",
+                        "endOffsets": "254"
+                    },
+                    "to": {
+                        "startLines": "6",
+                        "startColumns": "4",
+                        "startOffsets": "863",
+                        "endColumns": "203",
+                        "endOffsets": "1062"
+                    }
+                },
+                {
+                    "source": "/Users/macbookpro/.gradle/caches/transforms-2/files-2.1/195d721cf0c28f75574f42c4986fc2c2/browser-1.2.0/res/values-en-rXC/values-en-rXC.xml",
+                    "from": {
+                        "startLines": "2,3,4,5",
+                        "startColumns": "4,4,4,4",
+                        "startOffsets": "55,256,455,667",
+                        "endColumns": "200,198,211,195",
+                        "endOffsets": "251,450,662,858"
+                    }
+                }
+            ]
+        }
+    ]
+}
