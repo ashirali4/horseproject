@@ -7,6 +7,7 @@ import 'package:horseproject/src/pages/dashboard/inner_pages/insurance.dart';
 
 import '../pages/dashboard/inner_pages/bodyvalue.dart';
 import '../pages/dashboard/inner_pages/diary.dart';
+import '../pages/dashboard/inner_pages/horses_list.dart';
 import '../pages/others/calendar.dart';
 
 class DashboardIcons{
@@ -21,7 +22,7 @@ List<DashboardIcons> Dashboard_Icons_List=[
     Get.to(EditProfile());
   }),
   DashboardIcons('Horse', 'assets/horse.png',(){
-    Get.to(AddHorse(data: [],));
+    Get.to(HorseList());
   }),
   DashboardIcons('Diary', 'assets/diary.png',(){
     Get.to(DiaryHorse());

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:horseproject/src/utlis/enums.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:toggle_switch/toggle_switch.dart';
 
@@ -66,7 +67,7 @@ class _QRScanState extends State<QRScan> {
     this.controller = controller;
     controller.scannedDataStream.listen((scanData) {
       if(scanData.code!.contains(':')){
-        Navigator.of(context).push(MaterialPageRoute(builder: (context) => AddHorse(data: scanData.code!.split(":"),)));
+        Navigator.of(context).push(MaterialPageRoute(builder: (context) => AddHorse(data: scanData.code!.split(":"),pageType: HorseEditType.AddHorse,)));
       }
     });
   }

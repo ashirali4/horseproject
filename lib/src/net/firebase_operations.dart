@@ -63,7 +63,7 @@ class FirebaseDB {
 
     String status='Failed to Save Horse';
     DocumentReference documentReferencer =
-    horsescol.doc(FirebaseAuth.instance.currentUser!.uid).collection('horses').doc();
+    horsescol.doc(FirebaseAuth.instance.currentUser!.uid).collection('horses').doc(name);
 
     Map<String, dynamic> data = <String, dynamic>{
       "name": name,
@@ -504,11 +504,11 @@ class FirebaseDB {
 
 
 
-  static Future<dynamic> gethorseData() async {
+  static Future<dynamic> gethorseData(String name) async {
     var hasdoc;
     try{
       var a = await FirebaseFirestore.instance
-          .collection("horses").doc(FirebaseAuth.instance.currentUser!.uid).get();
+          .collection("users").doc(FirebaseAuth.instance.currentUser!.uid).collection('horses').doc(name).get();
       hasdoc ={
         'name' : a['name'] ?? '',
         'gender' : a['gender'] ?? '',
@@ -534,4 +534,17 @@ class FirebaseDB {
   }
 
 
+
+  static Future<bool> checkIfDocExists(String docId) async {
+    try {
+      // Get reference to Firestore collection
+      var a = await FirebaseFirestore.instance
+          .collection("users").doc(FirebaseAuth.instance.currentUser!.uid)
+          .collection('horses').doc(docId)
+          .get();
+      return a.exists;
+    } catch (e) {
+      throw "Print Errorrrr "+e.toString();
+    }
+  }
 }

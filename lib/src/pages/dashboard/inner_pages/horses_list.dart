@@ -4,8 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutterfire_ui/firestore.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:horseproject/src/pages/others/qr_page.dart';
 
 import '../../../utlis/constants.dart';
+import '../../../utlis/enums.dart';
 import 'add_horse.dart';
 class HorseList extends StatefulWidget {
   const HorseList({Key? key}) : super(key: key);
@@ -40,7 +42,7 @@ class _HorseListState extends State<HorseList> {
         onPressed: () {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) =>  AddHorse()),
+            MaterialPageRoute(builder: (context) =>  QRScan()),
           );
         },
         label: const Text('Add Horse'),
@@ -56,7 +58,7 @@ class _HorseListState extends State<HorseList> {
         Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (BuildContext context) => AddHorse(finalData: user,)));
+                builder: (BuildContext context) => AddHorse(data: [user['name']], pageType: HorseEditType.EditHorse)));
       },
       child: Container(
         margin: EdgeInsets.only(bottom: 10),

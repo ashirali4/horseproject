@@ -6,13 +6,15 @@ import 'package:horseproject/src/net/firebase_operations.dart';
 import 'package:toggle_switch/toggle_switch.dart';
 
 import '../../../utlis/constants.dart';
+import '../../../utlis/enums.dart';
 import '../../../utlis/races.dart';
 import '../../../widgets/button_round.dart';
 import '../../../widgets/calendar_theme.dart';
 import '../../../widgets/textfield.dart';
 class AddHorse extends StatefulWidget {
   List<String> data;
-  AddHorse({Key? key,required this.data}) : super(key: key);
+  HorseEditType pageType;
+  AddHorse({Key? key,required this.data,required this.pageType}) : super(key: key);
 
   @override
   _AddHorseState createState() => _AddHorseState();
@@ -24,7 +26,6 @@ class _AddHorseState extends State<AddHorse> {
 
   Future<void> _selectDate(TextEditingController text) async {
     final DateTime? picked = await showDatePicker(
-
         context: context,
         builder: (context,child) {
           return CalendarTheme(child: child!,);
@@ -49,24 +50,42 @@ class _AddHorseState extends State<AddHorse> {
   TextEditingController pnumber=TextEditingController();
   TextEditingController mnumber=TextEditingController();
   TextEditingController lifenumber=TextEditingController();
+  List<String> weiightHistory = [];
   String gender='Mare';
   var data;
   @override
-  void initState() {
+  void initState()  {
     //getHorsedast();
-    if(widget.data.length>0){
-      name.text = widget.data[];
-      pdate.text = widget.data[];
-      name.text = widget.data[];
-      name.text = widget.data[];
-    }
+    getHorseDetails();
     // TODO: implement initState
     super.initState();
   }
 
-  getHorsedast() async {
+  getHorseDetails() async {
+    if(widget.data.length>0 && widget.pageType==HorseEditType.AddHorse){
+      bool docExists = await FirebaseDB.checkIfDocExists(widget.data[1]);
+
+      print("Docc ESXIT" + docExists.toString());
+      if(docExists){
+        getHorsedast(widget.data[1]);
+      }else{
+        name.text = widget.data[1];
+        pdate.text = widget.data[4];
+        weiightHistory.add(widget.data[5]);
+      }
+    } else if(widget.pageType==HorseEditType.EditHorse){
+      getHorsedast(widget.data[0]);
+    }
+
+    setState(() {
+
+    });
+  }
+
+
+  getHorsedast(String nametofetch) async {
    try{
-     data=await FirebaseDB.gethorseData();
+     data=await FirebaseDB.gethorseData(nametofetch);
      var mydata=jsonDecode(data);
      setState(() {
        name.text=mydata['name']??'';
@@ -117,6 +136,14 @@ class _AddHorseState extends State<AddHorse> {
                         pnumber.text, mnumber: mnumber.text, lnumber: lifenumber.text);
                     EasyLoading.showToast('Horse data has been updated.',toastPosition: EasyLoadingToastPosition.bottom);
 
+                    if(widget.data.length>0 && widget.pageType==HorseEditType.AddHorse){
+                      name.text = widget.data[1];
+                      pdate.text = widget.data[4];
+                      weiightHistory.add(widget.data[5]);
+                    } else if(widget.pageType==HorseEditType.EditHorse){
+                      Navigator.pop(context);
+
+                    }
                   },)),
               SizedBox(height:30,),
 
@@ -135,7 +162,7 @@ class _AddHorseState extends State<AddHorse> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SizedBox(height: 10,),
-          TextFieldApp(hintText: 'Name of Horse',hintTitle: 'Black Horse',controller: name,),
+          TextFieldApp(hintText: 'Name of Horse',hintTitle: 'Black Horse',controller: name,isEnabled: false,),
           SizedBox(height: 10,),
           Text(' Gender',style: TextStyle(fontWeight: FontWeight.bold,color: LIGHT_BUTTON_COLOR),),
           SizedBox(height: 10,),
