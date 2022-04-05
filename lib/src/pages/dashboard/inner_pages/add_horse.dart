@@ -11,7 +11,8 @@ import '../../../widgets/button_round.dart';
 import '../../../widgets/calendar_theme.dart';
 import '../../../widgets/textfield.dart';
 class AddHorse extends StatefulWidget {
-  const AddHorse({Key? key}) : super(key: key);
+  var finalData;
+  AddHorse({Key? key,this.finalData}) : super(key: key);
 
   @override
   _AddHorseState createState() => _AddHorseState();
@@ -44,7 +45,7 @@ class _AddHorseState extends State<AddHorse> {
   TextEditingController dob=TextEditingController();
   TextEditingController coatcolor=TextEditingController();
   TextEditingController specialmark=TextEditingController();
-  TextEditingController pdate=TextEditingController();
+  TextEditingController pdate=TextEditingController(text: DateTime.now().toString().substring(0,10));
   TextEditingController pnumber=TextEditingController();
   TextEditingController mnumber=TextEditingController();
   TextEditingController lifenumber=TextEditingController();
@@ -59,8 +60,8 @@ class _AddHorseState extends State<AddHorse> {
 
   getHorsedast() async {
    try{
-     data=await FirebaseDB.gethorseData();
-     var mydata=jsonDecode(data);
+     data=widget.finalData;
+     var mydata=data;
      setState(() {
        name.text=mydata['name']??'';
        race.text=mydata['race']??'';
@@ -104,11 +105,13 @@ class _AddHorseState extends State<AddHorse> {
                   width: MediaQuery.of(context).size.width,
                   child: ButtonRound(buttonText: 'Save Horse', function:  () async {
 
-                    await FirebaseDB.saveHorse(name: name.text, gender: gender,
-                        race: race.text, dob: dob.text, ccolor: coatcolor.text,
-                        smark: specialmark.text, pdate: pdate.text, pnumber:
-                        pnumber.text, mnumber: mnumber.text, lnumber: lifenumber.text);
-                    EasyLoading.showToast('Horse data has been updated.',toastPosition: EasyLoadingToastPosition.bottom);
+                    if(name!=null && name.text!=""){
+                      await FirebaseDB.saveHorse(name: name.text, gender: gender,
+                          race: race.text, dob: dob.text, ccolor: coatcolor.text,
+                          smark: specialmark.text, pdate: pdate.text, pnumber:
+                          pnumber.text, mnumber: mnumber.text, lnumber: lifenumber.text);
+                      EasyLoading.showToast('Horse has been Saved.',toastPosition: EasyLoadingToastPosition.bottom);
+                    }
 
                   },)),
               SizedBox(height:30,),
