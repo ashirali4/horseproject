@@ -21,7 +21,7 @@ List<DashboardIcons> Dashboard_Icons_List=[
     Get.to(EditProfile());
   }),
   DashboardIcons('Horse', 'assets/horse.png',(){
-    Get.to(AddHorse());
+    Get.to(AddHorse(data: [],));
   }),
   DashboardIcons('Diary', 'assets/diary.png',(){
     Get.to(DiaryHorse());

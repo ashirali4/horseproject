@@ -11,7 +11,8 @@ import '../../../widgets/button_round.dart';
 import '../../../widgets/calendar_theme.dart';
 import '../../../widgets/textfield.dart';
 class AddHorse extends StatefulWidget {
-  const AddHorse({Key? key}) : super(key: key);
+  List<String> data;
+  AddHorse({Key? key,required this.data}) : super(key: key);
 
   @override
   _AddHorseState createState() => _AddHorseState();
@@ -52,7 +53,13 @@ class _AddHorseState extends State<AddHorse> {
   var data;
   @override
   void initState() {
-    getHorsedast();
+    //getHorsedast();
+    if(widget.data.length>0){
+      name.text = widget.data[];
+      pdate.text = widget.data[];
+      name.text = widget.data[];
+      name.text = widget.data[];
+    }
     // TODO: implement initState
     super.initState();
   }

@@ -4,6 +4,7 @@ import 'package:toggle_switch/toggle_switch.dart';
 
 import '../../utlis/constants.dart';
 import '../../widgets/button_round.dart';
+import '../dashboard/inner_pages/add_horse.dart';
 
 class QRScan extends StatefulWidget {
   const QRScan({Key? key}) : super(key: key);
@@ -48,11 +49,11 @@ class _QRScanState extends State<QRScan> {
           //  Image.asset('assets/qrscan.png'),
             SizedBox(height: 40,),
 
-            Container(
-                width: MediaQuery.of(context).size.width,
-                child: ButtonRound(buttonText: 'Scan QR Code', function: (){
-                  _onQRViewCreated(controller!);
-                },)),
+            // Container(
+            //     width: MediaQuery.of(context).size.width,
+            //     child: ButtonRound(buttonText: 'Scan QR Code', function: (){
+            //       _onQRViewCreated(controller!);
+            //     },)),
 
           ],
         ),
@@ -60,12 +61,13 @@ class _QRScanState extends State<QRScan> {
     );
   }
 
+  //Danny Dorner:Snoopy:450:170:03.04.2022:654321
   void _onQRViewCreated(QRViewController controller) {
     this.controller = controller;
     controller.scannedDataStream.listen((scanData) {
-      setState(() {
-        result = scanData;
-      });
+      if(scanData.code!.contains(':')){
+        Navigator.of(context).push(MaterialPageRoute(builder: (context) => AddHorse(data: scanData.code!.split(":"),)));
+      }
     });
   }
 }
