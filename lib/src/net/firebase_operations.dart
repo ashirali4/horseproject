@@ -59,6 +59,7 @@ class FirebaseDB {
     required String pnumber,
     required String mnumber,
     required String lnumber,
+    required List<dynamic> weights,
   }) async {
 
     String status='Failed to Save Horse';
@@ -76,6 +77,7 @@ class FirebaseDB {
       "pnumber" : pnumber,
       "mnumber" : mnumber,
       "lnumber" : lnumber,
+      "whistory" : weights
     };
 
     await documentReferencer
@@ -520,6 +522,7 @@ class FirebaseDB {
         'pnumber' : a['pnumber'] ?? '',
         'mnumber' : a['mnumber'] ?? '',
         'lnumber' : a['lnumber'] ?? '',
+        'whistory' : a['whistory'] ?? [],
       };
     }catch(e){
       print("ERROR" +e.toString());

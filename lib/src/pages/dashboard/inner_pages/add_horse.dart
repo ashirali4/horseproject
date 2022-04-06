@@ -2,7 +2,9 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:get/get.dart';
 import 'package:horseproject/src/net/firebase_operations.dart';
+import 'package:horseproject/src/pages/dashboard/dashboard.dart';
 import 'package:toggle_switch/toggle_switch.dart';
 
 import '../../../utlis/constants.dart';
@@ -11,6 +13,7 @@ import '../../../utlis/races.dart';
 import '../../../widgets/button_round.dart';
 import '../../../widgets/calendar_theme.dart';
 import '../../../widgets/textfield.dart';
+import 'horses_list.dart';
 class AddHorse extends StatefulWidget {
   List<String> data;
   HorseEditType pageType;
@@ -50,7 +53,7 @@ class _AddHorseState extends State<AddHorse> {
   TextEditingController pnumber=TextEditingController();
   TextEditingController mnumber=TextEditingController();
   TextEditingController lifenumber=TextEditingController();
-  List<String> weiightHistory = [];
+  List<dynamic> weiightHistory = [];
   String gender='Mare';
   var data;
   @override
@@ -67,7 +70,8 @@ class _AddHorseState extends State<AddHorse> {
 
       print("Docc ESXIT" + docExists.toString());
       if(docExists){
-        getHorsedast(widget.data[1]);
+        await getHorsedast(widget.data[1]);
+        weiightHistory.add(widget.data[5]);
       }else{
         name.text = widget.data[1];
         pdate.text = widget.data[4];
@@ -97,7 +101,7 @@ class _AddHorseState extends State<AddHorse> {
        pnumber.text=mydata['pnumber']??'';
        mnumber.text=mydata['mnumber']??'';
        lifenumber.text=mydata['lnumber']??'';
-
+       weiightHistory = mydata['whistory'] ?? [];
      });
    } catch(e){
      print("Erorr " + e.toString());
@@ -133,13 +137,15 @@ class _AddHorseState extends State<AddHorse> {
                     await FirebaseDB.saveHorse(name: name.text, gender: gender,
                         race: race.text, dob: dob.text, ccolor: coatcolor.text,
                         smark: specialmark.text, pdate: pdate.text, pnumber:
-                        pnumber.text, mnumber: mnumber.text, lnumber: lifenumber.text);
+                        pnumber.text, mnumber: mnumber.text, lnumber: lifenumber.text,weights: weiightHistory);
                     EasyLoading.showToast('Horse data has been updated.',toastPosition: EasyLoadingToastPosition.bottom);
 
                     if(widget.data.length>0 && widget.pageType==HorseEditType.AddHorse){
-                      name.text = widget.data[1];
-                      pdate.text = widget.data[4];
-                      weiightHistory.add(widget.data[5]);
+                      Navigator.pushAndRemoveUntil(
+                          context,
+                          MaterialPageRoute(builder: (BuildContext context) => Dashboard()),
+                          ModalRoute.withName('/'));
+                          Get.to(HorseList());
                     } else if(widget.pageType==HorseEditType.EditHorse){
                       Navigator.pop(context);
 
@@ -225,7 +231,23 @@ class _AddHorseState extends State<AddHorse> {
           TextFieldApp(hintText: 'Microchip Number',hintTitle: '123*****',controller: mnumber,),
           SizedBox(height: 10,),
           TextFieldApp(hintText: 'Life Number',hintTitle: '123*****',controller: lifenumber,),
-
+          SizedBox(height: 10,),
+          Text(' Weights History',style: TextStyle(fontWeight: FontWeight.bold,color: LIGHT_BUTTON_COLOR),),
+          SizedBox(height: 10,),
+          ListView.builder(
+              itemCount: weiightHistory.length,
+              shrinkWrap: true,
+              physics: NeverScrollableScrollPhysics(),
+              itemBuilder: (BuildContext context,int index){
+                return ListTile(
+                    leading: Icon(Icons.line_weight),
+                    trailing: Text(weiightHistory[index],
+                      style: TextStyle(
+                          color: Colors.green,fontSize: 15),),
+                    title:Text("Weight")
+                );
+              }
+          ),
         ],
       ),
     );
