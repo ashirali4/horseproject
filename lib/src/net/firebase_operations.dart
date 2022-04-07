@@ -59,12 +59,15 @@ class FirebaseDB {
     required String pnumber,
     required String mnumber,
     required String lnumber,
+    required String height,
     required List<dynamic> weights,
+    required List<dynamic> weightsdDates,
+    required String weightid,
   }) async {
 
     String status='Failed to Save Horse';
     DocumentReference documentReferencer =
-    horsescol.doc(FirebaseAuth.instance.currentUser!.uid).collection('horses').doc(name);
+    horsescol.doc(FirebaseAuth.instance.currentUser!.uid).collection('horses').doc(weightid);
 
     Map<String, dynamic> data = <String, dynamic>{
       "name": name,
@@ -77,12 +80,32 @@ class FirebaseDB {
       "pnumber" : pnumber,
       "mnumber" : mnumber,
       "lnumber" : lnumber,
-      "whistory" : weights
+      "whistory" : weights,
+      "height" : height,
+      "wdates" : weightsdDates
     };
 
     await documentReferencer
         .set(data)
         .whenComplete(() => status='Save Horse Successfully')
+        .catchError((e) => status=e.toString());
+    return status;
+  }
+
+
+
+  static Future<String> deleteHorse({
+    required String weightid,
+  }) async {
+
+    String status='Failed to delete Horse';
+    DocumentReference documentReferencer =
+    horsescol.doc(FirebaseAuth.instance.currentUser!.uid).collection('horses').doc(weightid);
+
+
+    await documentReferencer
+        .delete()
+        .whenComplete(() => status='Deleted Horse Successfully')
         .catchError((e) => status=e.toString());
     return status;
   }
@@ -523,6 +546,8 @@ class FirebaseDB {
         'mnumber' : a['mnumber'] ?? '',
         'lnumber' : a['lnumber'] ?? '',
         'whistory' : a['whistory'] ?? [],
+        'height' : a['height'] ?? '',
+        'wdates' : a['wdates'] ?? [],
       };
     }catch(e){
       print("ERROR" +e.toString());

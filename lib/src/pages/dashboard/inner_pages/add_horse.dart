@@ -44,6 +44,7 @@ class _AddHorseState extends State<AddHorse> {
     }
   }
 
+  TextEditingController weightId=TextEditingController();
   TextEditingController name=TextEditingController();
   TextEditingController race=TextEditingController();
   TextEditingController dob=TextEditingController();
@@ -53,32 +54,42 @@ class _AddHorseState extends State<AddHorse> {
   TextEditingController pnumber=TextEditingController();
   TextEditingController mnumber=TextEditingController();
   TextEditingController lifenumber=TextEditingController();
+  TextEditingController horseHeight=TextEditingController();
+
+
   List<dynamic> weiightHistory = [];
+  List<dynamic> weightsdates = [];
+
+
   String gender='Mare';
   var data;
   @override
   void initState()  {
     //getHorsedast();
-    getHorseDetails();
+    if(widget.pageType!=HorseEditType.SimpleAddHorse){
+     getHorseDetails();
+    }
     // TODO: implement initState
     super.initState();
   }
 
   getHorseDetails() async {
     if(widget.data.length>0 && widget.pageType==HorseEditType.AddHorse){
-      bool docExists = await FirebaseDB.checkIfDocExists(widget.data[1]);
-
+      bool docExists = await FirebaseDB.checkIfDocExists(widget.data[5]);
       print("Docc ESXIT" + docExists.toString());
       if(docExists){
-        await getHorsedast(widget.data[1]);
-        weiightHistory.add(widget.data[5]);
+        await getHorsedast(widget.data[5],widget.data[5]);
+        weiightHistory.add(widget.data[2]);
+        weightsdates.add(widget.data[4]);
       }else{
+        weightId.text = widget.data[5];
         name.text = widget.data[1];
-        pdate.text = widget.data[4];
-        weiightHistory.add(widget.data[5]);
+        horseHeight.text= widget.data[3];
+        weiightHistory.add(widget.data[2]);
+        weightsdates.add(widget.data[4]);
       }
     } else if(widget.pageType==HorseEditType.EditHorse){
-      getHorsedast(widget.data[0]);
+      getHorsedast(widget.data[0],widget.data[0]);
     }
 
     setState(() {
@@ -87,11 +98,12 @@ class _AddHorseState extends State<AddHorse> {
   }
 
 
-  getHorsedast(String nametofetch) async {
+  getHorsedast(String nametofetch,String weightid) async {
    try{
      data=await FirebaseDB.gethorseData(nametofetch);
      var mydata=jsonDecode(data);
      setState(() {
+       weightId.text = weightid;
        name.text=mydata['name']??'';
        race.text=mydata['race']??'';
        dob.text=mydata['dob']??'';
@@ -101,7 +113,10 @@ class _AddHorseState extends State<AddHorse> {
        pnumber.text=mydata['pnumber']??'';
        mnumber.text=mydata['mnumber']??'';
        lifenumber.text=mydata['lnumber']??'';
+       horseHeight.text = mydata['lnumber']??'';
        weiightHistory = mydata['whistory'] ?? [];
+       weightsdates = mydata['wdates'] ?? [];
+
      });
    } catch(e){
      print("Erorr " + e.toString());
@@ -134,10 +149,11 @@ class _AddHorseState extends State<AddHorse> {
                   width: MediaQuery.of(context).size.width,
                   child: ButtonRound(buttonText: 'Save Horse', function:  () async {
 
-                    await FirebaseDB.saveHorse(name: name.text, gender: gender,
+                    await FirebaseDB.saveHorse(weightid: weightId.text ,name: name.text, gender: gender,
                         race: race.text, dob: dob.text, ccolor: coatcolor.text,
                         smark: specialmark.text, pdate: pdate.text, pnumber:
-                        pnumber.text, mnumber: mnumber.text, lnumber: lifenumber.text,weights: weiightHistory);
+                        pnumber.text, mnumber: mnumber.text, lnumber: lifenumber.text,
+                        height : horseHeight.text,weights: weiightHistory,weightsdDates: weightsdates);
                     EasyLoading.showToast('Horse data has been updated.',toastPosition: EasyLoadingToastPosition.bottom);
 
                     if(widget.data.length>0 && widget.pageType==HorseEditType.AddHorse){
@@ -168,7 +184,9 @@ class _AddHorseState extends State<AddHorse> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SizedBox(height: 10,),
-          TextFieldApp(hintText: 'Name of Horse',hintTitle: 'Black Horse',controller: name,isEnabled: false,),
+          TextFieldApp(hintText: 'Weight ID',hintTitle: 'Weight ID',controller: weightId,isEnabled: widget.pageType==HorseEditType.SimpleAddHorse?true:false,),
+          SizedBox(height: 10,),
+          TextFieldApp(hintText: 'Name of Horse',hintTitle: 'Black Horse',controller: name,),
           SizedBox(height: 10,),
           Text(' Gender',style: TextStyle(fontWeight: FontWeight.bold,color: LIGHT_BUTTON_COLOR),),
           SizedBox(height: 10,),
@@ -218,6 +236,8 @@ class _AddHorseState extends State<AddHorse> {
           SizedBox(height: 10,),
           TextFieldApp(hintText: 'Special Mark',hintTitle: 'Mark',controller: specialmark,),
           SizedBox(height: 10,),
+          TextFieldApp(hintText: 'Horse Height',hintTitle: 'Horse Height',controller: horseHeight,),
+          SizedBox(height: 10,),
           TextFieldApp(hintText: 'Pruchasing Date',hintTitle: 'dd/mm/yyyy',controller: pdate,
             endingWidget: IconButton(
                 icon: Icon(Icons.date_range),
@@ -244,7 +264,7 @@ class _AddHorseState extends State<AddHorse> {
                     trailing: Text(weiightHistory[index],
                       style: TextStyle(
                           color: Colors.green,fontSize: 15),),
-                    title:Text("Weight")
+                    title:Text(weightsdates[index].toString())
                 );
               }
           ),
