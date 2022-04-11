@@ -1,5 +1,6 @@
 enum HorseEditType{
   AddHorse,
   EditHorse,
-  EditHorsewithQr
+  EditHorsewithQr,
+  SimpleAddHorse
 }

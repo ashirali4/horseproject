@@ -48,40 +48,57 @@ class _SignInState extends State<SignIn> {
   }
 
   Widget Elements(EmailFlowController controller){
-    return Container(
-      child: Container(
-        margin: EdgeInsets.only(left: 35,right: 35,),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            SizedBox(height: 20,),
-            Image.asset('assets/introLogo.png'),
-            SizedBox(height: 60,),
-            TextFieldApp(hintText: 'Email',hintTitle: 'johndoe@mail.com',controller: emailCtrl,),
-            SizedBox(height: 15,),
-            TextFieldApp(hintText: 'Password',hintTitle: '*********',controller: passwordCtrl,obsecure: true,),
-            SizedBox(height: 40,),
-            Container(
-                width: 270,
-                child: ButtonRound(buttonText: 'Sign In', function:  (){
-                  FocusScope.of(context).unfocus();
-                  if(emailCtrl.text!=null && emailCtrl.text!='' && passwordCtrl.text!=null && passwordCtrl.text!=''){
-                    controller.setEmailAndPassword(
-                      emailCtrl.text,
-                      passwordCtrl.text,
-                    );
-                  }else{
-                    EasyLoading.showToast('Please enter Email & Password',toastPosition: EasyLoadingToastPosition.bottom);
-                  }
-                },)),
-            SizedBox(height: 30,),
-            OrLoginWith(),
-            SizedBox(height: 110,),
-            Container(
-                width: 280,
-                height: 50,
-                child: ButtonRoundGoogle(buttonText: 'Continue with Google',buttonColor: Colors.white,textColor: LIGHT_BUTTON_COLOR,)),
-          ],
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('    Register',style: TextStyle(fontWeight: FontWeight.bold,color: Colors.black),),
+        elevation: 0,
+        leading: InkWell(
+          onTap: (){
+            Navigator.pop(context);
+          },
+          child: Icon(
+            Icons.arrow_back,
+            color: Colors.black,
+          ),
+        ),
+        backgroundColor: Colors.transparent,
+      ),
+      body: Container(
+        child: Container(
+          margin: EdgeInsets.only(left: 35,right: 35,),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SizedBox(height: 20,),
+              Image.asset('assets/introLogo.png'),
+              SizedBox(height: 60,),
+              TextFieldApp(hintText: 'Email',hintTitle: 'johndoe@mail.com',controller: emailCtrl,),
+              SizedBox(height: 15,),
+              TextFieldApp(hintText: 'Password',hintTitle: '*********',controller: passwordCtrl,obsecure: true,),
+              SizedBox(height: 40,),
+              Container(
+                  width: 270,
+                  child: ButtonRound(buttonText: 'Sign In', function:  (){
+                    FocusScope.of(context).unfocus();
+                    if(emailCtrl.text!=null && emailCtrl.text!='' && passwordCtrl.text!=null && passwordCtrl.text!=''){
+                      controller.setEmailAndPassword(
+                        emailCtrl.text,
+                        passwordCtrl.text,
+                      );
+                    }else{
+                      EasyLoading.showToast('Please enter Email & Password',toastPosition: EasyLoadingToastPosition.bottom);
+                    }
+                  },)),
+              SizedBox(height: 30,),
+            //  OrLoginWith(),
+              SizedBox(height: 110,),
+
+            //   Container(
+            //       width: 280,
+            //       height: 50,
+            //       child: ButtonRoundGoogle(buttonText: 'Continue with Google',buttonColor: Colors.white,textColor: LIGHT_BUTTON_COLOR,)),
+             ],
+          ),
         ),
       ),
     );

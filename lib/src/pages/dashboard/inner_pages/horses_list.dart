@@ -6,6 +6,7 @@ import 'package:flutterfire_ui/firestore.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:horseproject/src/pages/others/qr_page.dart';
 
+import '../../../net/firebase_operations.dart';
 import '../../../utlis/constants.dart';
 import '../../../utlis/enums.dart';
 import 'add_horse.dart';
@@ -20,7 +21,45 @@ class _HorseListState extends State<HorseList> {
   var usersQuery = FirebaseFirestore.instance
       .collection('users').doc(FirebaseAuth.instance.currentUser!.uid).collection('horses');
 
+
   TextEditingController search = TextEditingController();
+
+
+  showAlertDialog(BuildContext context,String id) {
+
+    // set up the buttons
+    Widget cancelButton = TextButton(
+      child: Text("Cancel"),
+      onPressed:  () {
+        Navigator.pop(context);
+      },
+    );
+    Widget continueButton = TextButton(
+      child: Text("Delete"),
+      onPressed:  () {
+        FirebaseDB.deleteHorse(weightid: id);
+        Navigator.pop(context);
+      },
+    );
+
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: Text("Delete Horse?"),
+      content: Text("Are you sure you want to delete horse?"),
+      actions: [
+        cancelButton,
+        continueButton,
+      ],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +81,7 @@ class _HorseListState extends State<HorseList> {
         onPressed: () {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) =>  QRScan()),
+            MaterialPageRoute(builder: (context) =>  AddHorse(data: [], pageType: HorseEditType.SimpleAddHorse)),
           );
         },
         label: const Text('Add Horse'),
@@ -58,7 +97,7 @@ class _HorseListState extends State<HorseList> {
         Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (BuildContext context) => AddHorse(data: [user['name']], pageType: HorseEditType.EditHorse)));
+                builder: (BuildContext context) => AddHorse(data: [id], pageType: HorseEditType.EditHorse)));
       },
       child: Container(
         margin: EdgeInsets.only(bottom: 10),
@@ -108,7 +147,7 @@ class _HorseListState extends State<HorseList> {
                                       height: 05,
                                     ),
                                     Text(
-                                     "Purchased: "+ user['pdate'],
+                                     "Weigh ID: "+ id.toString(),
                                       style: GoogleFonts.raleway(
                                         fontSize: 15,
                                         color: Colors.black,
@@ -126,6 +165,9 @@ class _HorseListState extends State<HorseList> {
                     ],
                   ),
                 ),
+                IconButton(onPressed: (){
+                  showAlertDialog(context,id);
+                }, icon: Icon(Icons.delete))
               ],
             )),
       ),

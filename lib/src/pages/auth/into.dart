@@ -46,12 +46,13 @@ class _IntroMobileAppState extends State<IntroMobileApp> {
             SizedBox(height: 80,),
             IntroButtons(),
             SizedBox(height: 40,),
-            OrLoginWith(),
+        //    OrLoginWith(),
             SizedBox(height: 130,),
-            Container(
-                width: 280,
-                height: 50,
-                child: ButtonRoundGoogle(buttonText: 'Continue with Google',buttonColor: Colors.white,textColor: LIGHT_BUTTON_COLOR,)),
+            // Container(
+            //     width: 280,
+            //     height: 50,
+            //     child: ButtonRoundGoogle(buttonText: 'Continue with Google',buttonColor: Colors.white,textColor: LIGHT_BUTTON_COLOR,)),
+            //
           ],
         ),
       ),
