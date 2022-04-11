@@ -4,6 +4,7 @@ import 'package:horseproject/src/pages/dashboard/inner_pages/contacts.dart';
 import 'package:horseproject/src/pages/dashboard/inner_pages/edit_profile.dart';
 import 'package:horseproject/src/pages/dashboard/inner_pages/health.dart';
 import 'package:horseproject/src/pages/dashboard/inner_pages/insurance.dart';
+import 'package:horseproject/src/utlis/enums.dart';
 
 import '../pages/dashboard/inner_pages/bodyvalue.dart';
 import '../pages/dashboard/inner_pages/diary.dart';
@@ -22,24 +23,24 @@ List<DashboardIcons> Dashboard_Icons_List=[
     Get.to(EditProfile());
   }),
   DashboardIcons('Horse', 'assets/horse.png',(){
-    Get.to(HorseList());
+    Get.to(HorseList(type: ListType.Horse,));
   }),
   DashboardIcons('Diary', 'assets/diary.png',(){
     Get.to(DiaryHorse());
   }),
-  DashboardIcons('Contacts', 'assets/contacts.png',(){
-    Get.to(ContactHorse());
-  }),
+  // DashboardIcons('Contacts', 'assets/contacts.png',(){
+  //   Get.to(ContactHorse());
+  // }),
   DashboardIcons('Health', 'assets/health.png',(){
-    Get.to(Health());
+    Get.to(HorseList(type: ListType.Health,));
   }),
   DashboardIcons('Insurance', 'assets/insurance.png',(){
-    Get.to(Insurance());
+    Get.to(HorseList(type: ListType.Insurance,));
   }),
-  DashboardIcons('Calenar', 'assets/calendar.png',(){
-    Get.to(CalendarValue());
-  }),
-  DashboardIcons('Body Value', 'assets/heart.png',(){
-    Get.to(BodyValue());
-  }),
+  // DashboardIcons('Calenar', 'assets/calendar.png',(){
+  //   Get.to(CalendarValue());
+  // }),
+  // DashboardIcons('Body Value', 'assets/heart.png',(){
+  //   Get.to(BodyValue());
+  // }),
 ];

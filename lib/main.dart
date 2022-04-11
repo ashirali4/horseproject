@@ -4,7 +4,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:horseproject/src/pages/auth/into.dart';
+import 'package:horseproject/src/pages/auth/login.dart';
 import 'package:horseproject/src/pages/dashboard/dashboard.dart';
+import 'package:horseproject/src/utlis/constants.dart';
+import 'package:horseproject/src/widgets/button_round.dart';
+import 'package:horseproject/src/widgets/privacy.dart';
+import 'package:intl/intl.dart';
+
+
+
+final DateFormat formatter = DateFormat('dd-MM-yyyy');
+
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -29,3 +39,5 @@ class MyApp extends StatelessWidget {
     );
   }
 }
+
+

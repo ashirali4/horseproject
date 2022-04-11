@@ -21,7 +21,7 @@ class SingleCircle extends StatelessWidget {
         child: Column(
           children: [
             Container(
-              height: 70,
+              height: 78,
               padding: EdgeInsets.all(25),
               //color: Colors.red,
               child: Center(child: Image.asset(txt)),
@@ -35,7 +35,7 @@ class SingleCircle extends StatelessWidget {
             ),
             Text(
               txt2,
-              style: TextStyle(color: Colors.white, fontSize: 10),
+              style: TextStyle(color: Colors.white, fontSize: 14),
             ),
             SizedBox(
               height: 05,

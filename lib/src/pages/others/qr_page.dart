@@ -18,6 +18,7 @@ class _QRScanState extends State<QRScan> {
   final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
   Barcode? result;
   QRViewController? controller;
+  int value=0;
 
   @override
   Widget build(BuildContext context) {
@@ -67,7 +68,10 @@ class _QRScanState extends State<QRScan> {
     this.controller = controller;
     controller.scannedDataStream.listen((scanData) {
       if(scanData.code!.contains(':')){
-        Navigator.of(context).push(MaterialPageRoute(builder: (context) => AddHorse(data: scanData.code!.split(":"),pageType: HorseEditType.AddHorse,)));
+        if(value==0){
+          Navigator.of(context).push(MaterialPageRoute(builder: (context) => AddHorse(data: scanData.code!.split(":"),pageType: HorseEditType.AddHorse,)));
+          value++;
+        }
       }
     });
   }

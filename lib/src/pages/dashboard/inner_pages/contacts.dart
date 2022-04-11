@@ -167,6 +167,7 @@ class _ContactHorseState extends State<ContactHorse> {
             hintText: 'Name',
             hintTitle: 'Name of Insurer',
             controller: controller1,
+              type: TextInputType.text
           ),
           SizedBox(
             height: 10,
@@ -175,6 +176,7 @@ class _ContactHorseState extends State<ContactHorse> {
             hintText: 'Address',
             hintTitle: 'Address here',
             controller: controller2,
+              type: TextInputType.text
           ),
           SizedBox(
             height: 10,
@@ -191,6 +193,7 @@ class _ContactHorseState extends State<ContactHorse> {
                 }
               },
             ),
+              type: TextInputType.phone
           ),
           SizedBox(
             height: 10,
@@ -207,6 +210,7 @@ class _ContactHorseState extends State<ContactHorse> {
                 }
               },
             ),
+              type: TextInputType.emailAddress
           ),
           SizedBox(
             height: 10,

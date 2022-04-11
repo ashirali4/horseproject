@@ -8,7 +8,8 @@ import '../../../widgets/calendar_theme.dart';
 import '../../../widgets/textfield.dart';
 
 class Health extends StatefulWidget {
-  const Health({Key? key}) : super(key: key);
+  final String horseID;
+  const Health({Key? key,required this.horseID}) : super(key: key);
 
   @override
   _HealthState createState() => _HealthState();
@@ -48,13 +49,13 @@ class _HealthState extends State<Health> {
     dataDate.forEach((key, value) {
       data[key]=value;
     });
-    await FirebaseDB.savedata(data: data,type: 'health');
+    await FirebaseDB.savedataNew(data: data,type: 'health',horseId: widget.horseID);
     EasyLoading.showToast('Health data has been updated.',toastPosition: EasyLoadingToastPosition.bottom);
   }
 
   onGetData() async {
     try{
-      var data= await FirebaseDB.getDataMap('health');
+      var data= await FirebaseDB.getDataMapNew('health',widget.horseID);
       dataDate.forEach((key, value) {
         dataDate[key]=data[key];
       });
@@ -91,6 +92,8 @@ class _HealthState extends State<Health> {
 
   @override
   void initState() {
+    name.text=widget.horseID;
+
     onGetData();
     // TODO: implement initState
     super.initState();
@@ -151,6 +154,8 @@ class _HealthState extends State<Health> {
             hintText: 'Name of Horse',
             hintTitle: 'Black Horse',
             controller: name,
+            type: TextInputType.text,
+            isEnabled: false,
           ),
           SizedBox(
             height: 10,
@@ -159,6 +164,7 @@ class _HealthState extends State<Health> {
             hintText: 'Alergiers',
             hintTitle: 'Name of Allergies',
             controller: alergies,
+              type: TextInputType.text
           ),
           SizedBox(
             height: 10,
@@ -167,6 +173,7 @@ class _HealthState extends State<Health> {
             hintText: 'Blood Type',
             hintTitle: 'Blood group',
             controller: btype,
+              type: TextInputType.text
           ),
           SizedBox(
             height: 10,
@@ -175,6 +182,7 @@ class _HealthState extends State<Health> {
             hintText: 'Medicine',
             hintTitle: 'Name of Medicine',
             controller: med,
+              type: TextInputType.text
           ),
           SizedBox(
             height: 10,

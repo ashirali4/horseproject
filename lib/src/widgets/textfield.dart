@@ -7,8 +7,9 @@ class TextFieldApp extends StatefulWidget {
   final bool obsecure;
   final Widget endingWidget;
   final bool isEnabled;
+  final TextInputType type;
   TextEditingController? controller=TextEditingController(text: '');
-  TextFieldApp({Key? key,required this.hintText,required this.hintTitle,this.controller,this.obsecure=false,this.endingWidget=const SizedBox(),this.isEnabled=true}) : super(key: key);
+  TextFieldApp({Key? key,required this.type,required this.hintText,required this.hintTitle,this.controller,this.obsecure=false,this.endingWidget=const SizedBox(),this.isEnabled=true}) : super(key: key);
 
   @override
   _TextFieldAppState createState() => _TextFieldAppState();
@@ -23,7 +24,7 @@ class _TextFieldAppState extends State<TextFieldApp> {
         children: [
           Text(' '+widget.hintText,style: TextStyle(fontWeight: FontWeight.bold,color: LIGHT_BUTTON_COLOR),),
           SizedBox(height: 10,),
-          SimpleTextField(hintText: widget.hintText,hintTitle: widget.hintTitle,controller: widget.controller!,isObsecure: widget.obsecure,endingWidget: widget.endingWidget,
+          SimpleTextField(type:widget.type,hintText: widget.hintText,hintTitle: widget.hintTitle,controller: widget.controller!,isObsecure: widget.obsecure,endingWidget: widget.endingWidget,
           isEnabled: widget.isEnabled,),
         ],
       ),
@@ -36,9 +37,10 @@ class SimpleTextField extends StatefulWidget {
   final String hintTitle;
   final Widget endingWidget;
   final bool isEnabled;
+  final TextInputType type;
   final TextEditingController controller;
   final bool isObsecure;
-  const SimpleTextField({Key? key,required this.hintText,required this.hintTitle,required this.controller,this.isObsecure=false,required this.endingWidget, this.isEnabled=true}) : super(key: key);
+  const SimpleTextField({Key? key,required this.type,required this.hintText,required this.hintTitle,required this.controller,this.isObsecure=false,required this.endingWidget, this.isEnabled=true}) : super(key: key);
 
   @override
   _SimpleTextFieldState createState() => _SimpleTextFieldState();
@@ -51,6 +53,7 @@ class _SimpleTextFieldState extends State<SimpleTextField> {
     return Container(
       height: 50,
       child: TextField(
+        keyboardType: widget.type,
         //enabled: widget.isEnabled,
         readOnly: !widget.isEnabled,
         obscureText: widget.isObsecure,
@@ -97,7 +100,7 @@ class _SimpleTextFieldState extends State<SimpleTextField> {
             ),
             filled: true,
             hintStyle: new TextStyle(color: Colors.grey[600]),
-            hintText: widget.hintTitle,
+           // hintText: widget.hintTitle,
             fillColor: Colors.white),
       ),
     );

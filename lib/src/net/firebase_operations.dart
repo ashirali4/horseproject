@@ -62,12 +62,12 @@ class FirebaseDB {
     required String height,
     required List<dynamic> weights,
     required List<dynamic> weightsdDates,
-    required String weightid,
+    required List<dynamic> weightsIDS,
   }) async {
 
     String status='Failed to Save Horse';
     DocumentReference documentReferencer =
-    horsescol.doc(FirebaseAuth.instance.currentUser!.uid).collection('horses').doc(weightid);
+    horsescol.doc(FirebaseAuth.instance.currentUser!.uid).collection('horses').doc(name);
 
     Map<String, dynamic> data = <String, dynamic>{
       "name": name,
@@ -82,7 +82,8 @@ class FirebaseDB {
       "lnumber" : lnumber,
       "whistory" : weights,
       "height" : height,
-      "wdates" : weightsdDates
+      "wdates" : weightsdDates,
+      "weightIDS" : weightsIDS
     };
 
     await documentReferencer
@@ -132,6 +133,27 @@ class FirebaseDB {
     return status;
   }
 
+
+  static Future<String> savedataNew({
+    required var data,
+    required String type,
+    required String horseId
+  }) async {
+
+    String status='Failed to Save Data';
+    try{
+      DocumentReference documentReferencer =
+      _firestore.collection('users').doc(FirebaseAuth.instance.currentUser!.uid).collection(type).doc(horseId);
+
+      await documentReferencer
+          .set(data)
+          .whenComplete(() => status='Save Data Successfully')
+          .catchError((e) => status=e.toString());
+    }catch(e){
+      print("Print - > "+status.toString());
+    }
+    return status;
+  }
 
   static Future<String> savedatatousers({
     required var data,
@@ -548,6 +570,7 @@ class FirebaseDB {
         'whistory' : a['whistory'] ?? [],
         'height' : a['height'] ?? '',
         'wdates' : a['wdates'] ?? [],
+        'weightIDS' : a['weightIDS'] ?? [],
       };
     }catch(e){
       print("ERROR" +e.toString());
@@ -561,6 +584,11 @@ class FirebaseDB {
     return data;
   }
 
+  static Future<dynamic> getDataMapNew(String type,String horseId) async {
+    var data= await FirebaseFirestore.instance
+        .collection('users').doc(FirebaseAuth.instance.currentUser!.uid).collection(type).doc(horseId).get();
+    return data;
+  }
 
 
   static Future<bool> checkIfDocExists(String docId) async {

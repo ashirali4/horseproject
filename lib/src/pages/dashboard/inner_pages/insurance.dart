@@ -6,7 +6,8 @@ import '../../../utlis/constants.dart';
 import '../../../widgets/button_round.dart';
 import '../../../widgets/textfield.dart';
 class Insurance extends StatefulWidget {
-  const Insurance({Key? key}) : super(key: key);
+  final String horseID;
+  const Insurance({Key? key,required this.horseID}) : super(key: key);
 
   @override
   _InsuranceState createState() => _InsuranceState();
@@ -54,16 +55,15 @@ class _InsuranceState extends State<Insurance> {
       "e3" : email3.text,
       "v3" : vern3.text
     };
-    await FirebaseDB.savedata(data: data,type: 'insurance');
+    await FirebaseDB.savedataNew(data: data,type: 'insurance',horseId: widget.horseID);
     EasyLoading.showToast('Insurance has been updated.',toastPosition: EasyLoadingToastPosition.bottom);
   }
 
 
   onGetData() async {
     try{
-      var data= await FirebaseDB.getDataMap('insurance');
+      var data= await FirebaseDB.getDataMapNew('insurance',widget.horseID);
       setState(() {
-        horse.text=data['horse'] ?? '';
         name.text=data['n1'] ?? '';
         address.text=data['a1'] ?? '';
         phone.text=data['p1'] ?? '';
@@ -89,6 +89,7 @@ class _InsuranceState extends State<Insurance> {
 
   @override
   void initState() {
+    horse.text=widget.horseID;
     onGetData();
     // TODO: implement initState
     super.initState();
@@ -112,7 +113,8 @@ class _InsuranceState extends State<Insurance> {
             children: [
               ImageWidget('Upload Photo/Video',Icons.camera_alt_outlined),
               SizedBox(height: 10,),
-              TextFieldApp(hintText: 'Name of Horse',hintTitle: 'Black Horse',controller: horse,),
+              TextFieldApp(hintText: 'Name of Horse',hintTitle: 'Black Horse',controller: horse,              type: TextInputType.text,  isEnabled: false,
+              ),
               SizedBox(height: 10,),
               OtherBody('Liability',name,address,phone,email,vern),
               SizedBox(height: 10,),
@@ -150,15 +152,20 @@ class _InsuranceState extends State<Insurance> {
           SizedBox(height: 10,),
           Text(text,style: TextStyle(fontSize: 20,fontWeight: FontWeight.w700),),
           SizedBox(height: 10,),
-          TextFieldApp(hintText: 'Name',hintTitle: 'Name of Insurer',controller: controller1,),
+          TextFieldApp(hintText: 'Name',hintTitle: 'Name of Insurer',controller: controller1,              type: TextInputType.text
+          ),
           SizedBox(height: 10,),
-          TextFieldApp(hintText: 'Address',hintTitle: 'Address here',controller: controller2,),
+          TextFieldApp(hintText: 'Address',hintTitle: 'Address here',controller: controller2,              type: TextInputType.text
+          ),
           SizedBox(height: 10,),
-          TextFieldApp(hintText: 'Phone Number',hintTitle: '+9823423423',controller: controller3,),
+          TextFieldApp(hintText: 'Phone Number',hintTitle: '+9823423423',controller: controller3,              type: TextInputType.phone
+          ),
           SizedBox(height: 10,),
-          TextFieldApp(hintText: 'Email',hintTitle: 'test@gmail.com',controller: controller4,),
+          TextFieldApp(hintText: 'Email',hintTitle: 'test@gmail.com',controller: controller4,              type: TextInputType.emailAddress
+          ),
           SizedBox(height: 10,),
-          TextFieldApp(hintText: 'Vers. Number',hintTitle: '123****',controller: controller5,),
+          TextFieldApp(hintText: 'Vers. Number',hintTitle: '123****',controller: controller5,              type: TextInputType.number
+          ),
           SizedBox(height: 10,),
           ImageWidget('Upload Documents',Icons.attach_file),
 

@@ -8,6 +8,7 @@ import 'package:horseproject/src/utlis/constants.dart';
 import '../../widgets/background_widget.dart';
 import '../../widgets/button_round.dart';
 import '../../widgets/or_login_with.dart';
+import '../../widgets/privacy.dart';
 import '../../widgets/textfield.dart';
 class SignIn extends StatefulWidget {
   const SignIn({Key? key}) : super(key: key);
@@ -63,7 +64,7 @@ class _SignInState extends State<SignIn> {
         ),
         backgroundColor: Colors.transparent,
       ),
-      body: Container(
+      body: SingleChildScrollView(
         child: Container(
           margin: EdgeInsets.only(left: 35,right: 35,),
           child: Column(
@@ -72,9 +73,12 @@ class _SignInState extends State<SignIn> {
               SizedBox(height: 20,),
               Image.asset('assets/introLogo.png'),
               SizedBox(height: 60,),
-              TextFieldApp(hintText: 'Email',hintTitle: 'johndoe@mail.com',controller: emailCtrl,),
+              TextFieldApp(hintText: 'Email',hintTitle: 'johndoe@mail.com',controller: emailCtrl,type: TextInputType.text,),
               SizedBox(height: 15,),
-              TextFieldApp(hintText: 'Password',hintTitle: '*********',controller: passwordCtrl,obsecure: true,),
+              TextFieldApp(hintText: 'Password',hintTitle: '*********',controller: passwordCtrl,obsecure: true,type: TextInputType.text),
+              SizedBox(height: 10,),
+              Text('Forgot Password?',style: TextStyle(fontWeight: FontWeight.bold,color: LIGHT_BUTTON_COLOR),),
+
               SizedBox(height: 40,),
               Container(
                   width: 270,
@@ -91,8 +95,7 @@ class _SignInState extends State<SignIn> {
                   },)),
               SizedBox(height: 30,),
             //  OrLoginWith(),
-              SizedBox(height: 110,),
-
+              PrivacyPolicy(),
             //   Container(
             //       width: 280,
             //       height: 50,

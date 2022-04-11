@@ -4,3 +4,11 @@ enum HorseEditType{
   EditHorsewithQr,
   SimpleAddHorse
 }
+
+
+enum ListType{
+  Horse,
+  Health,
+  Insurance,
+  Diary
+}

@@ -4,14 +4,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutterfire_ui/firestore.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:horseproject/src/pages/dashboard/inner_pages/insurance.dart';
 import 'package:horseproject/src/pages/others/qr_page.dart';
 
 import '../../../net/firebase_operations.dart';
 import '../../../utlis/constants.dart';
 import '../../../utlis/enums.dart';
 import 'add_horse.dart';
+import 'health.dart';
+
 class HorseList extends StatefulWidget {
-  const HorseList({Key? key}) : super(key: key);
+  final ListType type;
+  const HorseList({Key? key,required this.type}) : super(key: key);
 
   @override
   _HorseListState createState() => _HorseListState();
@@ -19,24 +23,24 @@ class HorseList extends StatefulWidget {
 
 class _HorseListState extends State<HorseList> {
   var usersQuery = FirebaseFirestore.instance
-      .collection('users').doc(FirebaseAuth.instance.currentUser!.uid).collection('horses');
-
+      .collection('users')
+      .doc(FirebaseAuth.instance.currentUser!.uid)
+      .collection('horses');
+  String ScafoldTitle = 'Your Horses';
 
   TextEditingController search = TextEditingController();
 
-
-  showAlertDialog(BuildContext context,String id) {
-
+  showAlertDialog(BuildContext context, String id) {
     // set up the buttons
     Widget cancelButton = TextButton(
       child: Text("Cancel"),
-      onPressed:  () {
+      onPressed: () {
         Navigator.pop(context);
       },
     );
     Widget continueButton = TextButton(
       child: Text("Delete"),
-      onPressed:  () {
+      onPressed: () {
         FirebaseDB.deleteHorse(weightid: id);
         Navigator.pop(context);
       },
@@ -62,42 +66,99 @@ class _HorseListState extends State<HorseList> {
   }
 
   @override
+  void initState() {
+    if(widget.type==ListType.Health){
+       ScafoldTitle = 'Horse Health';
+    }else if(widget.type==ListType.Insurance){
+       ScafoldTitle = 'Horses Insurance';
+    }
+    // TODO: implement initState
+    super.initState();
+  }
+  @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar:AppBar(
-        backgroundColor: BACKGROUND_COLOR_DASHBOARD,
-        shape: ContinuousRectangleBorder(
-            borderRadius: BorderRadius.only(
-                bottomLeft: Radius.circular(40), bottomRight: Radius.circular(40))),
-        title: Text('Your Horses'),
-        centerTitle: true,
-      ),
-      body: Container(
-        margin: EdgeInsets.only(top: 20, left: 20, right: 20),
-        child:  listViewBuilder(),
+    return Stack(
+      children: [
 
-      ),
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) =>  AddHorse(data: [], pageType: HorseEditType.SimpleAddHorse)),
-          );
-        },
-        label: const Text('Add Horse'),
-        icon: const Icon(Icons.add),
-        backgroundColor: BACKGROUND_COLOR_DASHBOARD,
-      ),
+        Container(
+          height: MediaQuery.of(context).size.height,
+          width: MediaQuery.of(context).size.width,
+          decoration: BoxDecoration(
+              image: DecorationImage(
+                  image: AssetImage("assets/riding.jpg"), fit: BoxFit.cover)),
+        ),
+        Container(
+          height: MediaQuery.of(context).size.height,
+          width: MediaQuery.of(context).size.width,
+          decoration: BoxDecoration(
+              color: Colors.white,
+              gradient: LinearGradient(
+                  begin: FractionalOffset.topCenter,
+                  end: FractionalOffset.bottomCenter,
+                  colors: [
+                    BACKGROUND_COLOR_DASHBOARD.withOpacity(.3),
+                    Colors.black,
+                  ],
+                  stops: [
+                    0.0,
+                    1.0
+                  ])),
+        ),
+        Scaffold(
+          backgroundColor: Colors.transparent,
+          appBar: AppBar(
+            backgroundColor: BACKGROUND_COLOR_DASHBOARD,
+            shape: ContinuousRectangleBorder(
+                borderRadius: BorderRadius.only(
+                    bottomLeft: Radius.circular(40),
+                    bottomRight: Radius.circular(40))),
+            title: Text(ScafoldTitle),
+            centerTitle: true,
+          ),
+          body: Container(
+            margin: EdgeInsets.only(top: 20, left: 20, right: 20),
+            child: listViewBuilder(),
+          ),
+          floatingActionButton: widget.type == ListType.Horse ? FloatingActionButton.extended(
+            onPressed: () {
+               Navigator.push(
+                 context,
+                 MaterialPageRoute(
+                     builder: (context) => AddHorse(
+                         data: [], pageType: HorseEditType.SimpleAddHorse)),
+               );
+            },
+            label: const Text('Add Horse'),
+            icon: const Icon(Icons.add),
+            backgroundColor: BACKGROUND_COLOR_DASHBOARD,
+          ) : SizedBox.shrink(),
+        )
+      ],
     );
   }
 
-  Widget StaticView(IconData icon, var user,String id) {
+  Widget StaticView(IconData icon, var user, String id) {
     return InkWell(
       onTap: () {
-        Navigator.push(
+        if(widget.type==ListType.Horse){
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (BuildContext context) => AddHorse(
+                      data: [user['name']], pageType: HorseEditType.EditHorse)));
+        }else if(widget.type==ListType.Health){
+          Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (BuildContext context) => AddHorse(data: [id], pageType: HorseEditType.EditHorse)));
+                builder: (context) => Health(horseID: user['name'],)),
+          );
+        }else if(widget.type==ListType.Insurance){
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => Insurance(horseID: user['name'],)),
+          );
+        }
       },
       child: Container(
         margin: EdgeInsets.only(bottom: 10),
@@ -114,7 +175,7 @@ class _HorseListState extends State<HorseList> {
             color: Colors.white),
         child: Padding(
             padding:
-            const EdgeInsets.only(left: 15, right: 15, top: 15, bottom: 15),
+                const EdgeInsets.only(left: 15, right: 15, top: 15, bottom: 15),
             child: Row(
               children: [
                 Expanded(
@@ -128,7 +189,12 @@ class _HorseListState extends State<HorseList> {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
-                                SvgPicture.asset("assets/horsep.svg",height: 40,width: 40,color: BACKGROUND_COLOR_DASHBOARD,),
+                                SvgPicture.asset(
+                                  "assets/horsep.svg",
+                                  height: 40,
+                                  width: 40,
+                                  color: BACKGROUND_COLOR_DASHBOARD,
+                                ),
                                 SizedBox(
                                   width: 20,
                                 ),
@@ -147,14 +213,13 @@ class _HorseListState extends State<HorseList> {
                                       height: 05,
                                     ),
                                     Text(
-                                     "Weigh ID: "+ id.toString(),
+                                      "Purchase Date : " + user['pdate'],
                                       style: GoogleFonts.raleway(
                                         fontSize: 15,
                                         color: Colors.black,
                                         fontWeight: FontWeight.w600,
                                       ),
                                     ),
-
                                   ],
                                 )
                               ],
@@ -165,9 +230,11 @@ class _HorseListState extends State<HorseList> {
                     ],
                   ),
                 ),
-                IconButton(onPressed: (){
-                  showAlertDialog(context,id);
-                }, icon: Icon(Icons.delete))
+               widget.type==ListType.Horse? IconButton(
+                   onPressed: () {
+                     showAlertDialog(context, id);
+                   },
+                   icon: Icon(Icons.delete)):SizedBox.shrink()
               ],
             )),
       ),
@@ -187,10 +254,8 @@ class _HorseListState extends State<HorseList> {
       itemBuilder: (context, snapshot) {
         Map<String, dynamic> user = snapshot.data();
         print("asd" + snapshot.toString());
-        return StaticView(Icons.edit, user,snapshot.id.toString());
+        return StaticView(Icons.edit, user, snapshot.id.toString());
       },
     );
   }
-
-
 }

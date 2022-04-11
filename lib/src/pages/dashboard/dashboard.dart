@@ -24,7 +24,7 @@ class Dashboard extends StatefulWidget {
 }
 
 class _DashboardState extends State<Dashboard> {
-  int length = 8;
+  int length = 5;
   double innerSpacingDivider = 10;
   double radiusOfItemDivider = 5;
   double centerWidgetRadiusDivider = 3;

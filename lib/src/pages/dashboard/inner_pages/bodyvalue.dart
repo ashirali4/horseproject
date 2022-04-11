@@ -61,13 +61,13 @@ class _BodyValueState extends State<BodyValue> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SizedBox(height: 10,),
-          TextFieldApp(hintText: 'Size(cm)',hintTitle: '170',controller: size,),
+          TextFieldApp(hintText: 'Size(cm)',hintTitle: '170',controller: size,type: TextInputType.text),
           SizedBox(height: 10,),
-          TextFieldApp(hintText: 'Weight (kg)',hintTitle: '450',controller: weght,),
+          TextFieldApp(hintText: 'Weight (kg)',hintTitle: '450',controller: weght,type: TextInputType.text),
           SizedBox(height: 10,),
-          TextFieldApp(hintText: 'Last Date',hintTitle: 'dd/mm/yy',controller: lastdate,),
+          TextFieldApp(hintText: 'Last Date',hintTitle: 'dd/mm/yy',controller: lastdate,type: TextInputType.text),
           SizedBox(height: 10,),
-          TextFieldApp(hintText: 'Next Date',hintTitle: 'dd/mm/yy',controller: nextdate,),
+          TextFieldApp(hintText: 'Next Date',hintTitle: 'dd/mm/yy',controller: nextdate,type: TextInputType.text),
           SizedBox(height: 10,),
 
 
