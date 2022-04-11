@@ -37,32 +37,33 @@ class _DashboardState extends State<Dashboard> {
   TextEditingController controller = TextEditingController();
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Container(
-        padding: EdgeInsets.only(left: 25, right: 25,top: 50),
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-              colors: [
-                BACKGROUND_COLOR_DASHBOARD,
-                Colors.black,
-              ],
-              begin: const FractionalOffset(0.0, 0.0),
-              end: const FractionalOffset(3.5, 1.0),
-              stops: [0.0, 1.0],
-              tileMode: TileMode.decal),
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            TopBar(),
-            SizedBox(height: 30,),
-            SimpleTextField(hintText: 'Email', hintTitle: 'Search',controller: controller,endingWidget: SizedBox.shrink(),),
-            SizedBox(height: 20,),
-            Text(' Categories',style: TextStyle(color: Colors.white,fontSize: 18,fontWeight: FontWeight.w700),),
-            SizedBox(height: 05,),
-            DashBoardCircle(),
-            FooterBox(),
-          ],
+    return Container(
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+            colors: [
+              BACKGROUND_COLOR_DASHBOARD,
+              Colors.black,
+            ],
+            begin: const FractionalOffset(0.0, 0.0),
+            end: const FractionalOffset(3.5, 1.0),
+            stops: [0.0, 1.0],
+            tileMode: TileMode.decal),
+      ),
+      child: SingleChildScrollView(
+        child: Container(
+          padding: EdgeInsets.only(left: 25, right: 25,top: 60),
+
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              TopBar(),
+              SizedBox(height: 30,),
+              Text(' Categories',style: TextStyle(color: Colors.white,fontSize: 18,fontWeight: FontWeight.w700),),
+              SizedBox(height: 05,),
+              DashBoardCircle(),
+              FooterBox(),
+            ],
+          ),
         ),
       ),
     );
@@ -97,7 +98,7 @@ class _DashboardState extends State<Dashboard> {
                   centerWidgetBuilder: (context) {
                     return Container(
                       margin: EdgeInsets.only(bottom: 30,left: 15,right: 15),
-                      child: Image.asset('assets/logodashboard.png'),
+                      child: Image.asset('assets/myapplogo.png'),
                     );
                   },
                 );

@@ -62,7 +62,7 @@ class _SignUpState extends State<SignUp> {
     return Scaffold(
       backgroundColor: Colors.transparent,
       appBar: AppBar(
-        title: Text('    Register',style: TextStyle(fontWeight: FontWeight.bold,color: Colors.black),),
+        title: Text('    Sign In',style: TextStyle(fontWeight: FontWeight.bold,color: Colors.black),),
         elevation: 0,
         leading: InkWell(
           onTap: (){
@@ -92,9 +92,9 @@ class _SignUpState extends State<SignUp> {
               SizedBox(height: 10,),
               TextFieldApp(hintText: 'Email',hintTitle: 'johndoe@mail.com',controller: emailCtrl,),
               SizedBox(height: 10,),
-              TextFieldApp(hintText: 'Password',hintTitle: '*********',controller: passwordCtrl,),
+              TextFieldApp(hintText: 'Password',hintTitle: '*********',controller: passwordCtrl,obsecure: true,),
               SizedBox(height: 10,),
-              TextFieldApp(hintText: 'Confirm Password',hintTitle: '*********',controller: confirmpassword,),
+              TextFieldApp(hintText: 'Confirm Password',hintTitle: '*********',controller: confirmpassword,obsecure: true,),
               SizedBox(height: 40,),
               Container(
                   width: 270,
