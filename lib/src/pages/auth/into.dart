@@ -22,7 +22,6 @@ class IntroMobileApp extends StatefulWidget {
 class _IntroMobileAppState extends State<IntroMobileApp> {
 
   void showCustomDialog() {
-    FirebaseAuth.instance.sendPasswordResetEmail(email: 'ashirali4444@gmail.com');
     showGeneralDialog(
       context: context,
       barrierLabel: "Barrier",

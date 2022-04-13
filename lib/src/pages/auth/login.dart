@@ -2,6 +2,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutterfire_ui/auth.dart';
+import 'package:get/get.dart';
+import 'package:horseproject/src/pages/auth/recovery_password.dart';
 import 'package:horseproject/src/pages/dashboard/dashboard.dart';
 import 'package:horseproject/src/utlis/constants.dart';
 
@@ -31,7 +33,7 @@ class _SignInState extends State<SignIn> {
           Navigator.pushReplacement(context, MaterialPageRoute(builder: (BuildContext context) => Dashboard()));
         }
         if (state is SigningIn){
-          EasyLoading.show(status: 'Warten Sie mal...');
+          EasyLoading.show(status: 'Please Wait...');
         }
         if (state is AuthFailed){
           final e = state.exception as FirebaseAuthException;
@@ -51,7 +53,7 @@ class _SignInState extends State<SignIn> {
   Widget Elements(EmailFlowController controller){
     return Scaffold(
       appBar: AppBar(
-        title: Text('    Anmelden',style: TextStyle(fontWeight: FontWeight.bold,color: Colors.black),),
+        title: Text('    Sign In',style: TextStyle(fontWeight: FontWeight.bold,color: Colors.black),),
         elevation: 0,
         leading: InkWell(
           onTap: (){
@@ -75,9 +77,13 @@ class _SignInState extends State<SignIn> {
               SizedBox(height: 60,),
               TextFieldApp(hintText: 'Email',hintTitle: 'johndoe@mail.com',controller: emailCtrl,type: TextInputType.text,),
               SizedBox(height: 15,),
-              TextFieldApp(hintText: 'Passwort',hintTitle: '*********',controller: passwordCtrl,obsecure: true,type: TextInputType.text),
+              TextFieldApp(hintText: 'Password',hintTitle: '*********',controller: passwordCtrl,obsecure: true,type: TextInputType.text),
               SizedBox(height: 10,),
-              Text('Passwort vergessen?',style: TextStyle(fontWeight: FontWeight.bold,color: LIGHT_BUTTON_COLOR),),
+              InkWell(
+                  onTap: (){
+                    Get.to(RecoverPassword());
+                  },
+                  child: const Text('Forgot Password?',style: TextStyle(fontWeight: FontWeight.bold,color: LIGHT_BUTTON_COLOR,fontSize: 15),)),
 
               SizedBox(height: 40,),
               Container(
@@ -90,7 +96,7 @@ class _SignInState extends State<SignIn> {
                         passwordCtrl.text,
                       );
                     }else{
-                      EasyLoading.showToast('Bitte E-Mail & Passwort eingeben',toastPosition: EasyLoadingToastPosition.bottom);
+                      EasyLoading.showToast('Please enter Email & Password',toastPosition: EasyLoadingToastPosition.bottom);
                     }
                   },)),
               SizedBox(height: 30,),
