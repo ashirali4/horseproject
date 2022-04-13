@@ -13,6 +13,7 @@ import '../../../utlis/enums.dart';
 import '../../../utlis/races.dart';
 import '../../../widgets/button_round.dart';
 import '../../../widgets/calendar_theme.dart';
+import '../../../widgets/image_widget.dart';
 import '../../../widgets/textfield.dart';
 import '../../others/qr_page.dart';
 import 'horses_list.dart';
@@ -188,10 +189,10 @@ class _AddHorseState extends State<AddHorse> {
           child: SingleChildScrollView(
             child: Column(
               children: [
-                ImageWidget('Foto/Video hochladen',Icons.camera_alt_outlined),
+                UploadImageWidget(text:'Foto/Video hochladen', icons: Icons.camera_alt_outlined,),
                 OtherBody(),
                 SizedBox(height: 0,),
-                ImageWidget('Dokumente hochladen',Icons.attachment),
+                ImageWidgetD('Dokumente hochladen',Icons.attachment),
                 SizedBox(height: 10,),
                 Container(
                     width: MediaQuery.of(context).size.width,
@@ -407,7 +408,7 @@ class _AddHorseState extends State<AddHorse> {
     );
   }
 
-  Widget ImageWidget(String text,IconData icons){
+  Widget ImageWidgetD(String text,IconData icons){
     return Container(
       height: 150,
       width: MediaQuery.of(context).size.width,
