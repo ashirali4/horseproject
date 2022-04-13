@@ -2,6 +2,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutterfire_ui/auth.dart';
+import 'package:get/get.dart';
+import 'package:horseproject/src/pages/auth/recovery_password.dart';
 import 'package:horseproject/src/pages/dashboard/dashboard.dart';
 import 'package:horseproject/src/utlis/constants.dart';
 
@@ -51,7 +53,7 @@ class _SignInState extends State<SignIn> {
   Widget Elements(EmailFlowController controller){
     return Scaffold(
       appBar: AppBar(
-        title: Text('    Register',style: TextStyle(fontWeight: FontWeight.bold,color: Colors.black),),
+        title: Text('    Sign In',style: TextStyle(fontWeight: FontWeight.bold,color: Colors.black),),
         elevation: 0,
         leading: InkWell(
           onTap: (){
@@ -77,7 +79,11 @@ class _SignInState extends State<SignIn> {
               SizedBox(height: 15,),
               TextFieldApp(hintText: 'Password',hintTitle: '*********',controller: passwordCtrl,obsecure: true,type: TextInputType.text),
               SizedBox(height: 10,),
-              Text('Forgot Password?',style: TextStyle(fontWeight: FontWeight.bold,color: LIGHT_BUTTON_COLOR),),
+              InkWell(
+                  onTap: (){
+                    Get.to(RecoverPassword());
+                  },
+                  child: const Text('Forgot Password?',style: TextStyle(fontWeight: FontWeight.bold,color: LIGHT_BUTTON_COLOR,fontSize: 15),)),
 
               SizedBox(height: 40,),
               Container(
