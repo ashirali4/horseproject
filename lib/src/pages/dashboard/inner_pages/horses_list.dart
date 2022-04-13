@@ -26,20 +26,20 @@ class _HorseListState extends State<HorseList> {
       .collection('users')
       .doc(FirebaseAuth.instance.currentUser!.uid)
       .collection('horses');
-  String ScafoldTitle = 'Your Horses';
+  String ScafoldTitle = 'Ihre Pferde';
 
   TextEditingController search = TextEditingController();
 
   showAlertDialog(BuildContext context, String id) {
     // set up the buttons
     Widget cancelButton = TextButton(
-      child: Text("Cancel"),
+      child: Text("Absagen"),
       onPressed: () {
         Navigator.pop(context);
       },
     );
     Widget continueButton = TextButton(
-      child: Text("Delete"),
+      child: Text("Löschen"),
       onPressed: () {
         FirebaseDB.deleteHorse(weightid: id);
         Navigator.pop(context);
@@ -68,7 +68,7 @@ class _HorseListState extends State<HorseList> {
   @override
   void initState() {
     if(widget.type==ListType.Health){
-       ScafoldTitle = 'Horse Health';
+       ScafoldTitle = 'Pferdegesundheit';
     }else if(widget.type==ListType.Insurance){
        ScafoldTitle = 'Horses Insurance';
     }

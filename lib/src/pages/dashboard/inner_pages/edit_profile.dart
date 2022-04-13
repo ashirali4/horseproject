@@ -58,7 +58,7 @@ class _EditProfileState extends State<EditProfile> {
       "zip" : zip.text,
     };
     await FirebaseDB.savedata(data: data,type: 'users');
-    EasyLoading.showToast('Profile has been updated.',toastPosition: EasyLoadingToastPosition.bottom);
+    EasyLoading.showToast('Profil wurde aktualisiert.',toastPosition: EasyLoadingToastPosition.bottom);
   }
 
   @override
@@ -69,7 +69,7 @@ class _EditProfileState extends State<EditProfile> {
         shape: ContinuousRectangleBorder(
             borderRadius: BorderRadius.only(
                 bottomLeft: Radius.circular(40), bottomRight: Radius.circular(40))),
-        title:Text('Owner'),
+        title:Text('Inhaberin'),
         centerTitle: true,
       ),
       body: Container(
@@ -82,9 +82,12 @@ class _EditProfileState extends State<EditProfile> {
               SizedBox(height: 30,),
               Container(
                   width: MediaQuery.of(context).size.width,
-                  child: ButtonRound(buttonText: 'Save Profile', function:  (){
+                  child: ButtonRound(buttonText: 'Profil speichern', function:  (){
                     onSave();
                   },)),
+              SizedBox(height: 10,),
+              SizedBox(height: 10,),
+              SizedBox(height: 10,),
             ],
           ),
         ),
@@ -99,13 +102,13 @@ class _EditProfileState extends State<EditProfile> {
         children: [
           Text(fname+' '+lname,style: TextStyle(fontWeight: FontWeight.bold,fontSize: 22),),
           SizedBox(height: 20,),
-          TextFieldApp(hintText: 'Street',hintTitle: '25 H1 Johar Town',controller: address,type: TextInputType.text),
+          TextFieldApp(hintText: 'Straße',hintTitle: '25 H1 Johar Town',controller: address,type: TextInputType.text),
           SizedBox(height: 10,),
-          TextFieldApp(hintText: 'Zip',hintTitle: '54000',controller: zip,type: TextInputType.text),
+          TextFieldApp(hintText: 'Reißverschluss',hintTitle: '54000',controller: zip,type: TextInputType.text),
           SizedBox(height: 10,),
-          TextFieldApp(hintText: 'Country',hintTitle: 'Russia',controller: country,type: TextInputType.text),
+          TextFieldApp(hintText: 'Land',hintTitle: 'Russia',controller: country,type: TextInputType.text),
           SizedBox(height: 10,),
-          TextFieldApp(hintText: 'Phone',hintTitle: '0900786001',controller: phone,type: TextInputType.phone),
+          TextFieldApp(hintText: 'Telefon',hintTitle: '0900786001',controller: phone,type: TextInputType.phone),
           SizedBox(height: 10,),
           TextFieldApp(hintText: 'Email',hintTitle: 'johndoe@mail.com',controller: email,type: TextInputType.emailAddress),
 

@@ -14,6 +14,7 @@ import '../../../utlis/races.dart';
 import '../../../widgets/button_round.dart';
 import '../../../widgets/calendar_theme.dart';
 import '../../../widgets/textfield.dart';
+import '../../others/qr_page.dart';
 import 'horses_list.dart';
 class AddHorse extends StatefulWidget {
   List<String> data;
@@ -131,21 +132,19 @@ class _AddHorseState extends State<AddHorse> {
   void onWeightAdd(){
     FocusScope.of(context).unfocus();
     if(weightDate==null || weightDate.text==""){
-      EasyLoading.showToast('Please Pick a Date.',toastPosition: EasyLoadingToastPosition.bottom);
-
-    }else if(weightId==null || weightId.text==""){
-      EasyLoading.showToast('Please Enter the Weight ID.',toastPosition: EasyLoadingToastPosition.bottom);
+      EasyLoading.showToast('Bitte wählen Sie ein Datum aus..',toastPosition: EasyLoadingToastPosition.bottom);
 
     }else if(weidghtText==null || weidghtText.text==""){
-      EasyLoading.showToast('Please Enter the Weight.',toastPosition: EasyLoadingToastPosition.bottom);
+      EasyLoading.showToast('Bitte geben Sie das Gewicht ein',toastPosition: EasyLoadingToastPosition.bottom);
     }else{
       setState(() {
         weiightHistory.add(weidghtText.text);
         weightsdates.add(weightDate.text);
-        weightsIds.add(weightId.text);
+        weightsIds.add('-');
         weidghtText.clear();
         weightDate.clear();
         weightId.clear();
+
       });
     }
   }
@@ -189,35 +188,39 @@ class _AddHorseState extends State<AddHorse> {
           child: SingleChildScrollView(
             child: Column(
               children: [
-                ImageWidget('Upload Photo/Video',Icons.camera_alt_outlined),
+                ImageWidget('Foto/Video hochladen',Icons.camera_alt_outlined),
                 OtherBody(),
                 SizedBox(height: 0,),
-                ImageWidget('Upload Documents',Icons.attachment),
+                ImageWidget('Dokumente hochladen',Icons.attachment),
                 SizedBox(height: 10,),
                 Container(
                     width: MediaQuery.of(context).size.width,
-                    child: ButtonRound(buttonText: 'Save Horse', function:  () async {
+                    child: ButtonRound(buttonText: 'Pferd retten', function:  () async {
+                     if(name==null || name.text==''){
+                       EasyLoading.showToast('Bitte geben Sie den Pferdenamen ein',toastPosition: EasyLoadingToastPosition.bottom);
+                     }else{
+                       await FirebaseDB.saveHorse(name: name.text, gender: gender,
+                           race: race.text, dob: dob.text, ccolor: coatcolor.text,
+                           smark: specialmark.text, pdate: pdate.text, pnumber:
+                           pnumber.text, mnumber: mnumber.text, lnumber: lifenumber.text,
+                           height : horseHeight.text,weights: weiightHistory,weightsdDates: weightsdates,weightsIDS: weightsIds);
+                       EasyLoading.showToast('Pferdedaten wurden gespeichert.',toastPosition: EasyLoadingToastPosition.bottom);
 
-                      await FirebaseDB.saveHorse(name: name.text, gender: gender,
-                          race: race.text, dob: dob.text, ccolor: coatcolor.text,
-                          smark: specialmark.text, pdate: pdate.text, pnumber:
-                          pnumber.text, mnumber: mnumber.text, lnumber: lifenumber.text,
-                          height : horseHeight.text,weights: weiightHistory,weightsdDates: weightsdates,weightsIDS: weightsIds);
-                      EasyLoading.showToast('Horse data has been Added.',toastPosition: EasyLoadingToastPosition.bottom);
+                       if(widget.data.length>0 && widget.pageType==HorseEditType.AddHorse){
+                         Navigator.pushAndRemoveUntil(
+                             context,
+                             MaterialPageRoute(builder: (BuildContext context) => Dashboard()),
+                             ModalRoute.withName('/'));
+                         Get.to(HorseList(type: ListType.Horse,));
+                       } else if(widget.pageType==HorseEditType.EditHorse){
+                         Navigator.pop(context);
 
-                      if(widget.data.length>0 && widget.pageType==HorseEditType.AddHorse){
-                        Navigator.pushAndRemoveUntil(
-                            context,
-                            MaterialPageRoute(builder: (BuildContext context) => Dashboard()),
-                            ModalRoute.withName('/'));
-                            Get.to(HorseList(type: ListType.Horse,));
-                      } else if(widget.pageType==HorseEditType.EditHorse){
-                        Navigator.pop(context);
+                       }else{
+                         Navigator.pop(context);
 
-                      }else{
-                        Navigator.pop(context);
+                       }
+                     }
 
-                      }
                     },)),
                 SizedBox(height:30,),
 
@@ -252,7 +255,7 @@ class _AddHorseState extends State<AddHorse> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(weightDate==null || weightDate.text==''? ' Choose Date' : weightDate.text,style: TextStyle(
+                  Text(weightDate==null || weightDate.text==''? ' Wählen Sie Datum' : weightDate.text,style: TextStyle(
                     color: Colors.black,
                     fontSize: 17,
                     fontWeight: FontWeight.bold
@@ -264,26 +267,39 @@ class _AddHorseState extends State<AddHorse> {
               ),
               Row(
                 children: [
-                  Expanded(child:  Container(
-                      child: TextFieldApp(hintText: 'Weight ID',hintTitle: 'Black Horse',controller: weightId,type: TextInputType.number)),),
-                  SizedBox(width: 05,),
-                  Expanded(child:  TextFieldApp(hintText: 'Weight',hintTitle: 'Black Horse',controller: weidghtText,type: TextInputType.number),)
+
+                  Expanded(child:  TextFieldApp(hintText: 'Gewicht',hintTitle: 'Black Horse',controller: weidghtText,type: TextInputType.number),)
                 ],
               ),
               SizedBox(height: 10,),
               Row(
-                mainAxisAlignment: MainAxisAlignment.end,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
+                  InkWell(
+                    onTap: (){
+                      Get.to(QRScan());
+                    },
+                    child: Container(
+                      height: 50,
+                      width: 50,
+                      decoration: BoxDecoration(
+                          color: Colors.red,
+                          borderRadius: BorderRadius.all(Radius.circular(100))
+                      ),
+                      child: Icon(Icons.qr_code_outlined,color: Colors.white,),
+                    ),
+                  ),
+                  Text('ODER',style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold),),
+
                   Container(
-                      height: 35,
-                      width: 120,
-                      child: ButtonRound(buttonText: 'Add Weight', function:  () async {
+                      width: 160,
+                      child: ButtonRound(buttonText: 'Gewicht hinzufügen', function:  () async {
                         onWeightAdd();
                       },)),
                 ],
               ),
-              SizedBox(height: 10,),
 
+              SizedBox(height: 15,),
             ],
           ),),
     );
@@ -295,7 +311,7 @@ class _AddHorseState extends State<AddHorse> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SizedBox(height: 10,),
-          TextFieldApp(hintText: 'Name of Horse',hintTitle: 'Black Horse',controller: name,type: TextInputType.text,isEnabled: widget.pageType==HorseEditType.EditHorse ? false: true,),
+          TextFieldApp(hintText: 'Name des Pferdes',hintTitle: 'Black Horse',controller: name,type: TextInputType.text,isEnabled: widget.pageType==HorseEditType.EditHorse ? false: true,),
           SizedBox(height: 10,),
           Text(' Geschlecht',style: TextStyle(fontWeight: FontWeight.bold,color: LIGHT_BUTTON_COLOR),),
           SizedBox(height: 10,),
@@ -317,7 +333,7 @@ class _AddHorseState extends State<AddHorse> {
             },
           ),
           SizedBox(height: 10,),
-          TextFieldApp(hintText: 'Race',hintTitle: 'Select Race',controller: race,type: TextInputType.text,
+          TextFieldApp(hintText: 'Wettrennen',hintTitle: 'Select Race',controller: race,type: TextInputType.text,
           endingWidget: DropdownButton<String>(
             items: racesList.map((String value) {
               return DropdownMenuItem<String>(
@@ -333,7 +349,7 @@ class _AddHorseState extends State<AddHorse> {
           ),
           ),
           SizedBox(height: 10,),
-          TextFieldApp(hintText: 'Date of Birth',hintTitle: 'dd/mm/yyyy',controller: dob,
+          TextFieldApp(hintText: 'Geburtsdatum',hintTitle: 'dd/mm/yyyy',controller: dob,
           endingWidget: IconButton(
             icon: Icon(Icons.date_range),
             onPressed: (){
@@ -343,13 +359,13 @@ class _AddHorseState extends State<AddHorse> {
               type: TextInputType.text
           ),
           SizedBox(height: 10,),
-          TextFieldApp(hintText: 'Coat Color',hintTitle: 'Red Color',controller: coatcolor,type: TextInputType.text),
+          TextFieldApp(hintText: 'Fellfarbe',hintTitle: 'Red Color',controller: coatcolor,type: TextInputType.text),
           SizedBox(height: 10,),
-          TextFieldApp(hintText: 'Special Mark',hintTitle: 'Mark',controller: specialmark,type: TextInputType.text),
+          TextFieldApp(hintText: 'Besonderes Zeichen',hintTitle: 'Mark',controller: specialmark,type: TextInputType.text),
           SizedBox(height: 10,),
-          TextFieldApp(hintText: 'Horse Height',hintTitle: 'Horse Height',controller: horseHeight,type: TextInputType.text),
+          TextFieldApp(hintText: 'Pferdehöhe',hintTitle: 'Horse Height',controller: horseHeight,type: TextInputType.text),
           SizedBox(height: 10,),
-          TextFieldApp(hintText: 'Pruchasing Date',hintTitle: 'dd/mm/yyyy',controller: pdate,
+          TextFieldApp(hintText: 'Kaufdatum',hintTitle: 'dd/mm/yyyy',controller: pdate,
             endingWidget: IconButton(
                 icon: Icon(Icons.date_range),
                 onPressed: (){
@@ -357,11 +373,11 @@ class _AddHorseState extends State<AddHorse> {
                 }
             ),type: TextInputType.text),
           SizedBox(height: 10,),
-          TextFieldApp(hintText: 'Passport Number',hintTitle: '123*****',controller: pnumber,type: TextInputType.number),
+          TextFieldApp(hintText: 'Ausweisnummer',hintTitle: '123*****',controller: pnumber,type: TextInputType.number),
           SizedBox(height: 10,),
-          TextFieldApp(hintText: 'Microchip Number',hintTitle: '123*****',controller: mnumber,type: TextInputType.number),
+          TextFieldApp(hintText: 'Mikrochip-Nummer',hintTitle: '123*****',controller: mnumber,type: TextInputType.number),
           SizedBox(height: 10,),
-          TextFieldApp(hintText: 'Life Number',hintTitle: '123*****',controller: lifenumber,type: TextInputType.number),
+          TextFieldApp(hintText: 'Lebensnummer',hintTitle: '123*****',controller: lifenumber,type: TextInputType.number),
           SizedBox(height: 10,),
           Text(' Gewichtshistorie',style: TextStyle(fontWeight: FontWeight.bold,color: LIGHT_BUTTON_COLOR),),
           SizedBox(height: 10,),

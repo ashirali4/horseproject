@@ -52,7 +52,7 @@ class _SignInState extends State<RecoverPassword> {
   Widget Elements(EmailFlowController controller){
     return Scaffold(
       appBar: AppBar(
-        title: Text('    Forgot Password',style: TextStyle(fontWeight: FontWeight.bold,color: Colors.black),),
+        title: Text('    Passwort vergessen',style: TextStyle(fontWeight: FontWeight.bold,color: Colors.black),),
         elevation: 0,
         leading: InkWell(
           onTap: (){
@@ -80,15 +80,15 @@ class _SignInState extends State<RecoverPassword> {
               SizedBox(height: 40,),
               Container(
                   width: 270,
-                  child: ButtonRound(buttonText: 'Reset Now', function:  (){
+                  child: ButtonRound(buttonText: 'Jetzt zurücksetzen', function:  (){
                     FocusScope.of(context).unfocus();
                     if(emailCtrl.text!=null && emailCtrl.text!='' ){
                       FirebaseAuth.instance.sendPasswordResetEmail(email:  emailCtrl.text);
                       emailCtrl.clear();
-                      EasyLoading.showToast('Please check your email for further instructions.',toastPosition: EasyLoadingToastPosition.bottom);
+                      EasyLoading.showToast('Bitte überprüfen Sie Ihre E-Mail für weitere Anweisungen.',toastPosition: EasyLoadingToastPosition.bottom);
 
                     }else{
-                      EasyLoading.showToast('Please enter registered Email',toastPosition: EasyLoadingToastPosition.bottom);
+                      EasyLoading.showToast('Bitte registrierte E-Mail eingeben',toastPosition: EasyLoadingToastPosition.bottom);
                     }
                   },)),
               SizedBox(height: 30,),

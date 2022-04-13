@@ -28,7 +28,7 @@ class _DiaryHorseState extends State<DiaryHorse> {
         shape: ContinuousRectangleBorder(
             borderRadius: BorderRadius.only(
                 bottomLeft: Radius.circular(40), bottomRight: Radius.circular(40))),
-        title: Text('Dairy'),
+        title: Text('Molkerei'),
         centerTitle: true,
       ),
       body: Container(
@@ -38,12 +38,14 @@ class _DiaryHorseState extends State<DiaryHorse> {
             children: [
               OtherBody(),
               SizedBox(height: 0,),
-              ImageWidget('Upload Photo/Video',Icons.camera_alt),
+              ImageWidget('Foto/Video hochladen',Icons.camera_alt),
               SizedBox(height: 10,),
               Container(
                   width: MediaQuery.of(context).size.width,
-                  child: ButtonRound(buttonText: 'Save', function:  (){},)),
-
+                  child: ButtonRound(buttonText: 'Speichern', function:  (){},)),
+              SizedBox(height: 10,),
+              SizedBox(height: 10,),
+              SizedBox(height: 10,),
             ],
           ),
         ),
@@ -59,15 +61,15 @@ class _DiaryHorseState extends State<DiaryHorse> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SizedBox(height: 10,),
-          TextFieldApp(hintText: 'Title',hintTitle: 'Enter the title',controller: title,type: TextInputType.text),
+          TextFieldApp(hintText: 'Titel',hintTitle: 'Enter the title',controller: title,type: TextInputType.text),
           SizedBox(height: 10,),
-          TextFieldApp(hintText: 'Start Date',hintTitle: 'dd/mm/yyyy',controller: startdate,type: TextInputType.text),
+          TextFieldApp(hintText: 'Startdatum',hintTitle: 'dd/mm/yyyy',controller: startdate,type: TextInputType.text),
           SizedBox(height: 10,),
-          TextFieldApp(hintText: 'End Date',hintTitle: 'dd/mm/yyyy',controller: enddate,type: TextInputType.text),
+          TextFieldApp(hintText: 'Endtermin',hintTitle: 'dd/mm/yyyy',controller: enddate,type: TextInputType.text),
           SizedBox(height: 10,),
-          TextFieldApp(hintText: 'Description',hintTitle: 'Enter message here',controller: descriptionm,type: TextInputType.text),
+          TextFieldApp(hintText: 'Beschreibung',hintTitle: 'Enter message here',controller: descriptionm,type: TextInputType.text),
           SizedBox(height: 10,),
-          Text(' Daily Weather',style: TextStyle(fontWeight: FontWeight.bold,color: LIGHT_BUTTON_COLOR),),
+          Text(' Tägliches Wetter',style: TextStyle(fontWeight: FontWeight.bold,color: LIGHT_BUTTON_COLOR),),
           SizedBox(height: 10,),
           ToggleSwitch(
             initialLabelIndex: 0,
@@ -80,7 +82,7 @@ class _DiaryHorseState extends State<DiaryHorse> {
             },
           ),
           SizedBox(height: 10,),
-          Text(' Horse Mood',style: TextStyle(fontWeight: FontWeight.bold,color: LIGHT_BUTTON_COLOR),),
+          Text(' Pferdestimmung',style: TextStyle(fontWeight: FontWeight.bold,color: LIGHT_BUTTON_COLOR),),
           SizedBox(height: 10,),
           Row(
             children: [
@@ -117,7 +119,7 @@ class _DiaryHorseState extends State<DiaryHorse> {
               ),
               Container(
                 width: 50,
-                child: Text('Schlecht'),
+                child: Text('sehr gut'),
               )
             ],
           )

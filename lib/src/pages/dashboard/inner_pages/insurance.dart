@@ -56,7 +56,7 @@ class _InsuranceState extends State<Insurance> {
       "v3" : vern3.text
     };
     await FirebaseDB.savedataNew(data: data,type: 'insurance',horseId: widget.horseID);
-    EasyLoading.showToast('Insurance has been updated.',toastPosition: EasyLoadingToastPosition.bottom);
+    EasyLoading.showToast('Versicherung wurde aktualisiert.',toastPosition: EasyLoadingToastPosition.bottom);
   }
 
 
@@ -103,7 +103,7 @@ class _InsuranceState extends State<Insurance> {
         shape: ContinuousRectangleBorder(
             borderRadius: BorderRadius.only(
                 bottomLeft: Radius.circular(40), bottomRight: Radius.circular(40))),
-        title: Text('Insurance'),
+        title: Text('Versicherung'),
         centerTitle: true,
       ),
       body: Container(
@@ -111,21 +111,21 @@ class _InsuranceState extends State<Insurance> {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              ImageWidget('Upload Photo/Video',Icons.camera_alt_outlined),
+              ImageWidget('Foto/Video hochladen',Icons.camera_alt_outlined),
               SizedBox(height: 10,),
-              TextFieldApp(hintText: 'Name of Horse',hintTitle: 'Black Horse',controller: horse,              type: TextInputType.text,  isEnabled: false,
+              TextFieldApp(hintText: 'Name des Pferdes',hintTitle: 'Black Horse',controller: horse,              type: TextInputType.text,  isEnabled: false,
               ),
               SizedBox(height: 10,),
-              OtherBody('Liability',name,address,phone,email,vern),
+              OtherBody('Haftung',name,address,phone,email,vern),
               SizedBox(height: 10,),
-              OtherBody('Health Insurance',name2,address2,phone2,email2,vern2),
+              OtherBody('Krankenversicherung',name2,address2,phone2,email2,vern2),
               SizedBox(height: 10,),
-              OtherBody('Surgical Insurance',name3,address3,phone3,email3,vern3),
+              OtherBody('Chirurgische Versicherung',name3,address3,phone3,email3,vern3),
               SizedBox(height: 10,),
 
               Container(
                   width: MediaQuery.of(context).size.width,
-                  child: ButtonRound(buttonText: 'Save', function:  (){
+                  child: ButtonRound(buttonText: 'Speichern', function:  (){
                     onSave();
                   },)),
               SizedBox(height: 30,),
@@ -155,19 +155,19 @@ class _InsuranceState extends State<Insurance> {
           TextFieldApp(hintText: 'Name',hintTitle: 'Name of Insurer',controller: controller1,              type: TextInputType.text
           ),
           SizedBox(height: 10,),
-          TextFieldApp(hintText: 'Address',hintTitle: 'Address here',controller: controller2,              type: TextInputType.text
+          TextFieldApp(hintText: 'Die Anschrift',hintTitle: 'Address here',controller: controller2,              type: TextInputType.text
           ),
           SizedBox(height: 10,),
-          TextFieldApp(hintText: 'Phone Number',hintTitle: '+9823423423',controller: controller3,              type: TextInputType.phone
+          TextFieldApp(hintText: 'Telefonnummer',hintTitle: '+9823423423',controller: controller3,              type: TextInputType.phone
           ),
           SizedBox(height: 10,),
           TextFieldApp(hintText: 'Email',hintTitle: 'test@gmail.com',controller: controller4,              type: TextInputType.emailAddress
           ),
           SizedBox(height: 10,),
-          TextFieldApp(hintText: 'Vers. Number',hintTitle: '123****',controller: controller5,              type: TextInputType.number
+          TextFieldApp(hintText: 'Vers. Anzahl',hintTitle: '123****',controller: controller5,              type: TextInputType.number
           ),
           SizedBox(height: 10,),
-          ImageWidget('Upload Documents',Icons.attach_file),
+          ImageWidget('Dokumente hochladen',Icons.attach_file),
 
         ],
       ),

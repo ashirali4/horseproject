@@ -50,7 +50,7 @@ class _HealthState extends State<Health> {
       data[key]=value;
     });
     await FirebaseDB.savedataNew(data: data,type: 'health',horseId: widget.horseID);
-    EasyLoading.showToast('Health data has been updated.',toastPosition: EasyLoadingToastPosition.bottom);
+    EasyLoading.showToast('Gesundheitsdaten wurden aktualisiert.',toastPosition: EasyLoadingToastPosition.bottom);
   }
 
   onGetData() async {
@@ -108,7 +108,7 @@ class _HealthState extends State<Health> {
             borderRadius: BorderRadius.only(
                 bottomLeft: Radius.circular(40),
                 bottomRight: Radius.circular(40))),
-        title: Text('Health'),
+        title: Text('Gesundheit'),
         centerTitle: true,
       ),
       body: Container(
@@ -116,18 +116,18 @@ class _HealthState extends State<Health> {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              ImageWidget('Upload Photo/Video', Icons.camera_alt_outlined),
+              ImageWidget('Foto/Video hochladen', Icons.camera_alt_outlined),
               SizedBox(
                 height: 10,
               ),
-              OtherBody('Liability'),
+              OtherBody('Haftung'),
               SizedBox(
                 height: 20,
               ),
               Container(
                   width: MediaQuery.of(context).size.width,
                   child: ButtonRound(
-                    buttonText: 'Save Health',
+                    buttonText: 'Gesundheit retten',
                     function: () {
                       onSave();
                     },
@@ -151,7 +151,7 @@ class _HealthState extends State<Health> {
             height: 10,
           ),
           TextFieldApp(
-            hintText: 'Name of Horse',
+            hintText: 'Name des Pferdes',
             hintTitle: 'Black Horse',
             controller: name,
             type: TextInputType.text,
@@ -161,7 +161,7 @@ class _HealthState extends State<Health> {
             height: 10,
           ),
           TextFieldApp(
-            hintText: 'Alergiers',
+            hintText: 'Allergiker',
             hintTitle: 'Name of Allergies',
             controller: alergies,
               type: TextInputType.text
@@ -170,7 +170,7 @@ class _HealthState extends State<Health> {
             height: 10,
           ),
           TextFieldApp(
-            hintText: 'Blood Type',
+            hintText: 'Blutgruppe',
             hintTitle: 'Blood group',
             controller: btype,
               type: TextInputType.text
@@ -179,7 +179,7 @@ class _HealthState extends State<Health> {
             height: 10,
           ),
           TextFieldApp(
-            hintText: 'Medicine',
+            hintText: 'Medizin',
             hintTitle: 'Name of Medicine',
             controller: med,
               type: TextInputType.text
@@ -188,7 +188,7 @@ class _HealthState extends State<Health> {
             height: 10,
           ),
           Text(
-            'Vaccination',
+            'Impfung',
             style: TextStyle(fontWeight: FontWeight.w600, fontSize: 20),
           ),
           healthDateBox('Equine Flu', 'equine_start_date', 'equine_last_date'),
@@ -263,14 +263,14 @@ class _HealthState extends State<Health> {
           Row(
             children: [
               Expanded(
-                  child: DateBox('Last Date', () {
+                  child: DateBox('Letztes Datum', () {
                 _selectDate(startDate.toString());
               }, startDate)),
               SizedBox(
                 width: 20,
               ),
               Expanded(
-                  child: DateBox('Next Date', () {
+                  child: DateBox('Nächstes Datum', () {
                 _selectDate(nextDate.toString());
               }, nextDate)),
             ],
