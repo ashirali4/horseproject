@@ -113,11 +113,11 @@ class _DiaryHorseState extends State<DiaryHorse> {
               Container(
                 margin: EdgeInsets.only(left: 20),
                 width: 50,
-                child: Text('Bad'),
+                child: Text('Schlecht'),
               ),
               Container(
                 width: 50,
-                child: Text('Super Good'),
+                child: Text('Schlecht'),
               )
             ],
           )

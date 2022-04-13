@@ -28,7 +28,7 @@ class _QRScanState extends State<QRScan> {
         shape: ContinuousRectangleBorder(
             borderRadius: BorderRadius.only(
                 bottomLeft: Radius.circular(40), bottomRight: Radius.circular(40))),
-        title: Text('Scan QR Code'),
+        title: Text('Scanne QR Code'),
         centerTitle: true,
       ),
       body: Container(
@@ -36,7 +36,7 @@ class _QRScanState extends State<QRScan> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text('Place qr code inside the frame to scan please avoid shake to get result quickly',style: TextStyle(fontWeight: FontWeight.w500,color: LIGHT_BUTTON_COLOR),textAlign: TextAlign.center,),
+            Text('Platzieren Sie den QR-Code zum Scannen in den Rahmen. ',style: TextStyle(fontWeight: FontWeight.w500,color: LIGHT_BUTTON_COLOR),textAlign: TextAlign.center,),
             SizedBox(height: 20,),
             Padding(
               padding: const EdgeInsets.all(20),

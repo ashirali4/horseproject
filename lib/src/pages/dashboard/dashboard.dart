@@ -58,7 +58,7 @@ class _DashboardState extends State<Dashboard> {
             children: [
               TopBar(),
               SizedBox(height: 30,),
-              Text(' Categories',style: TextStyle(color: Colors.white,fontSize: 18,fontWeight: FontWeight.w700),),
+              Text(' Kategorien',style: TextStyle(color: Colors.white,fontSize: 18,fontWeight: FontWeight.w700),),
               SizedBox(height: 05,),
               DashBoardCircle(),
               FooterBox(),

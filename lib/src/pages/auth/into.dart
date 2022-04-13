@@ -32,24 +32,28 @@ class _IntroMobileAppState extends State<IntroMobileApp> {
       pageBuilder: (_, __, ___) {
         return Center(
           child: Container(
-            height: 260,
+            height: 280,
             child: SizedBox.expand(child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text('We respect your privacy',style: TextStyle(fontWeight: FontWeight.bold,fontSize: 15),),
+                SizedBox(height: 20,),
+                Text('Wir respektieren deine Privatsphäre',style: TextStyle(fontWeight: FontWeight.bold,fontSize: 15),),
                 SizedBox(height: 10,),
-                Text('we use cookies to operate this App, Your privacy is important to us. we will never sell your data. ',style: TextStyle(fontWeight: FontWeight.w500),
-                  textAlign: TextAlign.center,),
+                Padding(
+                  padding: const EdgeInsets.only(left: 20,right: 20),
+                  child: Text('Um diese App zu betreiben verwenden wir Cookies. Ihre Privatsphäre ist uns wichtig und wir versichern Ihnen, dass wir Ihre Daten nur für notwendige Zwecke verwenden und nicht verkaufen.',style: TextStyle(fontWeight: FontWeight.w500),
+                    textAlign: TextAlign.center,),
+                ),
                 SizedBox(height: 05,),
                 PrivacyPolicy(),
                 Padding(
                   padding: const EdgeInsets.only(left: 20,right: 20,top: 25,bottom: 10),
                   child: Row(
                     children: [
-                      Expanded(child:  ButtonRound(buttonText: 'Reject Cookies', function:  (){ Navigator.pop(context);},),),
+                      Expanded(child:  ButtonRound(buttonText: 'Cookies ablehnen', function:  (){ Navigator.pop(context);},),),
                       SizedBox(width: 15,),
-                      Expanded(child:  ButtonRound(buttonText: 'Agree Cookies',buttonColor: Colors.blue,textColor: Colors.white, function:  (){
+                      Expanded(child:  ButtonRound(buttonText: 'Cookies zustimmen',buttonColor: Colors.blue,textColor: Colors.white, function:  (){
                         Navigator.pop(context);
                       },),)
                     ],
@@ -60,7 +64,7 @@ class _IntroMobileAppState extends State<IntroMobileApp> {
                   child: Row(
                     children: [
 
-                      Expanded(child:  ButtonRound(buttonText: 'Agree Data Protection',buttonColor: Colors.green,textColor: Colors.white, function:  (){
+                      Expanded(child:  ButtonRound(buttonText: 'Datenschutz zustimme',buttonColor: Colors.green,textColor: Colors.white, function:  (){
                         Navigator.pop(context);
                       },),)
                     ],
@@ -108,9 +112,9 @@ class _IntroMobileAppState extends State<IntroMobileApp> {
   Widget IntroButtons(){
     return Row(
       children: [
-        Expanded(child:  ButtonRound(buttonText: 'Sign In', function:  (){ Get.to(SignIn());},),),
+        Expanded(child:  ButtonRound(buttonText: 'Anmelden', function:  (){ Get.to(SignIn());},),),
         SizedBox(width: 15,),
-        Expanded(child:  ButtonRound(buttonText: 'Register',buttonColor: INTROBUTTONCOLOR,textColor: LIGHT_BUTTON_COLOR, function:  (){
+        Expanded(child:  ButtonRound(buttonText: 'Registrieren',buttonColor: INTROBUTTONCOLOR,textColor: LIGHT_BUTTON_COLOR, function:  (){
           Get.to(SignUp());
         },),)
       ],

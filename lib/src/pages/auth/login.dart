@@ -31,7 +31,7 @@ class _SignInState extends State<SignIn> {
           Navigator.pushReplacement(context, MaterialPageRoute(builder: (BuildContext context) => Dashboard()));
         }
         if (state is SigningIn){
-          EasyLoading.show(status: 'Please Wait...');
+          EasyLoading.show(status: 'Warten Sie mal...');
         }
         if (state is AuthFailed){
           final e = state.exception as FirebaseAuthException;
@@ -51,7 +51,7 @@ class _SignInState extends State<SignIn> {
   Widget Elements(EmailFlowController controller){
     return Scaffold(
       appBar: AppBar(
-        title: Text('    Register',style: TextStyle(fontWeight: FontWeight.bold,color: Colors.black),),
+        title: Text('    Anmelden',style: TextStyle(fontWeight: FontWeight.bold,color: Colors.black),),
         elevation: 0,
         leading: InkWell(
           onTap: (){
@@ -75,9 +75,9 @@ class _SignInState extends State<SignIn> {
               SizedBox(height: 60,),
               TextFieldApp(hintText: 'Email',hintTitle: 'johndoe@mail.com',controller: emailCtrl,type: TextInputType.text,),
               SizedBox(height: 15,),
-              TextFieldApp(hintText: 'Password',hintTitle: '*********',controller: passwordCtrl,obsecure: true,type: TextInputType.text),
+              TextFieldApp(hintText: 'Passwort',hintTitle: '*********',controller: passwordCtrl,obsecure: true,type: TextInputType.text),
               SizedBox(height: 10,),
-              Text('Forgot Password?',style: TextStyle(fontWeight: FontWeight.bold,color: LIGHT_BUTTON_COLOR),),
+              Text('Passwort vergessen?',style: TextStyle(fontWeight: FontWeight.bold,color: LIGHT_BUTTON_COLOR),),
 
               SizedBox(height: 40,),
               Container(
@@ -90,7 +90,7 @@ class _SignInState extends State<SignIn> {
                         passwordCtrl.text,
                       );
                     }else{
-                      EasyLoading.showToast('Please enter Email & Password',toastPosition: EasyLoadingToastPosition.bottom);
+                      EasyLoading.showToast('Bitte E-Mail & Passwort eingeben',toastPosition: EasyLoadingToastPosition.bottom);
                     }
                   },)),
               SizedBox(height: 30,),

@@ -25,7 +25,7 @@ class _BodyValueState extends State<BodyValue> {
         shape: ContinuousRectangleBorder(
             borderRadius: BorderRadius.only(
                 bottomLeft: Radius.circular(40), bottomRight: Radius.circular(40))),
-        title: Text('Body Value'),
+        title: Text('Körperwerte'),
         centerTitle: true,
       ),
       body: Container(

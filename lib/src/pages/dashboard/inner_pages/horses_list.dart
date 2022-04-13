@@ -48,8 +48,8 @@ class _HorseListState extends State<HorseList> {
 
     // set up the AlertDialog
     AlertDialog alert = AlertDialog(
-      title: Text("Delete Horse?"),
-      content: Text("Are you sure you want to delete horse?"),
+      title: Text("Pferd löschen?"),
+      content: Text("Bist Du sicher, dass Du das Pferd löschen willst?"),
       actions: [
         cancelButton,
         continueButton,
@@ -128,7 +128,7 @@ class _HorseListState extends State<HorseList> {
                          data: [], pageType: HorseEditType.SimpleAddHorse)),
                );
             },
-            label: const Text('Add Horse'),
+            label: const Text('Pferd hinzufügen'),
             icon: const Icon(Icons.add),
             backgroundColor: BACKGROUND_COLOR_DASHBOARD,
           ) : SizedBox.shrink(),

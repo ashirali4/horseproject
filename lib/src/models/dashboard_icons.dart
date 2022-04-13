@@ -19,22 +19,22 @@ class DashboardIcons{
 }
 
 List<DashboardIcons> Dashboard_Icons_List=[
-  DashboardIcons('Owner', 'assets/owner.png',(){
+  DashboardIcons('Eigentümer', 'assets/owner.png',(){
     Get.to(EditProfile());
   }),
-  DashboardIcons('Horse', 'assets/horse.png',(){
+  DashboardIcons('Pferd', 'assets/horse.png',(){
     Get.to(HorseList(type: ListType.Horse,));
   }),
-  DashboardIcons('Diary', 'assets/diary.png',(){
+  DashboardIcons('Tagebuch', 'assets/diary.png',(){
     Get.to(DiaryHorse());
   }),
   // DashboardIcons('Contacts', 'assets/contacts.png',(){
   //   Get.to(ContactHorse());
   // }),
-  DashboardIcons('Health', 'assets/health.png',(){
+  DashboardIcons('Gesundheit', 'assets/health.png',(){
     Get.to(HorseList(type: ListType.Health,));
   }),
-  DashboardIcons('Insurance', 'assets/insurance.png',(){
+  DashboardIcons('Versicherung', 'assets/insurance.png',(){
     Get.to(HorseList(type: ListType.Insurance,));
   }),
   // DashboardIcons('Calenar', 'assets/calendar.png',(){

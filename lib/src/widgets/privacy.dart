@@ -9,7 +9,7 @@ class PrivacyPolicy extends StatelessWidget {
       onTap: () async{
         if (!await launch('https://www.wirwiegendeinpferd.de/Shopservice/Datenschutz/')) throw 'Could not launch';
       },
-      child:  Text('Cookies and Privacy',style: TextStyle(
+      child:  Text('Datenschutzerklärung',style: TextStyle(
           color: Colors.black,
           decoration: TextDecoration.underline
       ),)

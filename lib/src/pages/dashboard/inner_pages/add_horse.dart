@@ -180,7 +180,7 @@ class _AddHorseState extends State<AddHorse> {
           shape: ContinuousRectangleBorder(
               borderRadius: BorderRadius.only(
                   bottomLeft: Radius.circular(40), bottomRight: Radius.circular(40))),
-          title: Text('Horse'),
+          title: Text('Pferd'),
           centerTitle: true,
         ),
         body: Container(
@@ -297,7 +297,7 @@ class _AddHorseState extends State<AddHorse> {
           SizedBox(height: 10,),
           TextFieldApp(hintText: 'Name of Horse',hintTitle: 'Black Horse',controller: name,type: TextInputType.text,isEnabled: widget.pageType==HorseEditType.EditHorse ? false: true,),
           SizedBox(height: 10,),
-          Text(' Gender',style: TextStyle(fontWeight: FontWeight.bold,color: LIGHT_BUTTON_COLOR),),
+          Text(' Geschlecht',style: TextStyle(fontWeight: FontWeight.bold,color: LIGHT_BUTTON_COLOR),),
           SizedBox(height: 10,),
           ToggleSwitch(
             initialLabelIndex: 0,
@@ -363,7 +363,7 @@ class _AddHorseState extends State<AddHorse> {
           SizedBox(height: 10,),
           TextFieldApp(hintText: 'Life Number',hintTitle: '123*****',controller: lifenumber,type: TextInputType.number),
           SizedBox(height: 10,),
-          Text(' Weights History',style: TextStyle(fontWeight: FontWeight.bold,color: LIGHT_BUTTON_COLOR),),
+          Text(' Gewichtshistorie',style: TextStyle(fontWeight: FontWeight.bold,color: LIGHT_BUTTON_COLOR),),
           SizedBox(height: 10,),
           ListView.builder(
               itemCount: weiightHistory.length,

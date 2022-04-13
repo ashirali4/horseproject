@@ -41,7 +41,7 @@ class _SignUpState extends State<SignUp> {
           Navigator.pushReplacement(context, MaterialPageRoute(builder: (BuildContext context) => Dashboard()));
         }
         if (state is SigningIn){
-          EasyLoading.show(status: 'Please Wait...');
+          EasyLoading.show(status: 'Warten Sie mal...');
         }
         if (state is AuthFailed){
           final e = state.exception as FirebaseAuthException;
@@ -62,7 +62,7 @@ class _SignUpState extends State<SignUp> {
     return Scaffold(
       backgroundColor: Colors.transparent,
       appBar: AppBar(
-        title: Text('    Sign In',style: TextStyle(fontWeight: FontWeight.bold,color: Colors.black),),
+        title: Text('    Registrieren',style: TextStyle(fontWeight: FontWeight.bold,color: Colors.black),),
         elevation: 0,
         leading: InkWell(
           onTap: (){
@@ -82,23 +82,23 @@ class _SignUpState extends State<SignUp> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               SizedBox(height: 10,),
-              TextFieldApp(hintText: 'First Name',hintTitle: 'John',controller: firstname,type: TextInputType.text,),
+              TextFieldApp(hintText: 'Vorname',hintTitle: 'John',controller: firstname,type: TextInputType.text,),
               SizedBox(height: 10,),
-              TextFieldApp(hintText: 'Last Name',hintTitle: 'Doe',controller: lastname,type: TextInputType.text),
+              TextFieldApp(hintText: 'Familienname',hintTitle: 'Doe',controller: lastname,type: TextInputType.text),
               SizedBox(height: 10,),
-              TextFieldApp(hintText: 'Country',hintTitle: 'Russia',controller: country,type: TextInputType.text),
+              TextFieldApp(hintText: 'Land',hintTitle: 'Russia',controller: country,type: TextInputType.text),
               SizedBox(height: 10,),
-              TextFieldApp(hintText: 'Phone',hintTitle: '+9258798798',controller: phone,type: TextInputType.phone),
+              TextFieldApp(hintText: 'Telefon',hintTitle: '+9258798798',controller: phone,type: TextInputType.phone),
               SizedBox(height: 10,),
               TextFieldApp(hintText: 'Email',hintTitle: 'johndoe@mail.com',controller: emailCtrl,type: TextInputType.emailAddress),
               SizedBox(height: 10,),
-              TextFieldApp(hintText: 'Password',hintTitle: '*********',controller: passwordCtrl,obsecure: true,type: TextInputType.text),
+              TextFieldApp(hintText: 'Passwort',hintTitle: '*********',controller: passwordCtrl,obsecure: true,type: TextInputType.text),
               SizedBox(height: 10,),
-              TextFieldApp(hintText: 'Confirm Password',hintTitle: '*********',controller: confirmpassword,obsecure: true,type: TextInputType.text),
+              TextFieldApp(hintText: 'Bestätige das Passwort',hintTitle: '*********',controller: confirmpassword,obsecure: true,type: TextInputType.text),
               SizedBox(height: 40,),
               Container(
                   width: 270,
-                  child: ButtonRound(buttonText: 'Register', function: (){
+                  child: ButtonRound(buttonText: 'Registrieren', function: (){
                     FocusScope.of(context).unfocus();
                     if(emailCtrl.text!=null && emailCtrl.text!='' && passwordCtrl.text!=null && passwordCtrl.text!=''){
                      if(passwordCtrl.text==confirmpassword.text){
@@ -108,10 +108,10 @@ class _SignUpState extends State<SignUp> {
                        );
 
                      }else{
-                       EasyLoading.showToast('Password and Confirm Password not matched.',toastPosition: EasyLoadingToastPosition.bottom);
+                       EasyLoading.showToast('Passwort und Passwort bestätigen stimmen nicht überein.',toastPosition: EasyLoadingToastPosition.bottom);
                      }
                     }else{
-                      EasyLoading.showToast('Please enter Email & Password',toastPosition: EasyLoadingToastPosition.bottom);
+                      EasyLoading.showToast('Bitte E-Mail & Passwort eingeben',toastPosition: EasyLoadingToastPosition.bottom);
                     }
 
                   },)),
