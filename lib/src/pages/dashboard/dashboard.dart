@@ -160,7 +160,7 @@ class _DashboardState extends State<Dashboard> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(firstname+' '+lastname,style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 20),),
-                            Text('Horse Owner',style: TextStyle(color: Colors.white),)
+                            Text('Pferdebesitzer',style: TextStyle(color: Colors.white),)
                           ],
                         ),
                       )
