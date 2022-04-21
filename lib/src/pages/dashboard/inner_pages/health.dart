@@ -1,15 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 
+import '../../../../main.dart';
 import '../../../net/firebase_operations.dart';
 import '../../../utlis/constants.dart';
+import '../../../utlis/enums.dart';
 import '../../../widgets/button_round.dart';
 import '../../../widgets/calendar_theme.dart';
+import '../../../widgets/image_widget.dart';
 import '../../../widgets/textfield.dart';
 
 class Health extends StatefulWidget {
   final String horseID;
-  const Health({Key? key,required this.horseID}) : super(key: key);
+  final String horseImage;
+  const Health({Key? key,required this.horseID,required this.horseImage}) : super(key: key);
 
   @override
   _HealthState createState() => _HealthState();
@@ -85,7 +89,7 @@ class _HealthState extends State<Health> {
         lastDate: DateTime(2101));
     if (picked != null) {
       setState(() {
-        dataDate[text] = picked.toString().substring(0, 10);
+        dataDate[text] = formatter.format(picked);
       });
     }
   }
@@ -103,7 +107,7 @@ class _HealthState extends State<Health> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: BACKGROUND_COLOR_DASHBOARD,
+        backgroundColor: Colors.green,
         shape: ContinuousRectangleBorder(
             borderRadius: BorderRadius.only(
                 bottomLeft: Radius.circular(40),
@@ -116,7 +120,13 @@ class _HealthState extends State<Health> {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              ImageWidget('Foto/Video hochladen', Icons.camera_alt_outlined),
+              UploadImageWidget(
+                urlpre: widget.horseImage,
+                text:'',
+                onUpdate: (){},
+                icons: Icons.camera_alt_outlined,
+                widgetType: WidgetType.ShowImage,
+              ),
               SizedBox(
                 height: 10,
               ),
@@ -131,6 +141,7 @@ class _HealthState extends State<Health> {
                     function: () {
                       onSave();
                     },
+                    buttonColor: Colors.green,
                   )),
               SizedBox(
                 height: 30,
@@ -288,7 +299,7 @@ class _HealthState extends State<Health> {
       child: Container(
         height: 40,
         decoration: BoxDecoration(
-            border: Border.all(width: 1, color: Colors.red),
+            border: Border.all(width: 1, color: Colors.green),
             borderRadius: BorderRadius.all(Radius.circular(5))),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,

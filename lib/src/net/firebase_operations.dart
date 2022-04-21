@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:horseproject/src/utlis/enums.dart';
 
 
 final FirebaseFirestore _firestore = FirebaseFirestore.instance;
@@ -37,6 +38,7 @@ class FirebaseDB {
       "email" : email,
       "address" : "",
       "zip" : "",
+      "userimage" : ""
     };
 
     await documentReferencer
@@ -60,6 +62,8 @@ class FirebaseDB {
     required String mnumber,
     required String lnumber,
     required String height,
+    required String pdfurl,
+    required String imageurl,
     required List<dynamic> weights,
     required List<dynamic> weightsdDates,
     required List<dynamic> weightsIDS,
@@ -83,7 +87,9 @@ class FirebaseDB {
       "whistory" : weights,
       "height" : height,
       "wdates" : weightsdDates,
-      "weightIDS" : weightsIDS
+      "weightIDS" : weightsIDS,
+      "pdfurl" : pdfurl,
+      "imageurl" : imageurl
     };
 
     await documentReferencer
@@ -107,6 +113,23 @@ class FirebaseDB {
     await documentReferencer
         .delete()
         .whenComplete(() => status='Deleted Horse Successfully')
+        .catchError((e) => status=e.toString());
+    return status;
+  }
+
+
+  static Future<String> deleteDiary({
+    required String weightid,
+  }) async {
+
+    String status='Failed to delete Diary';
+    DocumentReference documentReferencer =
+    horsescol.doc(FirebaseAuth.instance.currentUser!.uid).collection('diary').doc(weightid);
+
+
+    await documentReferencer
+        .delete()
+        .whenComplete(() => status='Deleted Diary Successfully')
         .catchError((e) => status=e.toString());
     return status;
   }
@@ -545,6 +568,7 @@ class FirebaseDB {
       'email' : a['email'] ?? '',
       'address' : a['address'] ?? '',
       'zip' : a['zip'] ?? '',
+      'userimage' : a['userimage'] ?? '',
     };
     return jsonEncode(hasdoc);
   }
@@ -569,6 +593,8 @@ class FirebaseDB {
         'lnumber' : a['lnumber'] ?? '',
         'whistory' : a['whistory'] ?? [],
         'height' : a['height'] ?? '',
+        'imageurl' : a['imageurl'] ?? '',
+        'pdfurl' : a['pdfurl'] ?? '',
         'wdates' : a['wdates'] ?? [],
         'weightIDS' : a['weightIDS'] ?? [],
       };
@@ -603,4 +629,36 @@ class FirebaseDB {
       throw "Print Errorrrr "+e.toString();
     }
   }
+
+  static Future<String> saveDiaryData({
+    required var data,
+    required DiaryType type,
+    required String id,
+  }) async {
+
+    String status='Failed to Save Data';
+    try{
+
+      if(type==DiaryType.Add){
+        DocumentReference documentReferencer =
+        _firestore.collection('users').doc(FirebaseAuth.instance.currentUser!.uid).collection('diary').doc();
+        await documentReferencer
+            .set(data)
+            .whenComplete(() => status='Save Data Successfully')
+            .catchError((e) => status=e.toString());
+      }else{
+        DocumentReference documentReferencer =
+        _firestore.collection('users').doc(FirebaseAuth.instance.currentUser!.uid).collection('diary').doc(id);
+        await documentReferencer
+            .update(data)
+            .whenComplete(() => status='Save Data Successfully')
+            .catchError((e) => status=e.toString());
+      }
+
+    }catch(e){
+      print("Print - > "+status.toString());
+    }
+    return status;
+  }
+
 }

@@ -45,7 +45,14 @@ class _SignUpState extends State<SignUp> {
         }
         if (state is AuthFailed){
           final e = state.exception as FirebaseAuthException;
-          final newText = e.message;
+          String? newText = 'Ihre E-Mail-Adresse ist ungültig.';
+          if(e.code=='invalid-email'){
+            newText='Ihre E-Mail-Adresse ist ungültig';
+          }else if(e.code=='weak-password'){
+            newText='Das Passwort sollte 6 Zeichen lang sein';
+          }else if(e.code=='email-already-in-use'){
+            newText='Diese E-Mail wurde bereits registriert';
+          }
           EasyLoading.showToast(newText.toString(),toastPosition: EasyLoadingToastPosition.bottom);
         }
       },

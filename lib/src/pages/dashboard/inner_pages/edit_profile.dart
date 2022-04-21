@@ -5,8 +5,11 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:horseproject/src/net/firebase_operations.dart';
 
 import '../../../utlis/constants.dart';
+import '../../../utlis/enums.dart';
 import '../../../widgets/button_round.dart';
+import '../../../widgets/image_widget.dart';
 import '../../../widgets/textfield.dart';
+import '../../../widgets/user_profile_image_widget.dart';
 class EditProfile extends StatefulWidget {
   const EditProfile({Key? key}) : super(key: key);
 
@@ -24,6 +27,8 @@ class _EditProfileState extends State<EditProfile> {
   TextEditingController email=TextEditingController();
   TextEditingController zip=TextEditingController();
   TextEditingController address=TextEditingController();
+  String urserProfile='';
+
 
   @override
   void initState() {
@@ -43,6 +48,7 @@ class _EditProfileState extends State<EditProfile> {
       country.text = mydata['country'] ?? '';
       address.text = mydata['address'] ?? '';
       zip.text = mydata['zip'] ?? '';
+      urserProfile = mydata['userimage'] ?? '';
     });
   }
 
@@ -56,16 +62,23 @@ class _EditProfileState extends State<EditProfile> {
       "email" : email.text,
       "address" : address.text,
       "zip" : zip.text,
+      "userimage" : urserProfile
     };
     await FirebaseDB.savedata(data: data,type: 'users');
     EasyLoading.showToast('Profil wurde aktualisiert.',toastPosition: EasyLoadingToastPosition.bottom);
+  }
+
+  void onUpdateImage(String url){
+    setState(() {
+      urserProfile=url;
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar:   AppBar(
-        backgroundColor: BACKGROUND_COLOR_DASHBOARD,
+        backgroundColor: Colors.blue,
         shape: ContinuousRectangleBorder(
             borderRadius: BorderRadius.only(
                 bottomLeft: Radius.circular(40), bottomRight: Radius.circular(40))),
@@ -77,14 +90,20 @@ class _EditProfileState extends State<EditProfile> {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              ImageWidget(),
+              UserProfileImageWidget(
+                urlpre: urserProfile,
+                text:'',
+                onUpdate: onUpdateImage,
+                icons: Icons.camera_alt_outlined,
+                widgetType: WidgetType.ImageType,
+              ),
               OtherBody(),
               SizedBox(height: 30,),
               Container(
                   width: MediaQuery.of(context).size.width,
                   child: ButtonRound(buttonText: 'Profil speichern', function:  (){
                     onSave();
-                  },)),
+                  },buttonColor: Colors.blue,)),
               SizedBox(height: 10,),
               SizedBox(height: 10,),
               SizedBox(height: 10,),
@@ -117,31 +136,4 @@ class _EditProfileState extends State<EditProfile> {
     );
   }
 
-  Widget ImageWidget(){
-    return Container(
-      margin: EdgeInsets.only(top: 20,bottom: 20),
-      child: SizedBox(
-        child: CircleAvatar(
-          radius: 55.0,
-          backgroundColor: Colors.white,
-          child: CircleAvatar(
-            child: Align(
-              alignment: Alignment.bottomRight,
-              child: CircleAvatar(
-                backgroundColor: Colors.white,
-                radius: 15.0,
-                child: Icon(
-                  Icons.camera_alt,
-                  size: 15.0,
-                  color: Color(0xFF404040),
-                ),
-              ),
-            ),
-            radius: 50.0,
-            backgroundImage: NetworkImage(
-                'https://images.vexels.com/media/users/3/129733/isolated/preview/a558682b158debb6d6f49d07d854f99f-casual-male-avatar-silhouette.png'),
-          ),
-        ),),
-    );
-  }
 }

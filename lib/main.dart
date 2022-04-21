@@ -13,7 +13,7 @@ import 'package:intl/intl.dart';
 
 
 
-final DateFormat formatter = DateFormat('dd-MM-yyyy');
+final DateFormat formatter = DateFormat('dd.MM.yyyy');
 
 
 Future<void> main() async {

@@ -6,13 +6,16 @@ import 'package:get/get.dart';
 import 'package:horseproject/src/net/firebase_operations.dart';
 import 'package:horseproject/src/pages/dashboard/dashboard.dart';
 import 'package:toggle_switch/toggle_switch.dart';
-
+import 'package:charts_flutter/flutter.dart' as charts;
+import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../../../../main.dart';
 import '../../../utlis/constants.dart';
 import '../../../utlis/enums.dart';
 import '../../../utlis/races.dart';
 import '../../../widgets/button_round.dart';
 import '../../../widgets/calendar_theme.dart';
+import '../../../widgets/horse_chart.dart';
 import '../../../widgets/image_widget.dart';
 import '../../../widgets/textfield.dart';
 import '../../others/qr_page.dart';
@@ -40,10 +43,14 @@ class _AddHorseState extends State<AddHorse> {
         firstDate: DateTime(2015, 8),
         lastDate: DateTime(2101));
     if (picked != null && picked != selectedDate) {
-      setState(() {
-        //selectedDate = picked;
-        text.text = formatter.format(picked);
-      });
+      if(picked.isAfter(DateTime.now())){
+        EasyLoading.showToast('Das ausgewählte Datum sollte vor dem heutigen Tag liegen',toastPosition: EasyLoadingToastPosition.bottom);
+      }else{
+        setState(() {
+          //selectedDate = picked;
+          text.text = formatter.format(picked);
+        });
+      }
     }
   }
 
@@ -68,6 +75,8 @@ class _AddHorseState extends State<AddHorse> {
 
 
   String gender='Mare';
+  String uploadImagevideoUrl= '';
+  String uploadPDF='';
   var data;
   @override
   void initState()  {
@@ -122,13 +131,26 @@ class _AddHorseState extends State<AddHorse> {
        weiightHistory = mydata['whistory'] ?? [];
        weightsdates = mydata['wdates'] ?? [];
        weightsIds = mydata['weightIDS'] ?? [];
-
+       uploadImagevideoUrl = mydata['imageurl']??'';
+       uploadPDF = mydata['pdfurl']??'';
      });
    } catch(e){
      print("Erorr " + e.toString());
    }
   }
 
+
+  void onUpdateImage(String url){
+    setState(() {
+      uploadImagevideoUrl=url;
+    });
+  }
+
+  void onUpdatePdf(String url){
+    setState(() {
+      uploadPDF=url;
+    });
+  }
 
   void onWeightAdd(){
     FocusScope.of(context).unfocus();
@@ -150,15 +172,40 @@ class _AddHorseState extends State<AddHorse> {
     }
   }
 
-
-
-
   void onWeightRemove(int index){
     setState(() {
       weiightHistory.removeAt(index);
       weightsdates.removeAt(index);
       weightsIds.removeAt(index);
     });
+  }
+
+  List<charts.Series<WeightList, String>> _createSampleData() {
+    List<WeightList> data = [];
+    if(weiightHistory.length>0){
+      if(weiightHistory.length>8){
+        int modeValue = weiightHistory.length%8;
+        print("mode value"+ modeValue.toString());
+        List<dynamic> newWeightHistory= weiightHistory.sublist(modeValue,weiightHistory.length);
+        List<dynamic> newWeightDates= weightsdates.sublist(modeValue,weightsdates.length);
+        for(int a=0;a<newWeightHistory.length;a++){
+          data.add(  WeightList(newWeightDates[a], int.parse(newWeightHistory[a])));
+        }
+      }else{
+        for(int a=0;a<weiightHistory.length;a++){
+          data.add(  WeightList(weightsdates[a], int.parse(weiightHistory[a])));
+        }
+      }
+    }
+    return [
+      new charts.Series<WeightList, String>(
+        id: 'Weights',
+        colorFn: (_, __) => charts.MaterialPalette.red.shadeDefault,
+        domainFn: (WeightList sales, _) => sales.date,
+        measureFn: (WeightList sales, _) => sales.weights,
+        data: data,
+      )
+    ];
   }
 
 
@@ -189,10 +236,22 @@ class _AddHorseState extends State<AddHorse> {
           child: SingleChildScrollView(
             child: Column(
               children: [
-                UploadImageWidget(text:'Foto/Video hochladen', icons: Icons.camera_alt_outlined,),
+                 UploadImageWidget(
+                  urlpre: uploadImagevideoUrl,
+                  text:'Foto/Video hochladen',
+                  onUpdate: onUpdateImage,
+                  icons: Icons.camera_alt_outlined,
+                  widgetType: WidgetType.ImageType,
+                ),
                 OtherBody(),
                 SizedBox(height: 0,),
-                ImageWidgetD('Dokumente hochladen',Icons.attachment),
+                UploadImageWidget(
+                  urlpre: uploadPDF,
+                  text:'Dokumente hochladen',
+                  onUpdate: onUpdatePdf,
+                  icons: Icons.attachment,
+                  widgetType: WidgetType.PDFType,
+                ),
                 SizedBox(height: 10,),
                 Container(
                     width: MediaQuery.of(context).size.width,
@@ -204,7 +263,9 @@ class _AddHorseState extends State<AddHorse> {
                            race: race.text, dob: dob.text, ccolor: coatcolor.text,
                            smark: specialmark.text, pdate: pdate.text, pnumber:
                            pnumber.text, mnumber: mnumber.text, lnumber: lifenumber.text,
-                           height : horseHeight.text,weights: weiightHistory,weightsdDates: weightsdates,weightsIDS: weightsIds);
+                           height : horseHeight.text,weights: weiightHistory,weightsdDates: weightsdates,weightsIDS: weightsIds,
+                           imageurl: uploadImagevideoUrl, pdfurl: uploadPDF
+                       );
                        EasyLoading.showToast('Pferdedaten wurden gespeichert.',toastPosition: EasyLoadingToastPosition.bottom);
 
                        if(widget.data.length>0 && widget.pageType==HorseEditType.AddHorse){
@@ -232,7 +293,6 @@ class _AddHorseState extends State<AddHorse> {
       ),
     );
   }
-
 
   Widget AddWeight(){
     return Container(
@@ -335,19 +395,19 @@ class _AddHorseState extends State<AddHorse> {
           ),
           SizedBox(height: 10,),
           TextFieldApp(hintText: 'Wettrennen',hintTitle: 'Select Race',controller: race,type: TextInputType.text,
-          endingWidget: DropdownButton<String>(
-            items: racesList.map((String value) {
-              return DropdownMenuItem<String>(
-                value: value,
-                child: Text(value),
-              );
-            }).toList(),
-            onChanged: (value) {
-              setState(() {
-                race.text=value!;
-              });
-            },
-          ),
+          // endingWidget: DropdownButton<String>(
+          //   items: racesList.map((String value) {
+          //     return DropdownMenuItem<String>(
+          //       value: value,
+          //       child: Text(value),
+          //     );
+          //   }).toList(),
+          //   onChanged: (value) {
+          //     setState(() {
+          //       race.text=value!;
+          //     });
+          //   },
+          // ),
           ),
           SizedBox(height: 10,),
           TextFieldApp(hintText: 'Geburtsdatum',hintTitle: 'dd/mm/yyyy',controller: dob,
@@ -382,6 +442,14 @@ class _AddHorseState extends State<AddHorse> {
           SizedBox(height: 10,),
           Text(' Gewichtshistorie',style: TextStyle(fontWeight: FontWeight.bold,color: LIGHT_BUTTON_COLOR),),
           SizedBox(height: 10,),
+          ListTile(
+
+              trailing: Text('Gewicht' ,
+                style: TextStyle(
+                    color: Colors.green,fontSize: 15,fontWeight: FontWeight.bold),),
+              title:Text('Datum'+ " - (Gewicht ID)",style: TextStyle(
+                 fontSize: 15,fontWeight: FontWeight.bold),)
+          ),
           ListView.builder(
               itemCount: weiightHistory.length,
               shrinkWrap: true,
@@ -403,6 +471,19 @@ class _AddHorseState extends State<AddHorse> {
           ),
           SizedBox(height: 10,),
           AddWeight(),
+          SizedBox(height: 10,),
+          Container(
+              height: 300,
+              child: SimpleBarChart(
+                  _createSampleData(), true)),
+          SizedBox(height: 10,),
+          Container(
+              width: MediaQuery.of(context).size.width,
+              child: ButtonRound(buttonText: 'Book Appoinment', function:  () async{
+                if (!await launch('https://termine.wirwiegendeinpferd.de/wp/')) throw 'Could not launch';
+              },)),
+          SizedBox(height: 10,),
+
         ],
       ),
     );

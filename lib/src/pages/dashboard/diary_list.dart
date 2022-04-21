@@ -6,29 +6,26 @@ import 'package:flutterfire_ui/firestore.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:horseproject/src/pages/dashboard/inner_pages/insurance.dart';
 import 'package:horseproject/src/pages/others/qr_page.dart';
+import 'package:horseproject/src/utlis/enums.dart';
 
-import '../../../net/firebase_operations.dart';
-import '../../../utlis/constants.dart';
-import '../../../utlis/enums.dart';
-import 'add_horse.dart';
-import 'health.dart';
+import '../../net/firebase_operations.dart';
+import '../../utlis/constants.dart';
+import 'inner_pages/diary.dart';
 
-class HorseList extends StatefulWidget {
-  final ListType type;
-  const HorseList({Key? key,required this.type}) : super(key: key);
+
+class DiaryList extends StatefulWidget {
+  const DiaryList({Key? key}) : super(key: key);
 
   @override
-  _HorseListState createState() => _HorseListState();
+  _DiaryListState createState() => _DiaryListState();
 }
 
-class _HorseListState extends State<HorseList> {
+class _DiaryListState extends State<DiaryList> {
   var usersQuery = FirebaseFirestore.instance
       .collection('users')
       .doc(FirebaseAuth.instance.currentUser!.uid)
-      .collection('horses');
-  String ScafoldTitle = 'Ihre Pferde';
-  Color screenColor = BACKGROUND_COLOR_DASHBOARD;
-
+      .collection('diary');
+  String ScafoldTitle = 'Tagebuchliste';
 
   TextEditingController search = TextEditingController();
 
@@ -43,15 +40,15 @@ class _HorseListState extends State<HorseList> {
     Widget continueButton = TextButton(
       child: Text("Löschen"),
       onPressed: () {
-        FirebaseDB.deleteHorse(weightid: id);
+        FirebaseDB.deleteDiary(weightid: id);
         Navigator.pop(context);
       },
     );
 
     // set up the AlertDialog
     AlertDialog alert = AlertDialog(
-      title: Text("Pferd löschen?"),
-      content: Text("Bist Du sicher, dass Du das Pferd löschen willst?"),
+      title: Text("Tagebuch löschen?"),
+      content: Text("Sind Sie sicher, dass Sie löschen möchten?"),
       actions: [
         cancelButton,
         continueButton,
@@ -69,14 +66,6 @@ class _HorseListState extends State<HorseList> {
 
   @override
   void initState() {
-    if(widget.type==ListType.Health){
-       ScafoldTitle = 'Pferdegesundheit';
-       screenColor= Colors.green;
-    }else if(widget.type==ListType.Insurance){
-       ScafoldTitle = 'Horses Insurance';
-       screenColor= Colors.deepPurple;
-
-    }
     // TODO: implement initState
     super.initState();
   }
@@ -101,7 +90,7 @@ class _HorseListState extends State<HorseList> {
                   begin: FractionalOffset.topCenter,
                   end: FractionalOffset.bottomCenter,
                   colors: [
-                    screenColor.withOpacity(.3),
+                    Color(0xff026c45).withOpacity(.3),
                     Colors.black,
                   ],
                   stops: [
@@ -112,7 +101,7 @@ class _HorseListState extends State<HorseList> {
         Scaffold(
           backgroundColor: Colors.transparent,
           appBar: AppBar(
-            backgroundColor: screenColor,
+            backgroundColor: Color(0xff026c45),
             shape: ContinuousRectangleBorder(
                 borderRadius: BorderRadius.only(
                     bottomLeft: Radius.circular(40),
@@ -124,19 +113,18 @@ class _HorseListState extends State<HorseList> {
             margin: EdgeInsets.only(top: 20, left: 20, right: 20),
             child: listViewBuilder(),
           ),
-          floatingActionButton: widget.type == ListType.Horse ? FloatingActionButton.extended(
+          floatingActionButton: FloatingActionButton.extended(
             onPressed: () {
-               Navigator.push(
-                 context,
-                 MaterialPageRoute(
-                     builder: (context) => AddHorse(
-                         data: [], pageType: HorseEditType.SimpleAddHorse)),
-               );
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => DiaryHorse(type: DiaryType.Add,editId: '',)),
+              );
             },
-            label: const Text('Pferd hinzufügen'),
+            label: const Text('Tagebuch hinzufügen'),
             icon: const Icon(Icons.add),
-            backgroundColor: screenColor,
-          ) : SizedBox.shrink(),
+            backgroundColor: Color(0xff026c45),
+          ),
         )
       ],
     );
@@ -145,25 +133,11 @@ class _HorseListState extends State<HorseList> {
   Widget StaticView(IconData icon, var user, String id) {
     return InkWell(
       onTap: () {
-        if(widget.type==ListType.Horse){
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (BuildContext context) => AddHorse(
-                      data: [user['name']], pageType: HorseEditType.EditHorse)));
-        }else if(widget.type==ListType.Health){
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => Health(horseID: user['name'],horseImage:user['imageurl'],)),
-          );
-        }else if(widget.type==ListType.Insurance){
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => Insurance(horseID: user['name'],horseImage:user['imageurl'],)),
-          );
-        }
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => DiaryHorse(type: DiaryType.Edit,editId: id,)),
+        );
       },
       child: Container(
         margin: EdgeInsets.only(bottom: 10),
@@ -180,7 +154,7 @@ class _HorseListState extends State<HorseList> {
             color: Colors.white),
         child: Padding(
             padding:
-                const EdgeInsets.only(left: 15, right: 15, top: 15, bottom: 15),
+            const EdgeInsets.only(left: 15, right: 15, top: 15, bottom: 15),
             child: Row(
               children: [
                 Expanded(
@@ -195,10 +169,10 @@ class _HorseListState extends State<HorseList> {
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
                                 SvgPicture.asset(
-                                  "assets/horsep.svg",
+                                  "assets/diary.svg",
                                   height: 40,
                                   width: 40,
-                                  color: screenColor,
+                                  color: Color(0xff026c45),
                                 ),
                                 SizedBox(
                                   width: 20,
@@ -207,7 +181,7 @@ class _HorseListState extends State<HorseList> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      user['name'],
+                                      user['title'],
                                       style: GoogleFonts.raleway(
                                         fontSize: 18,
                                         color: Colors.black,
@@ -218,7 +192,7 @@ class _HorseListState extends State<HorseList> {
                                       height: 05,
                                     ),
                                     Text(
-                                      "Purchase Date : " + user['pdate'],
+                                      "Purchase Date : " + user['description'],
                                       style: GoogleFonts.raleway(
                                         fontSize: 15,
                                         color: Colors.black,
@@ -235,11 +209,11 @@ class _HorseListState extends State<HorseList> {
                     ],
                   ),
                 ),
-               widget.type==ListType.Horse? IconButton(
-                   onPressed: () {
-                     showAlertDialog(context, id);
-                   },
-                   icon: Icon(Icons.delete)):SizedBox.shrink()
+               IconButton(
+                    onPressed: () {
+                      showAlertDialog(context, id);
+                    },
+                    icon: Icon(Icons.delete))
               ],
             )),
       ),

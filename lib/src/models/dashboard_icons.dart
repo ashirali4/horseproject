@@ -6,6 +6,7 @@ import 'package:horseproject/src/pages/dashboard/inner_pages/health.dart';
 import 'package:horseproject/src/pages/dashboard/inner_pages/insurance.dart';
 import 'package:horseproject/src/utlis/enums.dart';
 
+import '../pages/dashboard/diary_list.dart';
 import '../pages/dashboard/inner_pages/bodyvalue.dart';
 import '../pages/dashboard/inner_pages/diary.dart';
 import '../pages/dashboard/inner_pages/horses_list.dart';
@@ -26,7 +27,7 @@ List<DashboardIcons> Dashboard_Icons_List=[
     Get.to(HorseList(type: ListType.Horse,));
   }),
   DashboardIcons('Tagebuch', 'assets/diary.png',(){
-    Get.to(DiaryHorse());
+    Get.to(DiaryList());
   }),
   // DashboardIcons('Contacts', 'assets/contacts.png',(){
   //   Get.to(ContactHorse());

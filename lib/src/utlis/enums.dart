@@ -12,3 +12,18 @@ enum ListType{
   Insurance,
   Diary
 }
+
+enum WidgetType{
+  ImageType,
+  PDFType,
+  ShowImage
+}
+
+enum DiaryType{
+  Add,
+  Edit
+}
+
+
+
+

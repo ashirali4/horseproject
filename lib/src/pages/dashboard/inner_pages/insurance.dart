@@ -3,11 +3,15 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 import '../../../net/firebase_operations.dart';
 import '../../../utlis/constants.dart';
+import '../../../utlis/enums.dart';
 import '../../../widgets/button_round.dart';
+import '../../../widgets/image_widget.dart';
 import '../../../widgets/textfield.dart';
 class Insurance extends StatefulWidget {
   final String horseID;
-  const Insurance({Key? key,required this.horseID}) : super(key: key);
+  final String horseImage;
+
+  const Insurance({Key? key,required this.horseID,required this.horseImage}) : super(key: key);
 
   @override
   _InsuranceState createState() => _InsuranceState();
@@ -36,6 +40,11 @@ class _InsuranceState extends State<Insurance> {
   TextEditingController email3=TextEditingController();
   TextEditingController vern3=TextEditingController();
 
+
+  String pdf1='';
+  String pdf2='';
+  String pdf3='';
+
   onSave() async {
     Map<String, dynamic> data = <String, dynamic>{
       "horse" : horse.text,
@@ -53,7 +62,10 @@ class _InsuranceState extends State<Insurance> {
       "a3" : address3.text,
       "p3" : phone3.text,
       "e3" : email3.text,
-      "v3" : vern3.text
+      "v3" : vern3.text,
+      "pdf1" : pdf1,
+      "pdf2" : pdf2,
+      "pdf3" : pdf3
     };
     await FirebaseDB.savedataNew(data: data,type: 'insurance',horseId: widget.horseID);
     EasyLoading.showToast('Versicherung wurde aktualisiert.',toastPosition: EasyLoadingToastPosition.bottom);
@@ -79,11 +91,32 @@ class _InsuranceState extends State<Insurance> {
         phone3.text=data['p3'] ?? '';
         email3.text=data['e3'] ?? '';
         vern3.text=data['v3'] ?? '';
+        pdf1 = data['pdf1'] ?? '';
+        pdf2 = data['pdf2'] ?? '';
+        pdf3 = data['pdf3'] ?? '';
       });
     }catch (e){
       print("Erorr " + e.toString());
     }
 
+  }
+
+  void onUpdatePdf1(String url){
+    setState(() {
+      pdf1=url;
+    });
+  }
+
+  void onUpdatePdf2(String url){
+    setState(() {
+      pdf2=url;
+    });
+  }
+
+  void onUpdatePdf3(String url){
+    setState(() {
+      pdf3=url;
+    });
   }
 
 
@@ -99,7 +132,7 @@ class _InsuranceState extends State<Insurance> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar:   AppBar(
-        backgroundColor: BACKGROUND_COLOR_DASHBOARD,
+        backgroundColor: Colors.deepPurple,
         shape: ContinuousRectangleBorder(
             borderRadius: BorderRadius.only(
                 bottomLeft: Radius.circular(40), bottomRight: Radius.circular(40))),
@@ -111,23 +144,30 @@ class _InsuranceState extends State<Insurance> {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              ImageWidget('Foto/Video hochladen',Icons.camera_alt_outlined),
+              UploadImageWidget(
+                urlpre: widget.horseImage,
+                text:'Foto/Video hochladen',
+                onUpdate: (){},
+                icons: Icons.camera_alt_outlined,
+                widgetType: WidgetType.ShowImage,
+              ),
               SizedBox(height: 10,),
               TextFieldApp(hintText: 'Name des Pferdes',hintTitle: 'Black Horse',controller: horse,              type: TextInputType.text,  isEnabled: false,
               ),
               SizedBox(height: 10,),
-              OtherBody('Haftung',name,address,phone,email,vern),
+              OtherBody('Haftung',name,address,phone,email,vern,pdf1,onUpdatePdf1),
               SizedBox(height: 10,),
-              OtherBody('Krankenversicherung',name2,address2,phone2,email2,vern2),
+              OtherBody('Krankenversicherung',name2,address2,phone2,email2,vern2,pdf2,onUpdatePdf2),
               SizedBox(height: 10,),
-              OtherBody('Chirurgische Versicherung',name3,address3,phone3,email3,vern3),
+              OtherBody('Chirurgische Versicherung',name3,address3,phone3,email3,vern3,pdf3,onUpdatePdf3),
               SizedBox(height: 10,),
 
               Container(
                   width: MediaQuery.of(context).size.width,
                   child: ButtonRound(buttonText: 'Speichern', function:  (){
                     onSave();
-                  },)),
+                  },
+                  buttonColor: Colors.deepPurple,)),
               SizedBox(height: 30,),
 
 
@@ -140,10 +180,13 @@ class _InsuranceState extends State<Insurance> {
 
 
 
+
   Widget OtherBody(String text,TextEditingController controller1,
       TextEditingController controller2,
       TextEditingController controller3,
       TextEditingController controller4, TextEditingController controller5,
+      String pdfString,
+      Function functionpdf,
       ){
     return Container(
       child: Column(
@@ -167,7 +210,13 @@ class _InsuranceState extends State<Insurance> {
           TextFieldApp(hintText: 'Vers. Anzahl',hintTitle: '123****',controller: controller5,              type: TextInputType.number
           ),
           SizedBox(height: 10,),
-          ImageWidget('Dokumente hochladen',Icons.attach_file),
+          UploadImageWidget(
+            urlpre: pdfString,
+            text:'Dokumente hochladen',
+            onUpdate: functionpdf,
+            icons: Icons.attachment,
+            widgetType: WidgetType.PDFType,
+          ),
 
         ],
       ),

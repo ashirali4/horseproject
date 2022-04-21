@@ -8,6 +8,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:horseproject/src/pages/auth/into.dart';
 import 'package:horseproject/src/utlis/constants.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../models/dashboard_icons.dart';
 import '../../net/firebase_operations.dart';
@@ -34,6 +35,8 @@ class _DashboardState extends State<Dashboard> {
   String phone= '';
   String email = '';
   var userdata;
+
+
   TextEditingController controller = TextEditingController();
   @override
   Widget build(BuildContext context) {
@@ -123,7 +126,6 @@ class _DashboardState extends State<Dashboard> {
             userdata=  jsonDecode(snapshot.data.toString());
             firstname = userdata['firstName'] ?? '';
             lastname = userdata['lastName'] ?? '';
-
             return Row(
               children: [
                 Expanded(child:  Container(
@@ -178,7 +180,7 @@ class _DashboardState extends State<Dashboard> {
                         color: Colors.white,
                         borderRadius: BorderRadius.all(Radius.circular(100))
                     ),
-                    child: Icon(Icons.qr_code_outlined,color: Colors.red,),
+                    child: Icon(Icons.qr_code_outlined,color: Colors.black,),
                   ),
                 )
               ],
@@ -229,13 +231,18 @@ class _DashboardState extends State<Dashboard> {
           Container(
               width: 120,
               height: 30,
-              child: ButtonRound(buttonText: 'Visit Shop',radius: 50, function:  (){},)),
+              child: ButtonRound(buttonText: 'Visit Shop',radius: 50, function:  (){
+                onClick();
+              },)),
 
         ],
       ),
     );
   }
 
+  onClick() async{
+  if (!await launch('https://www.wirwiegendeinpferd.de/')) throw 'Could not launch';
+  }
 }
 
 

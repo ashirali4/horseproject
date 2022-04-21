@@ -37,7 +37,14 @@ class _SignInState extends State<SignIn> {
         }
         if (state is AuthFailed){
           final e = state.exception as FirebaseAuthException;
-          final newText = e.message;
+          String? newText = 'Ungültige E-Mail oder Passwort.';
+          if(e.code=='user-not-found'){
+            newText='Benutzer wurde nicht gefunden. Bitte registrieren Sie sich.';
+          }else if(e.code=='wrong-password'){
+            newText='Ungültige E-Mail oder Passwort.';
+          }else if(e.code=='invalid-email'){
+            newText='Ihre E-Mail-Adresse ist ungültig';
+          }
           EasyLoading.showToast(newText.toString(),toastPosition: EasyLoadingToastPosition.bottom);
         }
       },
