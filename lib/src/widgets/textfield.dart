@@ -48,6 +48,15 @@ class SimpleTextField extends StatefulWidget {
 
 class _SimpleTextFieldState extends State<SimpleTextField> {
 
+  bool obsecureText=false;
+
+  @override
+  void initState() {
+    obsecureText = widget.isObsecure;
+    // TODO: implement initState
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -56,12 +65,16 @@ class _SimpleTextFieldState extends State<SimpleTextField> {
         keyboardType: widget.type,
         //enabled: widget.isEnabled,
         readOnly: !widget.isEnabled,
-        obscureText: widget.isObsecure,
+        obscureText:obsecureText,
         controller: widget.controller,
         decoration: InputDecoration(
           suffixIcon: Container(
               margin: EdgeInsets.only(right: 10),
-              child: widget.endingWidget),
+              child: widget.type==TextInputType.visiblePassword ? IconButton(onPressed: (){
+                 setState(() {
+                   obsecureText=!obsecureText;
+                 });
+              }, icon: Icon(Icons.remove_red_eye)) :widget.endingWidget),
           contentPadding: EdgeInsets.only(left: 20,right: 20,top: 10),
             border: OutlineInputBorder(
               borderRadius: const BorderRadius.all(

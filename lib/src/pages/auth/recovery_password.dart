@@ -73,7 +73,10 @@ class _SignInState extends State<RecoverPassword> {
             children: [
               SizedBox(height: 20,),
               Image.asset('assets/introLogo.png'),
-              SizedBox(height: 60,),
+              SizedBox(height: 20,),
+              Text('Bitte gebe Deine Email-Adresse ein und wir schicken Dir einen Link zum Zurücksetzen Deines Passwortes zu.',textAlign: TextAlign.center,
+              style: TextStyle(height: 1.3),),
+              SizedBox(height: 20,),
               TextFieldApp(hintText: 'Email',hintTitle: 'johndoe@mail.com',controller: emailCtrl,type: TextInputType.text,),
               SizedBox(height: 15,),
 

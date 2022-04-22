@@ -22,7 +22,7 @@ class _SignUpState extends State<SignUp> {
 
   TextEditingController firstname = TextEditingController();
   TextEditingController lastname = TextEditingController();
-  TextEditingController phone = TextEditingController();
+  TextEditingController phone = TextEditingController(text: '');
   TextEditingController country = TextEditingController();
   TextEditingController confirmpassword = TextEditingController();
 
@@ -91,17 +91,15 @@ class _SignUpState extends State<SignUp> {
               SizedBox(height: 10,),
               TextFieldApp(hintText: 'Vorname',hintTitle: 'John',controller: firstname,type: TextInputType.text,),
               SizedBox(height: 10,),
-              TextFieldApp(hintText: 'Familienname',hintTitle: 'Doe',controller: lastname,type: TextInputType.text),
+              TextFieldApp(hintText: 'Nachname',hintTitle: 'Doe',controller: lastname,type: TextInputType.text),
               SizedBox(height: 10,),
               TextFieldApp(hintText: 'Land',hintTitle: 'Russia',controller: country,type: TextInputType.text),
               SizedBox(height: 10,),
-              TextFieldApp(hintText: 'Telefon',hintTitle: '+9258798798',controller: phone,type: TextInputType.phone),
-              SizedBox(height: 10,),
               TextFieldApp(hintText: 'Email',hintTitle: 'johndoe@mail.com',controller: emailCtrl,type: TextInputType.emailAddress),
               SizedBox(height: 10,),
-              TextFieldApp(hintText: 'Passwort',hintTitle: '*********',controller: passwordCtrl,obsecure: true,type: TextInputType.text),
+              TextFieldApp(hintText: 'Passwort',hintTitle: '*********',controller: passwordCtrl,obsecure: true,type: TextInputType.visiblePassword,),
               SizedBox(height: 10,),
-              TextFieldApp(hintText: 'Bestätige das Passwort',hintTitle: '*********',controller: confirmpassword,obsecure: true,type: TextInputType.text),
+              TextFieldApp(hintText: 'Passwort bestätigen',hintTitle: '*********',controller: confirmpassword,obsecure: true,type: TextInputType.visiblePassword),
               SizedBox(height: 40,),
               Container(
                   width: 270,

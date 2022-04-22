@@ -231,7 +231,7 @@ class _DashboardState extends State<Dashboard> {
           Container(
               width: 120,
               height: 30,
-              child: ButtonRound(buttonText: 'Visit Shop',radius: 50, function:  (){
+              child: ButtonRound(buttonText: 'zum Onlineshop',radius: 50, function:  (){
                 onClick();
               },)),
 

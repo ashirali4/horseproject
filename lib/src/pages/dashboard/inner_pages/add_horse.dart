@@ -59,7 +59,7 @@ class _AddHorseState extends State<AddHorse> {
   TextEditingController dob=TextEditingController();
   TextEditingController coatcolor=TextEditingController();
   TextEditingController specialmark=TextEditingController();
-  TextEditingController pdate=TextEditingController(text: formatter.format(DateTime.now()));
+  TextEditingController pdate=TextEditingController();
   TextEditingController pnumber=TextEditingController();
   TextEditingController mnumber=TextEditingController();
   TextEditingController lifenumber=TextEditingController();
@@ -394,7 +394,7 @@ class _AddHorseState extends State<AddHorse> {
             },
           ),
           SizedBox(height: 10,),
-          TextFieldApp(hintText: 'Wettrennen',hintTitle: 'Select Race',controller: race,type: TextInputType.text,
+          TextFieldApp(hintText: 'Wettrennen',hintTitle: 'Rasse',controller: race,type: TextInputType.text,
           // endingWidget: DropdownButton<String>(
           //   items: racesList.map((String value) {
           //     return DropdownMenuItem<String>(
@@ -424,7 +424,7 @@ class _AddHorseState extends State<AddHorse> {
           SizedBox(height: 10,),
           TextFieldApp(hintText: 'Besonderes Zeichen',hintTitle: 'Mark',controller: specialmark,type: TextInputType.text),
           SizedBox(height: 10,),
-          TextFieldApp(hintText: 'Pferdehöhe',hintTitle: 'Horse Height',controller: horseHeight,type: TextInputType.text),
+          TextFieldApp(hintText: 'Größe cm',hintTitle: 'Horse Height',controller: horseHeight,type: TextInputType.text),
           SizedBox(height: 10,),
           TextFieldApp(hintText: 'Kaufdatum',hintTitle: 'dd/mm/yyyy',controller: pdate,
             endingWidget: IconButton(

@@ -41,13 +41,19 @@ class _HealthState extends State<Health> {
     'farrier_last_date': '',
   };
 
+  TextEditingController text1 = TextEditingController();
+  TextEditingController text2 = TextEditingController();
+
+
 
   onSave() async {
     Map<String, dynamic> data = <String, dynamic>{
       "name": name.text,
       "allergies" : alergies.text,
       "blood" : btype.text,
-      "medicine" : med.text
+      "medicine" : med.text,
+      "text1" : text1.text,
+      "text2" : text2.text,
     };
 
     dataDate.forEach((key, value) {
@@ -68,6 +74,8 @@ class _HealthState extends State<Health> {
         alergies.text=data['allergies'] ?? '';
         btype.text=data['blood'] ?? '';
         med.text=data['medicine'] ?? '';
+        text1.text=data['text1'] ?? '';
+        text2.text=data['text2'] ?? '';
       });
     }catch (e){
       print("Erorr " + e.toString());
@@ -137,7 +145,7 @@ class _HealthState extends State<Health> {
               Container(
                   width: MediaQuery.of(context).size.width,
                   child: ButtonRound(
-                    buttonText: 'Gesundheit retten',
+                    buttonText: 'Speichern',
                     function: () {
                       onSave();
                     },
@@ -172,7 +180,7 @@ class _HealthState extends State<Health> {
             height: 10,
           ),
           TextFieldApp(
-            hintText: 'Allergiker',
+            hintText: 'Allergien',
             hintTitle: 'Name of Allergies',
             controller: alergies,
               type: TextInputType.text
@@ -190,7 +198,7 @@ class _HealthState extends State<Health> {
             height: 10,
           ),
           TextFieldApp(
-            hintText: 'Medizin',
+            hintText: 'Medikamente',
             hintTitle: 'Name of Medicine',
             controller: med,
               type: TextInputType.text
@@ -202,18 +210,25 @@ class _HealthState extends State<Health> {
             'Impfung',
             style: TextStyle(fontWeight: FontWeight.w600, fontSize: 20),
           ),
-          healthDateBox('Equine Flu', 'equine_start_date', 'equine_last_date'),
+          SizedBox(height: 10,),
+          healthDateBox('Grippe', 'equine_start_date', 'equine_last_date'),
           healthDateBox('Herpes', 'herpes_start_date', 'herpes_last_date'),
           healthDateBox('Druse', 'druse_start_date', 'druse_last_date'),
-          healthDateBox('Rabies', 'rabies_start_date', 'rabies_last_date'),
-          healthDateBox('Borreliosis', 'borr_start_date', 'borr_last_date'),
+          healthDateBox('Tollwut', 'rabies_start_date', 'rabies_last_date'),
+          healthDateBox('Borreliose', 'borr_start_date', 'borr_last_date'),
           Text(
-            'Anthelmintic Therapy',
+            'Wurmkur',
             style: TextStyle(fontWeight: FontWeight.w600, fontSize: 20),
           ),
           healthDateBox('Therapy', 'therpay_start_date', 'therpay_last_date'),
+          SizedBox(height: 10,),
+          TextFieldApp(hintText: 'Medikament',hintTitle: 'Medikament',controller: text1,type: TextInputType.text),
+          SizedBox(height: 10,),
+          TextFieldApp(hintText: 'Dosis',hintTitle: 'Dosis',controller: text2,type: TextInputType.text),
+          SizedBox(height: 10,),
+
           Text(
-            'Farrier',
+            'Hufschmied',
             style: TextStyle(fontWeight: FontWeight.w600, fontSize: 20),
           ),
           healthDateBox('', 'farrier_start_date', 'farrier_last_date'),

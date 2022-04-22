@@ -106,7 +106,7 @@ class _DiaryHorseState extends State<DiaryHorse> {
         shape: ContinuousRectangleBorder(
             borderRadius: BorderRadius.only(
                 bottomLeft: Radius.circular(40), bottomRight: Radius.circular(40))),
-        title: Text('Molkerei'),
+        title: Text('Tagebuch'),
         centerTitle: true,
       ),
       body: Container(

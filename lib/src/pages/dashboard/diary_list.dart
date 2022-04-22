@@ -25,7 +25,7 @@ class _DiaryListState extends State<DiaryList> {
       .collection('users')
       .doc(FirebaseAuth.instance.currentUser!.uid)
       .collection('diary');
-  String ScafoldTitle = 'Tagebuchliste';
+  String ScafoldTitle = 'Gesundheit';
 
   TextEditingController search = TextEditingController();
 
@@ -90,7 +90,7 @@ class _DiaryListState extends State<DiaryList> {
                   begin: FractionalOffset.topCenter,
                   end: FractionalOffset.bottomCenter,
                   colors: [
-                    Color(0xff026c45).withOpacity(.3),
+                    Color(0xff026c45).withOpacity(.7),
                     Colors.black,
                   ],
                   stops: [

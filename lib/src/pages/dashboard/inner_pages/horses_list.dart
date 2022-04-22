@@ -26,8 +26,8 @@ class _HorseListState extends State<HorseList> {
       .collection('users')
       .doc(FirebaseAuth.instance.currentUser!.uid)
       .collection('horses');
-  String ScafoldTitle = 'Ihre Pferde';
-  Color screenColor = BACKGROUND_COLOR_DASHBOARD;
+  String ScafoldTitle = 'Deine Pferde';
+  Color screenColor = Colors.deepOrange;
 
 
   TextEditingController search = TextEditingController();
@@ -101,7 +101,7 @@ class _HorseListState extends State<HorseList> {
                   begin: FractionalOffset.topCenter,
                   end: FractionalOffset.bottomCenter,
                   colors: [
-                    screenColor.withOpacity(.3),
+                    screenColor.withOpacity(.1),
                     Colors.black,
                   ],
                   stops: [
@@ -217,14 +217,14 @@ class _HorseListState extends State<HorseList> {
                                     SizedBox(
                                       height: 05,
                                     ),
-                                    Text(
-                                      "Purchase Date : " + user['pdate'],
-                                      style: GoogleFonts.raleway(
-                                        fontSize: 15,
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.w600,
-                                      ),
-                                    ),
+                                    // Text(
+                                    //   "Purchase Date : " + user['pdate'],
+                                    //   style: GoogleFonts.raleway(
+                                    //     fontSize: 15,
+                                    //     color: Colors.black,
+                                    //     fontWeight: FontWeight.w600,
+                                    //   ),
+                                    // ),
                                   ],
                                 )
                               ],

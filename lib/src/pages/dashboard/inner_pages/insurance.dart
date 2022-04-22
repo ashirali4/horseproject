@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../../net/firebase_operations.dart';
 import '../../../utlis/constants.dart';
@@ -155,11 +156,11 @@ class _InsuranceState extends State<Insurance> {
               TextFieldApp(hintText: 'Name des Pferdes',hintTitle: 'Black Horse',controller: horse,              type: TextInputType.text,  isEnabled: false,
               ),
               SizedBox(height: 10,),
-              OtherBody('Haftung',name,address,phone,email,vern,pdf1,onUpdatePdf1),
+              OtherBody('Haftpflichtversicherung',name,address,phone,email,vern,pdf1,onUpdatePdf1),
               SizedBox(height: 10,),
               OtherBody('Krankenversicherung',name2,address2,phone2,email2,vern2,pdf2,onUpdatePdf2),
               SizedBox(height: 10,),
-              OtherBody('Chirurgische Versicherung',name3,address3,phone3,email3,vern3,pdf3,onUpdatePdf3),
+              OtherBody('OP Versicherung',name3,address3,phone3,email3,vern3,pdf3,onUpdatePdf3),
               SizedBox(height: 10,),
 
               Container(
@@ -195,19 +196,37 @@ class _InsuranceState extends State<Insurance> {
           SizedBox(height: 10,),
           Text(text,style: TextStyle(fontSize: 20,fontWeight: FontWeight.w700),),
           SizedBox(height: 10,),
-          TextFieldApp(hintText: 'Name',hintTitle: 'Name of Insurer',controller: controller1,              type: TextInputType.text
+          TextFieldApp(hintText: 'Name Versicherung',hintTitle: 'Name of Insurer',controller: controller1,              type: TextInputType.text
           ),
           SizedBox(height: 10,),
-          TextFieldApp(hintText: 'Die Anschrift',hintTitle: 'Address here',controller: controller2,              type: TextInputType.text
+          TextFieldApp(hintText: 'Anschrift',hintTitle: 'Address here',controller: controller2,              type: TextInputType.text
           ),
           SizedBox(height: 10,),
-          TextFieldApp(hintText: 'Telefonnummer',hintTitle: '+9823423423',controller: controller3,              type: TextInputType.phone
+          TextFieldApp(hintText: 'Telefonnummer',hintTitle: '+9823423423',controller: controller3,
+              type: TextInputType.phone,
+            endingWidget: IconButton(
+              icon: Icon(Icons.phone,color: Colors.deepPurple,),
+              onPressed: () {
+                if (controller3 != null && controller3.text != '') {
+                  launch('tel:' + controller3.text);
+                }
+              },
+            ),
           ),
           SizedBox(height: 10,),
-          TextFieldApp(hintText: 'Email',hintTitle: 'test@gmail.com',controller: controller4,              type: TextInputType.emailAddress
+          TextFieldApp(hintText: 'Email',hintTitle: 'test@gmail.com',controller: controller4,
+              type: TextInputType.emailAddress,
+            endingWidget: IconButton(
+              icon: Icon(Icons.email_outlined,color: Colors.deepPurple,),
+              onPressed: () {
+                if (controller4 != null && controller4.text != '') {
+                  launch('mailto:' + controller4.text);
+                }
+              },
+            ),
           ),
           SizedBox(height: 10,),
-          TextFieldApp(hintText: 'Vers. Anzahl',hintTitle: '123****',controller: controller5,              type: TextInputType.number
+          TextFieldApp(hintText: 'Versicherungsnummer',hintTitle: '123****',controller: controller5,              type: TextInputType.number
           ),
           SizedBox(height: 10,),
           UploadImageWidget(
