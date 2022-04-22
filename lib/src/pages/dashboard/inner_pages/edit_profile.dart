@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:horseproject/src/net/firebase_operations.dart';
@@ -10,6 +11,7 @@ import '../../../widgets/button_round.dart';
 import '../../../widgets/image_widget.dart';
 import '../../../widgets/textfield.dart';
 import '../../../widgets/user_profile_image_widget.dart';
+import '../../auth/into.dart';
 class EditProfile extends StatefulWidget {
   const EditProfile({Key? key}) : super(key: key);
 
@@ -105,6 +107,17 @@ class _EditProfileState extends State<EditProfile> {
                     onSave();
                   },buttonColor: Colors.blue,)),
               SizedBox(height: 10,),
+              Container(
+                  width: MediaQuery.of(context).size.width,
+                  child: ButtonRound(buttonText: 'Ausloggen', function:  () async {
+                    await FirebaseAuth.instance.signOut();
+                    Navigator.pushAndRemoveUntil(
+                        context,
+                        MaterialPageRoute(builder: (BuildContext context) => IntroMobileApp()),
+                        ModalRoute.withName('/')
+                    );
+                  },buttonColor: Colors.blue,)),
+              SizedBox(height: 10,),
               SizedBox(height: 10,),
               SizedBox(height: 10,),
             ],
@@ -129,7 +142,7 @@ class _EditProfileState extends State<EditProfile> {
           SizedBox(height: 10,),
           TextFieldApp(hintText: 'Telefon',hintTitle: '0900786001',controller: phone,type: TextInputType.phone),
           SizedBox(height: 10,),
-          TextFieldApp(hintText: 'Email',hintTitle: 'johndoe@mail.com',controller: email,type: TextInputType.emailAddress),
+          TextFieldApp(hintText: 'Email',hintTitle: 'johndoe@mail.com',controller: email,type: TextInputType.emailAddress,isEnabled: false,),
 
         ],
       ),

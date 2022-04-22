@@ -92,8 +92,9 @@ class _HealthState extends State<Health> {
             child: child!,
           );
         },
+        locale: const Locale("de", "DE"),
         initialDate: DateTime.now(),
-        firstDate: DateTime(2015, 8),
+        firstDate: DateTime(1995, 1),
         lastDate: DateTime(2101));
     if (picked != null) {
       setState(() {

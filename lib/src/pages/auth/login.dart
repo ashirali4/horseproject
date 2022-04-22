@@ -23,6 +23,81 @@ class _SignInState extends State<SignIn> {
   TextEditingController emailCtrl = TextEditingController();
   TextEditingController passwordCtrl = TextEditingController();
 
+
+  void showCustomDialog(EmailFlowController controller) {
+    showGeneralDialog(
+      context: context,
+      barrierLabel: "Barrier",
+      barrierDismissible: true,
+      barrierColor: Colors.black.withOpacity(0.5),
+      transitionDuration: Duration(milliseconds: 700),
+      pageBuilder: (_, __, ___) {
+        return Center(
+          child: Container(
+            height: 280,
+            child: SizedBox.expand(child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SizedBox(height: 20,),
+                Text('Wir respektieren deine Privatsphäre',style: TextStyle(fontWeight: FontWeight.bold,fontSize: 15),),
+                SizedBox(height: 10,),
+                Padding(
+                  padding: const EdgeInsets.only(left: 20,right: 20),
+                  child: Text('Um diese App zu betreiben verwenden wir Cookies. Ihre Privatsphäre ist uns wichtig und wir versichern Ihnen, dass wir Ihre Daten nur für notwendige Zwecke verwenden und nicht verkaufen.',style: TextStyle(fontWeight: FontWeight.w500),
+                    textAlign: TextAlign.center,),
+                ),
+                SizedBox(height: 05,),
+                // PrivacyPolicy(),
+                Padding(
+                  padding: const EdgeInsets.only(left: 20,right: 20,top: 25,bottom: 10),
+                  child: Row(
+                    children: [
+                      Expanded(child:  ButtonRound(buttonText: 'Cookies ablehnen', function:  (){ Navigator.pop(context);},),),
+                      SizedBox(width: 15,),
+                      Expanded(child:  ButtonRound(buttonText: 'Cookies zustimmen',buttonColor: Colors.blue,textColor: Colors.white, function:  (){
+                        controller.setEmailAndPassword(
+                          emailCtrl.text,
+                          passwordCtrl.text,
+                        );
+                      },),)
+                    ],
+                  ),
+                ),
+                // Padding(
+                //   padding: const EdgeInsets.only(left: 30,right: 30,bottom: 20),
+                //   child: Row(
+                //     children: [
+                //
+                //       Expanded(child:  ButtonRound(buttonText: 'Datenschutz zustimme',buttonColor: Colors.green,textColor: Colors.white, function:  (){
+                //         Navigator.pop(context);
+                //       },),)
+                //     ],
+                //   ),
+                // )
+              ],
+            )),
+            margin: EdgeInsets.symmetric(horizontal: 20,vertical: 15),
+            decoration: BoxDecoration(color: Colors.white,),
+          ),
+        );
+      },
+      transitionBuilder: (_, anim, __, child) {
+        Tween<Offset> tween;
+        if (anim.status == AnimationStatus.reverse) {
+          tween = Tween(begin: Offset(-1, 0), end: Offset.zero);
+        } else {
+          tween = Tween(begin: Offset(1, 0), end: Offset.zero);
+        }
+
+        return FadeTransition(
+          opacity: anim,
+          child: child,
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return AuthFlowBuilder<EmailFlowController>(
@@ -99,13 +174,11 @@ class _SignInState extends State<SignIn> {
                   child: ButtonRound(buttonText: 'Anmelden', function:  (){
                     FocusScope.of(context).unfocus();
                     if(emailCtrl.text!=null && emailCtrl.text!='' && passwordCtrl.text!=null && passwordCtrl.text!=''){
-                      controller.setEmailAndPassword(
-                        emailCtrl.text,
-                        passwordCtrl.text,
-                      );
+                      showCustomDialog(controller);
                     }else{
                       EasyLoading.showToast('Bitte E-Mail & Passwort eingeben',toastPosition: EasyLoadingToastPosition.bottom);
                     }
+
                   },)),
               SizedBox(height: 30,),
             //  OrLoginWith(),

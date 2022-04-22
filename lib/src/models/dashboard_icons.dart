@@ -11,6 +11,7 @@ import '../pages/dashboard/inner_pages/bodyvalue.dart';
 import '../pages/dashboard/inner_pages/diary.dart';
 import '../pages/dashboard/inner_pages/horses_list.dart';
 import '../pages/others/calendar.dart';
+import '../pages/others/qr_page.dart';
 
 class DashboardIcons{
   String name;
@@ -37,6 +38,9 @@ List<DashboardIcons> Dashboard_Icons_List=[
   }),
   DashboardIcons('Versicherung', 'assets/insurance.png',(){
     Get.to(HorseList(type: ListType.Insurance,));
+  }),
+  DashboardIcons('QR', 'assets/qr.png',(){
+    Get.to(QRScan());
   }),
   // DashboardIcons('Calenar', 'assets/calendar.png',(){
   //   Get.to(CalendarValue());

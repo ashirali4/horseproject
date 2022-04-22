@@ -37,8 +37,9 @@ class _DiaryHorseState extends State<DiaryHorse> {
         builder: (context,child) {
           return CalendarTheme(child: child!,);
         },
+
         initialDate: selectedDate,
-        firstDate: DateTime(2015, 8),
+        firstDate: DateTime(1995, 1),
         lastDate: DateTime(2101));
     if (picked != null && picked != selectedDate) {
         setState(() {

@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:flutterfire_ui/i10n.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:horseproject/src/pages/auth/into.dart';
 import 'package:horseproject/src/pages/auth/login.dart';
@@ -34,6 +35,13 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
+      localizationsDelegates: [
+        GlobalMaterialLocalizations.delegate
+      ],
+      supportedLocales: [
+        const Locale('en'),
+        const Locale('de')
+      ],
       builder: EasyLoading.init(),
       home: FirebaseAuth.instance.currentUser!=null ? Dashboard() : IntroMobileApp(),
     );

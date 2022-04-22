@@ -40,7 +40,8 @@ class _AddHorseState extends State<AddHorse> {
           return CalendarTheme(child: child!,);
         },
         initialDate: selectedDate,
-        firstDate: DateTime(2015, 8),
+        firstDate: DateTime(1995, 1),
+        locale: const Locale("de", "DE"),
         lastDate: DateTime(2101));
     if (picked != null && picked != selectedDate) {
       if(picked.isAfter(DateTime.now())){
@@ -310,29 +311,9 @@ class _AddHorseState extends State<AddHorse> {
           color: Colors.white),
       child: Padding(
           padding:
-          const EdgeInsets.only(left: 15, right: 15, top: 5, bottom: 5),
+          const EdgeInsets.only(left: 15, right: 15, top: 15, bottom: 5),
           child: Column(
             children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(weightDate==null || weightDate.text==''? ' Wählen Sie Datum' : weightDate.text,style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 17,
-                    fontWeight: FontWeight.bold
-                  ),),
-                  IconButton(onPressed: (){
-                    _selectDate(weightDate);
-                  }, icon: Icon(Icons.date_range,color: Colors.red,))
-                ],
-              ),
-              Row(
-                children: [
-
-                  Expanded(child:  TextFieldApp(hintText: 'Gewicht',hintTitle: 'Black Horse',controller: weidghtText,type: TextInputType.number),)
-                ],
-              ),
-              SizedBox(height: 10,),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -359,6 +340,27 @@ class _AddHorseState extends State<AddHorse> {
                       },)),
                 ],
               ),
+              SizedBox(height: 10,),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(weightDate==null || weightDate.text==''? ' Wiegedatum' : weightDate.text,style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 17,
+                    fontWeight: FontWeight.bold
+                  ),),
+                  IconButton(onPressed: (){
+                    _selectDate(weightDate);
+                  }, icon: Icon(Icons.date_range,color: Colors.red,))
+                ],
+              ),
+              Row(
+                children: [
+
+                  Expanded(child:  TextFieldApp(hintText: 'Gewicht kg',hintTitle: 'Black Horse',controller: weidghtText,type: TextInputType.number),)
+                ],
+              ),
+
 
               SizedBox(height: 15,),
             ],
@@ -440,15 +442,17 @@ class _AddHorseState extends State<AddHorse> {
           SizedBox(height: 10,),
           TextFieldApp(hintText: 'Lebensnummer',hintTitle: '123*****',controller: lifenumber,type: TextInputType.number),
           SizedBox(height: 10,),
-          Text(' Gewichtshistorie',style: TextStyle(fontWeight: FontWeight.bold,color: LIGHT_BUTTON_COLOR),),
+          AddWeight(),
+          SizedBox(height: 10,),
+          Text(' Speichern',style: TextStyle(fontWeight: FontWeight.bold,color: LIGHT_BUTTON_COLOR),),
           SizedBox(height: 10,),
           ListTile(
 
-              trailing: Text('Gewicht' ,
+              trailing: Text('Gewicht kg' ,
                 style: TextStyle(
                     color: Colors.green,fontSize: 15,fontWeight: FontWeight.bold),),
-              title:Text('Datum'+ " - (Gewicht ID)",style: TextStyle(
-                 fontSize: 15,fontWeight: FontWeight.bold),)
+              title:Text('Datum'+ " - Wiegenummer",style: TextStyle(
+                  fontSize: 15,fontWeight: FontWeight.bold),)
           ),
           ListView.builder(
               itemCount: weiightHistory.length,
@@ -470,13 +474,11 @@ class _AddHorseState extends State<AddHorse> {
               }
           ),
           SizedBox(height: 10,),
-          AddWeight(),
-          SizedBox(height: 10,),
-          Container(
-              height: 300,
-              child: SimpleBarChart(
-                  _createSampleData(), true)),
-          SizedBox(height: 10,),
+          // Container(
+          //     height: 300,
+          //     child: SimpleBarChart(
+          //         _createSampleData(), true)),
+          // SizedBox(height: 10,),
           Container(
               width: MediaQuery.of(context).size.width,
               child: ButtonRound(buttonText: 'Book Appoinment', function:  () async{

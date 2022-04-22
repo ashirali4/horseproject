@@ -25,7 +25,7 @@ class Dashboard extends StatefulWidget {
 }
 
 class _DashboardState extends State<Dashboard> {
-  int length = 5;
+  int length = 6;
   double innerSpacingDivider = 10;
   double radiusOfItemDivider = 5;
   double centerWidgetRadiusDivider = 3;
@@ -54,12 +54,12 @@ class _DashboardState extends State<Dashboard> {
       ),
       child: SingleChildScrollView(
         child: Container(
-          padding: EdgeInsets.only(left: 25, right: 25,top: 60),
+          padding: EdgeInsets.only(left: 25, right: 25,top: 50),
 
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              TopBar(),
+             // TopBar(),
               SizedBox(height: 30,),
               Text(' Kategorien',style: TextStyle(color: Colors.white,fontSize: 18,fontWeight: FontWeight.w700),),
               SizedBox(height: 05,),
@@ -229,7 +229,7 @@ class _DashboardState extends State<Dashboard> {
               child: Text('Feugiat augue aliquam sodales.',style: TextStyle(color: Colors.black,fontSize: 15,),)),
           SizedBox(height: 10,),
           Container(
-              width: 120,
+              width: 140,
               height: 30,
               child: ButtonRound(buttonText: 'zum Onlineshop',radius: 50, function:  (){
                 onClick();

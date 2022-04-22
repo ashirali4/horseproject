@@ -108,14 +108,14 @@ class _ImageWidgetState extends State<UploadImageWidget> {
     return Container(
       child: widget.widgetType!=WidgetType.PDFType?
       Container(
-          height: 150,
+          height: 400,
           width: MediaQuery.of(context).size.width,
           decoration: BoxDecoration(
               image: DecorationImage(
                 image: NetworkImage(
                   uploadFileUrl,
                 ),
-                fit: BoxFit.cover
+                fit: BoxFit.fitHeight
               ),
               borderRadius: BorderRadius.all(Radius.circular(8))
           ),
