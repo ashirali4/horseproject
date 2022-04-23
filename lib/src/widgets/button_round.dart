@@ -37,7 +37,8 @@ class ButtonRoundGoogle extends StatelessWidget {
   final double height;
   final Color buttonColor;
   final Color textColor;
-  const ButtonRoundGoogle({Key? key,required this.buttonText,this.radius=8,this.height=45,this.buttonColor=BUTTON_PRIMARY,this.textColor=Colors.white}) : super(key: key);
+  final Function ontap;
+  const ButtonRoundGoogle({Key? key,required this.buttonText,this.radius=8,this.height=45,this.buttonColor=BUTTON_PRIMARY,this.textColor=Colors.white,required this.ontap}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -56,7 +57,9 @@ class ButtonRoundGoogle extends StatelessWidget {
             ),
           ),// foreground
         ),
-        onPressed: () { },
+        onPressed: () {
+          this.ontap();
+        },
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [

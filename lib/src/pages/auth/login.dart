@@ -3,10 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutterfire_ui/auth.dart';
 import 'package:get/get.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:horseproject/src/pages/auth/recovery_password.dart';
 import 'package:horseproject/src/pages/dashboard/dashboard.dart';
 import 'package:horseproject/src/utlis/constants.dart';
 
+import '../../net/firebase_operations.dart';
 import '../../widgets/background_widget.dart';
 import '../../widgets/button_round.dart';
 import '../../widgets/or_login_with.dart';
@@ -22,7 +24,8 @@ class SignIn extends StatefulWidget {
 class _SignInState extends State<SignIn> {
   TextEditingController emailCtrl = TextEditingController();
   TextEditingController passwordCtrl = TextEditingController();
-
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  final GoogleSignIn _googleSignIn = GoogleSignIn();
 
   void showCustomDialog(EmailFlowController controller) {
     showGeneralDialog(
@@ -56,6 +59,7 @@ class _SignInState extends State<SignIn> {
                       Expanded(child:  ButtonRound(buttonText: 'Cookies ablehnen', function:  (){ Navigator.pop(context);},),),
                       SizedBox(width: 15,),
                       Expanded(child:  ButtonRound(buttonText: 'Cookies zustimmen',buttonColor: Colors.blue,textColor: Colors.white, function:  (){
+                        Navigator.pop(context);
                         controller.setEmailAndPassword(
                           emailCtrl.text,
                           passwordCtrl.text,
@@ -180,17 +184,48 @@ class _SignInState extends State<SignIn> {
                     }
 
                   },)),
-              SizedBox(height: 30,),
+              SizedBox(height: 20,),
             //  OrLoginWith(),
+
+              Container(
+                  width: 270,
+                  height: 50,
+                  child: ButtonRoundGoogle(buttonText: 'Continue with Google',buttonColor: Colors.white,textColor: LIGHT_BUTTON_COLOR,ontap: (){
+                    signInWithGoogle();
+                  },)),
+              SizedBox(height: 20,),
               PrivacyPolicy(),
-            //   Container(
-            //       width: 280,
-            //       height: 50,
-            //       child: ButtonRoundGoogle(buttonText: 'Continue with Google',buttonColor: Colors.white,textColor: LIGHT_BUTTON_COLOR,)),
-             ],
+
+            ],
           ),
         ),
       ),
     );
   }
+
+
+  signInWithGoogle() async {
+    print('loginngin');
+   try{
+     GoogleSignInAccount? googleSignInAccount = await _googleSignIn.signIn();
+     GoogleSignInAuthentication googleSignInAuthentication =
+     await googleSignInAccount!.authentication;
+     AuthCredential credential = GoogleAuthProvider.credential(
+       accessToken: googleSignInAuthentication.accessToken,
+       idToken: googleSignInAuthentication.idToken,
+     );
+     EasyLoading.show(status: 'Warten Sie mal...');
+     await _auth.signInWithCredential(credential);
+     await FirebaseDB.addSignWithGoogle(
+       firstname: FirebaseAuth.instance.currentUser!.displayName.toString(),
+       email: FirebaseAuth.instance.currentUser!.email.toString(),
+       id: FirebaseAuth.instance.currentUser!.email.toString(),
+     );
+     EasyLoading.dismiss();
+     Navigator.pushReplacement(context, MaterialPageRoute(builder: (BuildContext context) => Dashboard()));
+   } catch(e){
+     EasyLoading.showToast(e.toString(),toastPosition: EasyLoadingToastPosition.bottom);
+   }
+  }
+
 }

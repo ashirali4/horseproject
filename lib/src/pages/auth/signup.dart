@@ -62,6 +62,7 @@ class _SignUpState extends State<SignUp> {
                       Expanded(child:  ButtonRound(buttonText: 'Cookies ablehnen', function:  (){ Navigator.pop(context);},),),
                       SizedBox(width: 15,),
                       Expanded(child:  ButtonRound(buttonText: 'Cookies zustimmen',buttonColor: Colors.blue,textColor: Colors.white, function:  (){
+                        Navigator.pop(context);
                         controller.setEmailAndPassword(
                           emailCtrl.text,
                           passwordCtrl.text,

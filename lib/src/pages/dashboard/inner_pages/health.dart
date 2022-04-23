@@ -221,7 +221,7 @@ class _HealthState extends State<Health> {
             'Wurmkur',
             style: TextStyle(fontWeight: FontWeight.w600, fontSize: 20),
           ),
-          healthDateBox('Therapy', 'therpay_start_date', 'therpay_last_date'),
+          healthDateBox('', 'therpay_start_date', 'therpay_last_date'),
           SizedBox(height: 10,),
           TextFieldApp(hintText: 'Medikament',hintTitle: 'Medikament',controller: text1,type: TextInputType.text),
           SizedBox(height: 10,),

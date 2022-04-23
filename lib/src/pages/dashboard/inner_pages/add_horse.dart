@@ -256,7 +256,7 @@ class _AddHorseState extends State<AddHorse> {
                 SizedBox(height: 10,),
                 Container(
                     width: MediaQuery.of(context).size.width,
-                    child: ButtonRound(buttonText: 'Pferd retten', function:  () async {
+                    child: ButtonRound(buttonText: 'Speichern', function:  () async {
                      if(name==null || name.text==''){
                        EasyLoading.showToast('Bitte geben Sie den Pferdenamen ein',toastPosition: EasyLoadingToastPosition.bottom);
                      }else{
@@ -481,7 +481,7 @@ class _AddHorseState extends State<AddHorse> {
           // SizedBox(height: 10,),
           Container(
               width: MediaQuery.of(context).size.width,
-              child: ButtonRound(buttonText: 'Book Appoinment', function:  () async{
+              child: ButtonRound(buttonText: 'Wiegetermin buchen', function:  () async{
                 if (!await launch('https://termine.wirwiegendeinpferd.de/wp/')) throw 'Could not launch';
               },)),
           SizedBox(height: 10,),

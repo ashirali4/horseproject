@@ -661,4 +661,48 @@ class FirebaseDB {
     return status;
   }
 
+
+
+  static Future<String> addSignWithGoogle({
+    required String firstname,
+    required String id,
+    required String email
+  }) async {
+
+    String status='Failed to Register User';
+    DocumentReference documentReferencer =
+    _mainusersCollection.doc(id);
+
+    Map<String, dynamic> data = <String, dynamic>{
+      "firstName": firstname,
+      "lastName" : '',
+      "country" : '',
+      "phone" : '',
+      "email" : email,
+      "address" : "",
+      "zip" : "",
+      "userimage" : ""
+    };
+
+    Map<String, dynamic> updateData = <String, dynamic>{
+      "firstName": firstname,
+      "email" : email,
+    };
+
+    var doc = await _mainusersCollection.doc(id).get();
+    if(doc.exists){
+      await documentReferencer
+          .update(updateData)
+          .whenComplete(() => status='User SignedIn Successfully')
+          .catchError((e) => status=e.toString());
+    }else{
+      await documentReferencer
+          .set(data)
+          .whenComplete(() => status='User Registered Successfully')
+          .catchError((e) => status=e.toString());
+    }
+
+    return status;
+  }
+
 }

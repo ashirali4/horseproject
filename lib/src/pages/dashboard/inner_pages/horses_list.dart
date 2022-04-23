@@ -70,7 +70,7 @@ class _HorseListState extends State<HorseList> {
   @override
   void initState() {
     if(widget.type==ListType.Health){
-       ScafoldTitle = 'Pferdegesundheit';
+       ScafoldTitle = 'Gesundheit';
        screenColor= Colors.green;
     }else if(widget.type==ListType.Insurance){
        ScafoldTitle = 'Horses Insurance';

@@ -25,7 +25,7 @@ class _DiaryListState extends State<DiaryList> {
       .collection('users')
       .doc(FirebaseAuth.instance.currentUser!.uid)
       .collection('diary');
-  String ScafoldTitle = 'Gesundheit';
+  String ScafoldTitle = 'Tagebuch';
 
   TextEditingController search = TextEditingController();
 
@@ -121,7 +121,7 @@ class _DiaryListState extends State<DiaryList> {
                     builder: (context) => DiaryHorse(type: DiaryType.Add,editId: '',)),
               );
             },
-            label: const Text('Tagebuch hinzufügen'),
+            label: const Text('Eintrag Hinzufügen'),
             icon: const Icon(Icons.add),
             backgroundColor: Color(0xff026c45),
           ),
@@ -191,14 +191,14 @@ class _DiaryListState extends State<DiaryList> {
                                     SizedBox(
                                       height: 05,
                                     ),
-                                    Text(
-                                      "Purchase Date : " + user['description'],
-                                      style: GoogleFonts.raleway(
-                                        fontSize: 15,
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.w600,
-                                      ),
-                                    ),
+                                    // Text(
+                                    //   "Purchase Date : " + user['description'],
+                                    //   style: GoogleFonts.raleway(
+                                    //     fontSize: 15,
+                                    //     color: Colors.black,
+                                    //     fontWeight: FontWeight.w600,
+                                    //   ),
+                                    // ),
                                   ],
                                 )
                               ],

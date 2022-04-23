@@ -40,7 +40,7 @@ class _BodyValueState extends State<BodyValue> {
 
               Container(
                   width: MediaQuery.of(context).size.width,
-                  child: ButtonRound(buttonText: 'Book Appoinment', function:  () async{
+                  child: ButtonRound(buttonText: 'Wiegetermin buchen', function:  () async{
                     if (!await launch('https://termine.wirwiegendeinpferd.de/wp/')) throw 'Could not launch';
                   },)),
               SizedBox(height: 20,),
