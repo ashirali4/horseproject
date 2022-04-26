@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 import 'package:horseproject/src/pages/dashboard/inner_pages/add_horse.dart';
 import 'package:horseproject/src/pages/dashboard/inner_pages/contacts.dart';
@@ -6,6 +7,7 @@ import 'package:horseproject/src/pages/dashboard/inner_pages/health.dart';
 import 'package:horseproject/src/pages/dashboard/inner_pages/insurance.dart';
 import 'package:horseproject/src/utlis/enums.dart';
 
+import '../pages/auth/into.dart';
 import '../pages/dashboard/diary_list.dart';
 import '../pages/dashboard/inner_pages/bodyvalue.dart';
 import '../pages/dashboard/inner_pages/diary.dart';
@@ -41,6 +43,10 @@ List<DashboardIcons> Dashboard_Icons_List=[
   }),
   DashboardIcons('QR', 'assets/qr.png',(){
     Get.to(QRScan());
+  }),
+  DashboardIcons('Ausloggen', 'assets/log.png',(){
+           FirebaseAuth.instance.signOut();
+           Get.offAll(IntroMobileApp());
   }),
   // DashboardIcons('Calenar', 'assets/calendar.png',(){
   //   Get.to(CalendarValue());

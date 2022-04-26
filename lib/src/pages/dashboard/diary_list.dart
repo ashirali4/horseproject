@@ -121,7 +121,7 @@ class _DiaryListState extends State<DiaryList> {
                     builder: (context) => DiaryHorse(type: DiaryType.Add,editId: '',)),
               );
             },
-            label: const Text('Eintrag Hinzufügen'),
+            label: const Text('Eintrag hinzufügen'),
             icon: const Icon(Icons.add),
             backgroundColor: Color(0xff026c45),
           ),

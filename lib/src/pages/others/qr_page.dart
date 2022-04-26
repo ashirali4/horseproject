@@ -36,7 +36,7 @@ class _QRScanState extends State<QRScan> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text('Platzieren Sie den QR-Code zum Scannen in den Rahmen. ',style: TextStyle(fontWeight: FontWeight.w500,color: LIGHT_BUTTON_COLOR),textAlign: TextAlign.center,),
+            Text('Platziere den QR-Code zum Scannen in den Rahmen',style: TextStyle(fontWeight: FontWeight.w500,color: LIGHT_BUTTON_COLOR),textAlign: TextAlign.center,),
             SizedBox(height: 20,),
             Padding(
               padding: const EdgeInsets.all(20),

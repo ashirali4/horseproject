@@ -103,20 +103,20 @@ class _EditProfileState extends State<EditProfile> {
               SizedBox(height: 30,),
               Container(
                   width: MediaQuery.of(context).size.width,
-                  child: ButtonRound(buttonText: 'Profil speichern', function:  (){
+                  child: ButtonRound(buttonText: 'Speichern', function:  (){
                     onSave();
                   },buttonColor: Colors.blue,)),
               SizedBox(height: 10,),
-              Container(
-                  width: MediaQuery.of(context).size.width,
-                  child: ButtonRound(buttonText: 'Ausloggen', function:  () async {
-                    await FirebaseAuth.instance.signOut();
-                    Navigator.pushAndRemoveUntil(
-                        context,
-                        MaterialPageRoute(builder: (BuildContext context) => IntroMobileApp()),
-                        ModalRoute.withName('/')
-                    );
-                  },buttonColor: Colors.blue,)),
+              // Container(
+              //     width: MediaQuery.of(context).size.width,
+              //     child: ButtonRound(buttonText: 'Ausloggen', function:  () async {
+              //       await FirebaseAuth.instance.signOut();
+              //       Navigator.pushAndRemoveUntil(
+              //           context,
+              //           MaterialPageRoute(builder: (BuildContext context) => IntroMobileApp()),
+              //           ModalRoute.withName('/')
+              //       );
+              //     },buttonColor: Colors.blue,)),
               SizedBox(height: 10,),
               SizedBox(height: 10,),
               SizedBox(height: 10,),

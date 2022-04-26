@@ -62,7 +62,7 @@ class FirebaseDB {
     required String mnumber,
     required String lnumber,
     required String height,
-    required String pdfurl,
+    required List<dynamic> pdfurl,
     required String imageurl,
     required List<dynamic> weights,
     required List<dynamic> weightsdDates,
@@ -594,7 +594,7 @@ class FirebaseDB {
         'whistory' : a['whistory'] ?? [],
         'height' : a['height'] ?? '',
         'imageurl' : a['imageurl'] ?? '',
-        'pdfurl' : a['pdfurl'] ?? '',
+        'pdfurl' : a['pdfurl'] ?? [],
         'wdates' : a['wdates'] ?? [],
         'weightIDS' : a['weightIDS'] ?? [],
       };

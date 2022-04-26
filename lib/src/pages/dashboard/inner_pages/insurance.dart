@@ -6,6 +6,7 @@ import '../../../net/firebase_operations.dart';
 import '../../../utlis/constants.dart';
 import '../../../utlis/enums.dart';
 import '../../../widgets/button_round.dart';
+import '../../../widgets/documents_widget.dart';
 import '../../../widgets/image_widget.dart';
 import '../../../widgets/textfield.dart';
 class Insurance extends StatefulWidget {
@@ -42,9 +43,9 @@ class _InsuranceState extends State<Insurance> {
   TextEditingController vern3=TextEditingController();
 
 
-  String pdf1='';
-  String pdf2='';
-  String pdf3='';
+  List<dynamic> pdf1=[];
+  List<dynamic> pdf2=[];
+  List<dynamic> pdf3=[];
 
   onSave() async {
     Map<String, dynamic> data = <String, dynamic>{
@@ -92,9 +93,9 @@ class _InsuranceState extends State<Insurance> {
         phone3.text=data['p3'] ?? '';
         email3.text=data['e3'] ?? '';
         vern3.text=data['v3'] ?? '';
-        pdf1 = data['pdf1'] ?? '';
-        pdf2 = data['pdf2'] ?? '';
-        pdf3 = data['pdf3'] ?? '';
+        pdf1 = data['pdf1'] ?? [];
+        pdf2 = data['pdf2'] ?? [];
+        pdf3 = data['pdf3'] ?? [];
       });
     }catch (e){
       print("Erorr " + e.toString());
@@ -102,19 +103,19 @@ class _InsuranceState extends State<Insurance> {
 
   }
 
-  void onUpdatePdf1(String url){
+  void onUpdatePdf1(var url){
     setState(() {
       pdf1=url;
     });
   }
 
-  void onUpdatePdf2(String url){
+  void onUpdatePdf2(var url){
     setState(() {
       pdf2=url;
     });
   }
 
-  void onUpdatePdf3(String url){
+  void onUpdatePdf3(var url){
     setState(() {
       pdf3=url;
     });
@@ -186,7 +187,7 @@ class _InsuranceState extends State<Insurance> {
       TextEditingController controller2,
       TextEditingController controller3,
       TextEditingController controller4, TextEditingController controller5,
-      String pdfString,
+      List<dynamic> pdfdocs,
       Function functionpdf,
       ){
     return Container(
@@ -229,12 +230,11 @@ class _InsuranceState extends State<Insurance> {
           TextFieldApp(hintText: 'Versicherungsnummer',hintTitle: '123****',controller: controller5,              type: TextInputType.number
           ),
           SizedBox(height: 10,),
-          UploadImageWidget(
-            urlpre: pdfString,
+          DocumentsWidget(
+            documents: pdfdocs,
             text:'Dokumente hochladen',
             onUpdate: functionpdf,
             icons: Icons.attachment,
-            widgetType: WidgetType.PDFType,
           ),
 
         ],

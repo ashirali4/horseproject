@@ -120,9 +120,11 @@ class _ImageWidgetState extends State<UploadImageWidget> {
               borderRadius: BorderRadius.all(Radius.circular(8))
           ),
           margin: EdgeInsets.only(top: 20,bottom: 20),
+          padding: EdgeInsets.only(top: 15,right: 15),
           child: Column(
             mainAxisSize: MainAxisSize.min,
-            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               widget.widgetType==WidgetType.ImageType? Container(
                 child: CircleAvatar(
@@ -136,6 +138,25 @@ class _ImageWidgetState extends State<UploadImageWidget> {
                 ),
               ):SizedBox.shrink(),
               SizedBox(height: 10,),
+              widget.widgetType==WidgetType.ImageType? InkWell(
+                onTap: (){
+                  setState(() {
+                    uploadFileUrl='';
+                  });
+                  widget.onUpdate(uploadFileUrl);
+                },
+                child: Container(
+                  child: CircleAvatar(
+                    backgroundColor: Colors.white,
+                    radius: 20.0,
+                    child: Icon(
+                      Icons.delete,
+                      size: 22.0,
+                      color: BACKGROUND_COLOR_DASHBOARD,
+                    ),
+                  ),
+                ),
+              ):SizedBox.shrink(),
             ],
           )
       ):

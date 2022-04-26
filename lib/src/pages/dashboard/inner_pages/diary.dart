@@ -107,7 +107,7 @@ class _DiaryHorseState extends State<DiaryHorse> {
         shape: ContinuousRectangleBorder(
             borderRadius: BorderRadius.only(
                 bottomLeft: Radius.circular(40), bottomRight: Radius.circular(40))),
-        title: Text('Tagebuch Eintrag'),
+        title: Text('Tagebuch'),
         centerTitle: true,
       ),
       body: Container(
@@ -174,14 +174,14 @@ class _DiaryHorseState extends State<DiaryHorse> {
           SizedBox(height: 10,),
           TextFieldAppD(hintText: 'Beschreibung',hintTitle: 'Enter message here',controller: descriptionm,type: TextInputType.text,isDescription: true,),
           SizedBox(height: 10,),
-          Text(' Tägliches Wetter',style: TextStyle(fontWeight: FontWeight.bold,color: LIGHT_BUTTON_COLOR),),
+          Text(' Wetter',style: TextStyle(fontWeight: FontWeight.bold,color: LIGHT_BUTTON_COLOR),),
           SizedBox(height: 10,),
           ToggleSwitch(
             initialLabelIndex: weather,
             totalSwitches: 4,
             minWidth: MediaQuery.of(context).size.width/4.6,
             activeBgColor: [  Color(0xff026c45)],
-            labels: ['Sonne', 'Sonne', 'Regen','Regenbogen'],
+            labels: ['Sonne', 'Wolken', 'Regen','Schnee'],
             onToggle: (index) {
               setState(() {
                 weather=index!;

@@ -15,6 +15,7 @@ import '../../../utlis/enums.dart';
 import '../../../utlis/races.dart';
 import '../../../widgets/button_round.dart';
 import '../../../widgets/calendar_theme.dart';
+import '../../../widgets/documents_widget.dart';
 import '../../../widgets/horse_chart.dart';
 import '../../../widgets/image_widget.dart';
 import '../../../widgets/textfield.dart';
@@ -77,7 +78,7 @@ class _AddHorseState extends State<AddHorse> {
 
   String gender='Mare';
   String uploadImagevideoUrl= '';
-  String uploadPDF='';
+  List<dynamic> uploadPDF=[];
   var data;
   @override
   void initState()  {
@@ -133,7 +134,7 @@ class _AddHorseState extends State<AddHorse> {
        weightsdates = mydata['wdates'] ?? [];
        weightsIds = mydata['weightIDS'] ?? [];
        uploadImagevideoUrl = mydata['imageurl']??'';
-       uploadPDF = mydata['pdfurl']??'';
+       uploadPDF = mydata['pdfurl']??[];
      });
    } catch(e){
      print("Erorr " + e.toString());
@@ -147,7 +148,7 @@ class _AddHorseState extends State<AddHorse> {
     });
   }
 
-  void onUpdatePdf(String url){
+  void onUpdatePdf(var url){
     setState(() {
       uploadPDF=url;
     });
@@ -224,7 +225,7 @@ class _AddHorseState extends State<AddHorse> {
       onWillPop:_willPopCallback,
       child: Scaffold(
         appBar:   AppBar(
-          backgroundColor: BACKGROUND_COLOR_DASHBOARD,
+          backgroundColor:  Colors.deepOrange,
           shape: ContinuousRectangleBorder(
               borderRadius: BorderRadius.only(
                   bottomLeft: Radius.circular(40), bottomRight: Radius.circular(40))),
@@ -246,12 +247,11 @@ class _AddHorseState extends State<AddHorse> {
                 ),
                 OtherBody(),
                 SizedBox(height: 0,),
-                UploadImageWidget(
-                  urlpre: uploadPDF,
+                DocumentsWidget(
+                  documents: uploadPDF,
                   text:'Dokumente hochladen',
                   onUpdate: onUpdatePdf,
                   icons: Icons.attachment,
-                  widgetType: WidgetType.PDFType,
                 ),
                 SizedBox(height: 10,),
                 Container(
@@ -284,7 +284,7 @@ class _AddHorseState extends State<AddHorse> {
                        }
                      }
 
-                    },)),
+                    }, buttonColor: Colors.deepOrange,)),
                 SizedBox(height:30,),
 
               ],
@@ -313,7 +313,10 @@ class _AddHorseState extends State<AddHorse> {
           padding:
           const EdgeInsets.only(left: 15, right: 15, top: 15, bottom: 5),
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              Text('Gewichtshistorie',style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold),),
+              SizedBox(height: 10,),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -325,7 +328,7 @@ class _AddHorseState extends State<AddHorse> {
                       height: 50,
                       width: 50,
                       decoration: BoxDecoration(
-                          color: Colors.red,
+                          color: Colors.deepOrange,
                           borderRadius: BorderRadius.all(Radius.circular(100))
                       ),
                       child: Icon(Icons.qr_code_outlined,color: Colors.white,),
@@ -337,26 +340,21 @@ class _AddHorseState extends State<AddHorse> {
                       width: 160,
                       child: ButtonRound(buttonText: 'Gewicht hinzufügen', function:  () async {
                         onWeightAdd();
-                      },)),
+                      },buttonColor: Colors.deepOrange,)),
                 ],
               ),
               SizedBox(height: 10,),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(weightDate==null || weightDate.text==''? ' Wiegedatum' : weightDate.text,style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 17,
-                    fontWeight: FontWeight.bold
-                  ),),
+                  Text(weightDate==null || weightDate.text==''? ' Wiegedatum' : weightDate.text,style: TextStyle(fontWeight: FontWeight.bold,color: LIGHT_BUTTON_COLOR),),
                   IconButton(onPressed: (){
                     _selectDate(weightDate);
-                  }, icon: Icon(Icons.date_range,color: Colors.red,))
+                  }, icon: Icon(Icons.date_range,color: Colors.deepOrange,))
                 ],
               ),
               Row(
                 children: [
-
                   Expanded(child:  TextFieldApp(hintText: 'Gewicht kg',hintTitle: 'Black Horse',controller: weidghtText,type: TextInputType.number),)
                 ],
               ),
@@ -382,8 +380,8 @@ class _AddHorseState extends State<AddHorse> {
             initialLabelIndex: 0,
             totalSwitches:3,
             minWidth: MediaQuery.of(context).size.width/3.4,
-            activeBgColor: [Colors.red],
-            labels: ['Mare', 'Gelding', 'Stallion'],
+            activeBgColor: [Colors.deepOrange],
+            labels: ['Stute', 'Wallach', 'Hengst'],
             onToggle: (index) {
               if(index==0){
                 gender='Mare';
@@ -396,7 +394,7 @@ class _AddHorseState extends State<AddHorse> {
             },
           ),
           SizedBox(height: 10,),
-          TextFieldApp(hintText: 'Wettrennen',hintTitle: 'Rasse',controller: race,type: TextInputType.text,
+          TextFieldApp(hintText: 'Rasse',hintTitle: 'Rasse',controller: race,type: TextInputType.text,
           // endingWidget: DropdownButton<String>(
           //   items: racesList.map((String value) {
           //     return DropdownMenuItem<String>(
@@ -424,9 +422,9 @@ class _AddHorseState extends State<AddHorse> {
           SizedBox(height: 10,),
           TextFieldApp(hintText: 'Fellfarbe',hintTitle: 'Red Color',controller: coatcolor,type: TextInputType.text),
           SizedBox(height: 10,),
-          TextFieldApp(hintText: 'Besonderes Zeichen',hintTitle: 'Mark',controller: specialmark,type: TextInputType.text),
+          TextFieldApp(hintText: 'Merkmale',hintTitle: 'Mark',controller: specialmark,type: TextInputType.text),
           SizedBox(height: 10,),
-          TextFieldApp(hintText: 'Größe cm',hintTitle: 'Horse Height',controller: horseHeight,type: TextInputType.text),
+          TextFieldApp(hintText: 'Stockmaß cm',hintTitle: 'Horse Height',controller: horseHeight,type: TextInputType.text),
           SizedBox(height: 10,),
           TextFieldApp(hintText: 'Kaufdatum',hintTitle: 'dd/mm/yyyy',controller: pdate,
             endingWidget: IconButton(
@@ -445,31 +443,68 @@ class _AddHorseState extends State<AddHorse> {
           AddWeight(),
           SizedBox(height: 10,),
           Text(' Speichern',style: TextStyle(fontWeight: FontWeight.bold,color: LIGHT_BUTTON_COLOR),),
-          SizedBox(height: 10,),
-          ListTile(
 
-              trailing: Text('Gewicht kg' ,
-                style: TextStyle(
-                    color: Colors.green,fontSize: 15,fontWeight: FontWeight.bold),),
-              title:Text('Datum'+ " - Wiegenummer",style: TextStyle(
-                  fontSize: 15,fontWeight: FontWeight.bold),)
+          SizedBox(height: 10,),
+          Row(
+            children: [
+              SizedBox(width: 40,),
+              Expanded(child: Text(' Datum',style: TextStyle(
+                  fontSize: 15,fontWeight: FontWeight.bold),)),
+              Expanded(child:Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text("Wiegenummer",style: TextStyle(
+                      fontSize: 15,fontWeight: FontWeight.bold),)
+                ],
+              )),
+              Expanded(child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Text('Gewicht kg' ,
+                    style: TextStyle(
+                        color: Colors.green,fontSize: 15,fontWeight: FontWeight.bold),)
+                ],
+              )),
+            ],
           ),
+
           ListView.builder(
               itemCount: weiightHistory.length,
               shrinkWrap: true,
               physics: NeverScrollableScrollPhysics(),
               itemBuilder: (BuildContext context,int index){
-                return ListTile(
-                    leading: IconButton(
-                      onPressed: (){
-                        onWeightRemove(index);
-                      },
-                      icon: Icon(Icons.delete,color: Colors.red,),
+                return Row(
+                  children: [
+                    Container(
+                      width:40,
+                      child: IconButton(
+                        onPressed: (){
+                          onWeightRemove(index);
+                        },
+                        icon: Icon(Icons.delete,color: Colors.deepOrange,),
+                      ),
                     ),
-                    trailing: Text(weiightHistory[index] ,
-                      style: TextStyle(
-                          color: Colors.green,fontSize: 15),),
-                    title:Text(weightsdates[index].toString()+ " - ("+ weightsIds[index]+")")
+                    Expanded(child:Row(
+                      children: [
+
+                        Expanded(child: Text(weightsdates[index].toString()))
+                      ],
+                    )),
+                    Expanded(child:Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(weightsIds[index])
+                      ],
+                    )),
+                    Expanded(child: Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        Text(weiightHistory[index] ,
+                          style: TextStyle(
+                              color: Colors.green,fontSize: 15),),
+                      ],
+                    )),
+                  ],
                 );
               }
           ),
@@ -483,7 +518,7 @@ class _AddHorseState extends State<AddHorse> {
               width: MediaQuery.of(context).size.width,
               child: ButtonRound(buttonText: 'Wiegetermin buchen', function:  () async{
                 if (!await launch('https://termine.wirwiegendeinpferd.de/wp/')) throw 'Could not launch';
-              },)),
+              },buttonColor: Colors.deepOrange,)),
           SizedBox(height: 10,),
 
         ],
@@ -496,7 +531,7 @@ class _AddHorseState extends State<AddHorse> {
       height: 150,
       width: MediaQuery.of(context).size.width,
       decoration: BoxDecoration(
-        color: BACKGROUND_COLOR_ADD_HORSE.withOpacity(.3),
+        color: Colors.deepOrange.withOpacity(.3),
         borderRadius: BorderRadius.all(Radius.circular(8))
       ),
       margin: EdgeInsets.only(top: 20,bottom: 20),
@@ -511,7 +546,7 @@ class _AddHorseState extends State<AddHorse> {
               child: Icon(
                 icons,
                 size: 22.0,
-                color: BACKGROUND_COLOR_DASHBOARD,
+                color: Colors.deepOrange,
               ),
             ),
           ),

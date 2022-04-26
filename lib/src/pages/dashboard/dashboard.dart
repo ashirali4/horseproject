@@ -25,7 +25,7 @@ class Dashboard extends StatefulWidget {
 }
 
 class _DashboardState extends State<Dashboard> {
-  int length = 6;
+  int length = 7;
   double innerSpacingDivider = 10;
   double radiusOfItemDivider = 5;
   double centerWidgetRadiusDivider = 3;
@@ -62,8 +62,9 @@ class _DashboardState extends State<Dashboard> {
              // TopBar(),
               SizedBox(height: 30,),
               Text(' Kategorien',style: TextStyle(color: Colors.white,fontSize: 18,fontWeight: FontWeight.w700),),
-              SizedBox(height: 05,),
+              SizedBox(height: 20,),
               DashBoardCircle(),
+              SizedBox(height: 20,),
               FooterBox(),
             ],
           ),
